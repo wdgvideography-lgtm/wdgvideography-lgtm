@@ -149,7 +149,7 @@ export default function MarketingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              href="/contact"
+              href="/contact?service=social-media"
               className="inline-flex items-center gap-3 px-7 py-3.5 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm hover:bg-gold-light transition-all duration-500 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] group"
             >
               Book a Marketing Meeting

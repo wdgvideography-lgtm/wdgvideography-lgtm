@@ -194,7 +194,7 @@ export default function CTASection() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.a
-              href="/contact"
+              href="/contact?service=consultation"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex items-center px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm shadow-[0_0_20px_oklch(0.78_0.12_75/0.2)] hover:shadow-[0_0_50px_oklch(0.78_0.12_75/0.5)] transition-all duration-500"

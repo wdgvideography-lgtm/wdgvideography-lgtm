@@ -17,6 +17,7 @@ interface ServiceTier {
   numericPrice: number;
   popular?: boolean;
   features: string[];
+  serviceId: string;
 }
 
 const services: ServiceTier[] = [
@@ -24,6 +25,7 @@ const services: ServiceTier[] = [
     name: "Basic Service",
     price: "£450",
     numericPrice: 450,
+    serviceId: "basic-service",
     features: [
       "2 hour single location shoot",
       "10 miles of free travel",
@@ -36,6 +38,7 @@ const services: ServiceTier[] = [
     price: "£650",
     numericPrice: 650,
     popular: true,
+    serviceId: "business-growth",
     features: [
       "4 hour shoot in up to 2 locations",
       "1× 2 min brand video",
@@ -48,6 +51,7 @@ const services: ServiceTier[] = [
     name: "Bespoke Project",
     price: "£1,200",
     numericPrice: 1200,
+    serviceId: "bespoke-project",
     features: [
       "8 hour shoot in up to 3 locations",
       "Pre-production storyboarding meeting",
@@ -60,6 +64,7 @@ const services: ServiceTier[] = [
     name: "Website Design",
     price: "£1,000 – £7,000",
     numericPrice: 1000,
+    serviceId: "website-design",
     features: [
       "Custom-designed for your brand",
       "Mobile-responsive & fast-loading",
@@ -182,7 +187,7 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         </ul>
 
         <a
-          href="/contact"
+          href={`/contact?service=${service.serviceId}`}
           className={`block w-full text-center py-3.5 font-body font-medium text-sm tracking-wide rounded-sm transition-all duration-500 ${
             service.popular
               ? "bg-gold text-primary-foreground hover:bg-gold-light hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)]"

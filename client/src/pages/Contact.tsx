@@ -3,9 +3,10 @@
  * Sends form data to backend which emails wdg.videography@gmail.com
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
+import { useSearch } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilmGrainOverlay from "@/components/FilmGrainOverlay";
@@ -22,6 +23,8 @@ const serviceOptions = [
 ];
 
 export default function Contact() {
+  const searchString = useSearch();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -30,6 +33,15 @@ export default function Contact() {
     service: "",
     message: "",
   });
+
+  // Pre-select service from URL params
+  useEffect(() => {
+    const params = new URLSearchParams(searchString);
+    const service = params.get("service");
+    if (service) {
+      setFormData((prev) => ({ ...prev, service }));
+    }
+  }, [searchString]);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
