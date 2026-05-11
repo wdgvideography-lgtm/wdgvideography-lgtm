@@ -118,29 +118,7 @@ export default function CTASection() {
               that drive real business results.
             </motion.p>
 
-            {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-14 grid grid-cols-3 gap-8 max-w-lg mx-auto"
-            >
-              {[
-                { value: "50+", label: "Projects" },
-                { value: "100%", label: "Satisfaction" },
-                { value: "24hr", label: "Response" },
-              ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="font-mono text-2xl md:text-3xl font-bold text-gold mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-muted-foreground font-body tracking-wider uppercase">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
+
           </div>
         </div>
       </section>

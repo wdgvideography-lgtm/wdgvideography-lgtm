@@ -52,12 +52,11 @@ export default function Navbar() {
         <div className="container flex items-center justify-between">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2.5 group">
-            <div className="relative w-10 h-10 rounded-full border-2 border-gold/80 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:border-gold group-hover:shadow-[0_0_15px_oklch(0.78_0.12_75/0.3)]">
-              <span className="font-display font-bold text-gold text-sm">W</span>
-            </div>
-            <span className="font-display text-lg font-semibold text-foreground tracking-wide hidden sm:block">
-              WDG<span className="text-gold">.</span>Videography
-            </span>
+            <img
+              src="/manus-storage/IMG_6698_b169d10e.PNG"
+              alt="WDG Videography"
+              className="h-10 w-auto object-contain"
+            />
           </a>
 
           {/* Desktop Nav */}

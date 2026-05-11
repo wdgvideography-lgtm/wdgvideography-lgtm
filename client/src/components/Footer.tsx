@@ -60,12 +60,11 @@ export default function Footer() {
             className="space-y-6"
           >
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full border-2 border-gold flex items-center justify-center">
-                <span className="font-display font-bold text-gold text-base">W</span>
-              </div>
-              <span className="font-display text-xl font-semibold text-foreground tracking-wide">
-                WDG<span className="text-gold">.</span>Videography
-              </span>
+              <img
+                src="/manus-storage/IMG_6698_b169d10e.PNG"
+                alt="WDG Videography"
+                className="h-12 w-auto object-contain"
+              />
             </div>
             <p className="text-sm text-muted-foreground font-body leading-relaxed max-w-xs">
               High-end cinematic production paired with full-scale digital management. Based in Cheltenham, Gloucestershire.
