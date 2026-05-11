@@ -63,6 +63,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
   const [currentOverlay, setCurrentOverlay] = useState<number | null>(null);
   const [isExiting, setIsExiting] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -115,17 +116,23 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
     };
   }, [videoReady, handleComplete]);
 
-  // Start video playback
+  // Start video playback - handle desktop autoplay restrictions
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    let hasStarted = false;
+
     const startVideo = () => {
-      if (!videoReady) {
-        setVideoReady(true);
-        video.play().catch(() => {
-          // Autoplay blocked - still mark as ready so user sees content
-          setVideoReady(true);
+      if (hasStarted) return;
+      hasStarted = true;
+      setVideoReady(true);
+
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay was blocked — show a play prompt
+          setAutoplayBlocked(true);
         });
       }
     };
@@ -135,19 +142,15 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
     video.addEventListener("canplay", startVideo);
     video.addEventListener("loadeddata", startVideo);
 
-    // Fallback: if video hasn't started after 3 seconds, skip intro
-    const fallbackTimer = setTimeout(() => {
-      if (!videoReady) {
-        // Try to play anyway
-        video.play().catch(() => {});
-        setVideoReady(true);
-      }
-    }, 3000);
-
     // If video is already ready (cached)
-    if (video.readyState >= 3) {
+    if (video.readyState >= 2) {
       startVideo();
     }
+
+    // Fallback: try after a short delay
+    const fallbackTimer = setTimeout(() => {
+      if (!hasStarted) startVideo();
+    }, 1500);
 
     return () => {
       video.removeEventListener("canplaythrough", startVideo);
@@ -155,7 +158,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
       video.removeEventListener("loadeddata", startVideo);
       clearTimeout(fallbackTimer);
     };
-  }, [videoReady]);
+  }, []);
 
   const activeOverlay = currentOverlay !== null ? textOverlays[currentOverlay] : null;
   const activeAnim = activeOverlay ? animVariants[activeOverlay.anim] : null;
@@ -280,6 +283,28 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
           {!videoReady && (
             <div className="absolute inset-0 flex items-center justify-center z-40">
               <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+            </div>
+          )}
+
+          {/* Autoplay blocked - tap to play prompt */}
+          {autoplayBlocked && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center z-40 cursor-pointer"
+              onClick={() => {
+                const video = videoRef.current;
+                if (video) {
+                  video.play().then(() => {
+                    setAutoplayBlocked(false);
+                  }).catch(() => {});
+                }
+              }}
+            >
+              <div className="w-20 h-20 rounded-full border-2 border-gold/60 flex items-center justify-center bg-black/50 backdrop-blur-sm hover:bg-gold/20 transition-all duration-300">
+                <svg className="w-8 h-8 text-gold ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <p className="text-white/60 text-xs font-body tracking-[0.2em] uppercase mt-4">Tap to play</p>
             </div>
           )}
         </motion.div>
