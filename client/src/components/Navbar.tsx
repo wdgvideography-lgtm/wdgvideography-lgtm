@@ -6,18 +6,21 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Marketing", href: "#marketing" },
-  { label: "About", href: "#about" },
+  { label: "Home", href: "/#home" },
+  { label: "Services", href: "/#services" },
+  { label: "Marketing", href: "/#marketing" },
+  { label: "About", href: "/#about" },
   { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
+  const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isContactPage = location === "/contact";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +54,7 @@ export default function Navbar() {
       >
         <div className="container flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2.5 group">
+          <a href="/#home" className="flex items-center gap-2.5 group">
             <img
               src="/manus-storage/wdg-logo-transparent_d82f27ab.png"
               alt="WDG Videography"
@@ -73,13 +76,15 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <a
-            href="/contact"
-            className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_20px_oklch(0.78_0.12_75/0.3)]"
-          >
-            Book Now
-          </a>
+          {/* CTA Button - Hidden on Contact page */}
+          {!isContactPage ? (
+            <a
+              href="/contact"
+              className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_20px_oklch(0.78_0.12_75/0.3)]"
+            >
+              Book Now
+            </a>
+          ) : null}
 
           {/* Mobile Menu Button */}
           <button
@@ -137,13 +142,15 @@ export default function Navbar() {
               transition={{ delay: 0.4, duration: 0.4 }}
               className="mt-6 flex flex-col items-center gap-4"
             >
-              <a
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
-                className="px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm"
-              >
-                Book Now
-              </a>
+              {!isContactPage ? (
+                <a
+                  href="/contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm"
+                >
+                  Book Now
+                </a>
+              ) : null}
               <p className="text-xs text-muted-foreground font-body mt-4">
                 wdg.videography@gmail.com
               </p>
