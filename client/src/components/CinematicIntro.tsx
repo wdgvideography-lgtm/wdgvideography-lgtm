@@ -1,7 +1,8 @@
 /**
  * Cinematic Intro — Scroll-driven full-screen animation
- * Pinned viewport where scenes zoom in and text pops up as user scrolls
- * Text stays visible for majority of each scene's scroll duration
+ * ALL frames are landscape orientation
+ * Slow and deliberate pacing - each scene gets plenty of scroll distance
+ * Zooms into scenes with dramatic text reveals
  */
 
 import { useEffect, useRef } from "react";
@@ -10,31 +11,37 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// All landscape frames - consistent orientation
 const scenes = [
   {
-    image: "/manus-storage/v24044gl0000d2j1hovog65n6opebqtg_0c6e0e5b.jpg",
+    image: "/manus-storage/harvest_landscape_3cc798be.jpg",
     title: "CINEMATIC",
     subtitle: "PRODUCTION",
   },
   {
-    image: "/manus-storage/v24044gl0000d2pf6rfog65kisjf8rmg_f15652a9.jpg",
+    image: "/manus-storage/new_02_558a8953.jpg",
     title: "YOUR VISION",
     subtitle: "OUR CRAFT",
   },
   {
-    image: "/manus-storage/v24044gl0000d2l0pd7og65rlj280s60_56dd821e.jpg",
-    title: "EVERY FRAME",
-    subtitle: "TELLS A STORY",
+    image: "/manus-storage/new_04_7303a2ee.jpg",
+    title: "EVERY DETAIL",
+    subtitle: "MATTERS",
   },
   {
-    image: "/manus-storage/scene_food1_15e7c2f2.jpg",
+    image: "/manus-storage/new_03_6e15a61a.jpg",
     title: "BRANDS",
     subtitle: "BROUGHT TO LIFE",
   },
   {
-    image: "/manus-storage/v24044gl0000d2gelrnog65nbvibc960_5db9d5d6.jpg",
+    image: "/manus-storage/new_06_eb8cdc7a.jpg",
     title: "FROM CONCEPT",
     subtitle: "TO SCREEN",
+  },
+  {
+    image: "/manus-storage/greentractor_landscape_bc0ff71e.jpg",
+    title: "STORIES",
+    subtitle: "THAT MOVE",
   },
   {
     image: "/manus-storage/scene_mov1_bcbe7ec9.jpg",
@@ -55,14 +62,14 @@ export default function CinematicIntro() {
     const ctx = gsap.context(() => {
       const numScenes = scenes.length;
 
-      // Main scroll-driven timeline
+      // Main scroll-driven timeline - SLOW scrub for deliberate feel
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
           end: "bottom bottom",
           pin: pinned,
-          scrub: 0.5,
+          scrub: 1.2, // Higher scrub = smoother/slower response
           pinSpacing: false,
         },
       });
@@ -78,52 +85,48 @@ export default function CinematicIntro() {
         const seg = 1 / numScenes;
         const start = i * seg;
 
-        // === SCENE FADE IN ===
+        // === SCENE FADE IN (crossfade) ===
         if (i > 0) {
-          tl.fromTo(sceneEl, { opacity: 0 }, { opacity: 1, duration: seg * 0.1 }, start);
+          tl.fromTo(sceneEl, { opacity: 0 }, { opacity: 1, duration: seg * 0.12 }, start);
         }
 
-        // === ZOOM (entire scene duration) ===
+        // === SLOW ZOOM (entire scene duration) ===
         tl.fromTo(
           imgEl,
           { scale: 1.0 },
-          { scale: 1.45, duration: seg, ease: "none" },
+          { scale: 1.35, duration: seg, ease: "none" },
           start
         );
 
-        // === TEXT IN (appears early, stays long) ===
-        // Title pops in at 5% of scene
+        // === TEXT APPEARS (early, stays visible for most of scene) ===
         tl.fromTo(
           titleEl,
           { opacity: 0, scale: 0.3, y: 80 },
-          { opacity: 1, scale: 1, y: 0, duration: seg * 0.15, ease: "back.out(2)" },
+          { opacity: 1, scale: 1, y: 0, duration: seg * 0.18, ease: "back.out(1.7)" },
           start + seg * 0.05
         );
 
-        // Subtitle appears at 12%
         tl.fromTo(
           subEl,
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: seg * 0.1, ease: "power2.out" },
-          start + seg * 0.15
+          { opacity: 1, y: 0, duration: seg * 0.12, ease: "power2.out" },
+          start + seg * 0.18
         );
 
-        // === TEXT OUT (fades near end of scene) ===
-        // Title fades at 75% of scene
+        // === TEXT FADES OUT (near end of scene) ===
         tl.to(
           titleEl,
-          { opacity: 0, scale: 1.4, y: -50, duration: seg * 0.12, ease: "power2.in" },
-          start + seg * 0.75
-        );
-
-        // Subtitle fades at 78%
-        tl.to(
-          subEl,
-          { opacity: 0, y: -25, duration: seg * 0.1 },
+          { opacity: 0, scale: 1.3, y: -40, duration: seg * 0.12, ease: "power2.in" },
           start + seg * 0.78
         );
 
-        // === SCENE FADE OUT (crossfade) ===
+        tl.to(
+          subEl,
+          { opacity: 0, y: -20, duration: seg * 0.1 },
+          start + seg * 0.8
+        );
+
+        // === SCENE FADES OUT ===
         if (i < numScenes - 1) {
           tl.to(sceneEl, { opacity: 0, duration: seg * 0.1 }, start + seg * 0.9);
         } else {
@@ -144,7 +147,7 @@ export default function CinematicIntro() {
               trigger: section,
               start: "top top",
               end: "bottom bottom",
-              scrub: 0.3,
+              scrub: 0.5,
             },
           }
         );
@@ -162,7 +165,8 @@ export default function CinematicIntro() {
   };
 
   return (
-    <div ref={sectionRef} style={{ height: `${scenes.length * 150}vh` }}>
+    // MORE scroll distance per scene = slower, more deliberate
+    <div ref={sectionRef} style={{ height: `${scenes.length * 200}vh` }}>
       <div ref={pinnedRef} className="relative h-screen w-full overflow-hidden bg-black">
         {/* Scenes */}
         {scenes.map((scene, i) => (
@@ -178,34 +182,34 @@ export default function CinematicIntro() {
                 src={scene.image}
                 alt=""
                 className="w-full h-full object-cover"
-                loading={i < 2 ? "eager" : "lazy"}
+                loading={i < 3 ? "eager" : "lazy"}
               />
             </div>
 
             {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/45" />
 
             {/* Vignette */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.7) 100%)",
+                background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%)",
               }}
             />
 
-            {/* Text - centered with dramatic styling */}
+            {/* Text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10 px-4">
               <h1
                 data-title={i}
                 className="font-display text-[4rem] sm:text-[5.5rem] md:text-[7rem] lg:text-[9rem] xl:text-[11rem] font-bold text-white text-center leading-[0.85] tracking-tight opacity-0 will-change-transform"
-                style={{ textShadow: "0 4px 40px rgba(0,0,0,0.5), 0 0 80px rgba(0,0,0,0.3)" }}
+                style={{ textShadow: "0 4px 60px rgba(0,0,0,0.6), 0 0 120px rgba(0,0,0,0.3)" }}
               >
                 {scene.title}
               </h1>
               <p
                 data-sub={i}
-                className="font-body text-base sm:text-lg md:text-xl text-gold uppercase tracking-[0.5em] mt-6 opacity-0 will-change-transform"
-                style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
+                className="font-body text-base sm:text-lg md:text-xl lg:text-2xl text-gold uppercase tracking-[0.5em] mt-6 opacity-0 will-change-transform"
+                style={{ textShadow: "0 2px 30px rgba(0,0,0,0.6)" }}
               >
                 {scene.subtitle}
               </p>
@@ -214,12 +218,12 @@ export default function CinematicIntro() {
         ))}
 
         {/* Cinematic letterbox bars */}
-        <div className="absolute top-0 left-0 right-0 h-[5vh] bg-black z-40" />
-        <div className="absolute bottom-0 left-0 right-0 h-[5vh] bg-black z-40" />
+        <div className="absolute top-0 left-0 right-0 h-[6vh] bg-black z-40" />
+        <div className="absolute bottom-0 left-0 right-0 h-[6vh] bg-black z-40" />
 
         {/* Film grain */}
         <div
-          className="absolute inset-0 pointer-events-none z-40 opacity-[0.025] mix-blend-overlay"
+          className="absolute inset-0 pointer-events-none z-40 opacity-[0.02] mix-blend-overlay"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           }}
@@ -228,7 +232,7 @@ export default function CinematicIntro() {
         {/* Skip button */}
         <button
           onClick={handleSkip}
-          className="absolute bottom-[6vh] right-6 sm:right-10 z-50 flex items-center gap-2 px-5 py-2.5 text-[10px] font-body text-white/60 tracking-[0.25em] uppercase hover:text-white transition-all duration-300 border border-white/15 rounded-sm hover:border-gold/50 hover:bg-gold/5 backdrop-blur-sm"
+          className="absolute bottom-[7vh] right-6 sm:right-10 z-50 flex items-center gap-2 px-5 py-2.5 text-[10px] font-body text-white/50 tracking-[0.25em] uppercase hover:text-white transition-all duration-300 border border-white/10 rounded-sm hover:border-gold/50 hover:bg-gold/5 backdrop-blur-sm"
         >
           Skip
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,31 +241,26 @@ export default function CinematicIntro() {
         </button>
 
         {/* Progress bar */}
-        <div className="absolute bottom-[5vh] left-0 right-0 h-[2px] bg-white/5 z-50">
+        <div className="absolute bottom-[6vh] left-0 right-0 h-[1px] bg-white/5 z-50">
           <div
             className="intro-progress h-full bg-gold origin-left will-change-transform"
-            style={{ transform: "scaleX(0)", boxShadow: "0 0 8px oklch(0.78 0.12 75 / 0.4)" }}
+            style={{ transform: "scaleX(0)", boxShadow: "0 0 6px oklch(0.78 0.12 75 / 0.3)" }}
           />
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-[7vh] left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2">
-          <span className="text-[9px] text-white/30 font-body tracking-[0.3em] uppercase">Scroll</span>
-          <div className="w-4 h-7 rounded-full border border-white/20 flex items-start justify-center p-1">
-            <div className="w-0.5 h-1.5 rounded-full bg-gold/60 animate-bounce" />
+        <div className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2">
+          <span className="text-[8px] text-white/25 font-body tracking-[0.4em] uppercase">Scroll</span>
+          <div className="w-4 h-7 rounded-full border border-white/15 flex items-start justify-center p-1">
+            <div className="w-0.5 h-1.5 rounded-full bg-gold/50 animate-bounce" />
           </div>
         </div>
 
         {/* WDG watermark */}
-        <div className="absolute top-[6vh] right-6 sm:right-10 z-50">
-          <div className="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center">
-            <span className="font-display font-bold text-gold text-[10px]">W</span>
+        <div className="absolute top-[7vh] right-6 sm:right-10 z-50">
+          <div className="w-7 h-7 rounded-full border border-gold/30 flex items-center justify-center">
+            <span className="font-display font-bold text-gold text-[9px]">W</span>
           </div>
-        </div>
-
-        {/* Top left text */}
-        <div className="absolute top-[6vh] left-6 sm:left-10 z-50 font-mono text-[9px] text-white/20 tracking-[0.2em]">
-          WDG.VIDEOGRAPHY
         </div>
       </div>
     </div>
