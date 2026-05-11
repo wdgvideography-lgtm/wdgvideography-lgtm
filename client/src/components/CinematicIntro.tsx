@@ -239,9 +239,11 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
           {/* WDG watermark */}
           <div className="absolute top-[7vh] right-6 sm:right-10 z-50">
-            <div className="w-7 h-7 rounded-full border border-gold/30 flex items-center justify-center">
-              <span className="font-display font-bold text-gold text-[9px]">W</span>
-            </div>
+            <img
+              src="/manus-storage/wdg-logo-cropped2_c8f7949b.png"
+              alt="WDG"
+              className="h-8 w-auto object-contain opacity-70"
+            />
           </div>
 
           {/* Loading state */}

@@ -1,7 +1,6 @@
 /**
  * WDG Videography - Home Page
- * Design: Noir Cinema — Neo-Noir Cinematography meets Swiss Brutalist Typography
- * Auto-playing cinematic intro on first visit, then main site
+ * Flow: Video Intro → Camera Breakdown (scroll) → Hero → Services → etc.
  */
 
 import { useState, useEffect } from "react";
@@ -16,13 +15,13 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import CinematicIntro from "@/components/CinematicIntro";
+import CameraBreakdown from "@/components/CameraBreakdown";
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(false);
   const [introComplete, setIntroComplete] = useState(false);
 
   useEffect(() => {
-    // Check if user has seen the intro in this session
     const lastSeen = sessionStorage.getItem("wdg-intro-seen");
     if (!lastSeen) {
       setShowIntro(true);
@@ -39,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Cinematic Intro - auto-playing video style */}
+      {/* Video Intro */}
       {showIntro && !introComplete && (
         <CinematicIntro onComplete={handleIntroComplete} />
       )}
@@ -50,6 +49,7 @@ export default function Home() {
           <div className="relative min-h-screen bg-background overflow-hidden">
             <FilmGrainOverlay />
             <Navbar />
+            <CameraBreakdown />
             <HeroSection />
             <ServicesSection />
             <ShowreelStrip />
