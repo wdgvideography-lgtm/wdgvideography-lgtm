@@ -61,7 +61,7 @@ export default function Footer() {
           >
             <div className="flex items-center gap-3">
               <img
-                src="/manus-storage/wdg-logo-full_f80b9d25.png"
+                src="/manus-storage/wdg-logo-transparent_d82f27ab.png"
                 alt="WDG Videography"
                 className="h-12 w-auto object-contain"
               />
