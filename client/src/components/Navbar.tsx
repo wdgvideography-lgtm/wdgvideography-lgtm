@@ -58,7 +58,7 @@ export default function Navbar() {
             <img
               src="/manus-storage/wdg-logo-transparent_d82f27ab.png"
               alt="WDG Videography"
-              className="h-10 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </a>
 

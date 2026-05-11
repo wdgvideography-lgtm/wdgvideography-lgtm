@@ -35,3 +35,4 @@
 - [ ] Final sweep for placeholder text or 'W' circle placeholders
 - [ ] Performance optimization
 - [ ] Mobile responsiveness testing
+- [x] Make the logo in the website header/navbar bigger
