@@ -13,6 +13,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const LOGO_IMG = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
+const ASSEMBLED_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/camera-assembled-RU3jkvXh9WTcaprBrGmwUM.webp";
 
 // Each part has: image URL, assembled position (where it sits when camera is built),
 // scattered position (where it starts/ends when exploded), size, and rotation behavior
@@ -135,33 +136,60 @@ export default function CameraBreakdown() {
         }, 0.05 + delay);
       });
 
-      // ===== PHASE 3: Assembled camera holds and rotates slightly (0.4 - 0.55) =====
-      parts.forEach((part, i) => {
+      // ===== PHASE 3: Flash to assembled rig image (0.38 - 0.55) =====
+      const assembledEl = pinned.querySelector(".cam-assembled") as HTMLElement;
+      const flashEl = pinned.querySelector(".cam-flash") as HTMLElement;
+
+      // Hide individual parts
+      parts.forEach((_, i) => {
         const el = partEls[i];
         if (!el) return;
-        tl.to(el, {
-          rotation: part.ar + 3,
-          scale: part.aScale * 1.05,
-          duration: 0.15,
-          ease: "none",
-        }, 0.4);
+        tl.to(el, { opacity: 0, duration: 0.02 }, 0.38);
       });
 
-      // ===== PHASE 4: Parts break apart again (0.55 - 0.75) =====
+      // Flash effect
+      tl.fromTo(flashEl, { opacity: 0 }, { opacity: 0.8, duration: 0.02 }, 0.38);
+      tl.to(flashEl, { opacity: 0, duration: 0.04 }, 0.4);
+
+      // Assembled rig appears
+      tl.fromTo(assembledEl,
+        { opacity: 0, scale: 1.05 },
+        { opacity: 1, scale: 1, duration: 0.03 },
+        0.39
+      );
+
+      // Hold assembled rig and slowly zoom
+      tl.to(assembledEl, {
+        scale: 1.03,
+        duration: 0.15,
+        ease: "none",
+      }, 0.42);
+
+      // ===== PHASE 4: Assembled rig breaks apart (0.55 - 0.75) =====
+      // Flash out
+      tl.fromTo(flashEl, { opacity: 0 }, { opacity: 0.6, duration: 0.02 }, 0.55);
+      tl.to(flashEl, { opacity: 0, duration: 0.03 }, 0.57);
+
+      // Hide assembled, show parts again scattered
+      tl.to(assembledEl, { opacity: 0, scale: 1.1, duration: 0.02 }, 0.55);
+
+      // Parts reappear and fly outward
       parts.forEach((part, i) => {
         const el = partEls[i];
         if (!el) return;
-        // Fly to different scattered positions (opposite direction for variety)
         const delay = i * 0.015;
+        // Reset to assembled position first
+        tl.set(el, { x: part.ax, y: part.ay, rotation: part.ar, scale: part.aScale, opacity: 1 }, 0.56);
+        // Then fly outward
         tl.to(el, {
-          x: -part.sx * 1.2,
-          y: -part.sy * 0.8,
-          rotation: -part.sr * 1.5,
-          scale: part.sScale * 0.8,
+          x: -part.sx * 1.3,
+          y: -part.sy * 0.9,
+          rotation: -part.sr * 2,
+          scale: part.sScale * 0.6,
           opacity: 0,
-          duration: 0.18,
+          duration: 0.16,
           ease: "power2.in",
-        }, 0.55 + delay);
+        }, 0.57 + delay);
       });
 
       // ===== PHASE 5: Logo and text emerge (0.75 - 0.92) =====
@@ -219,6 +247,16 @@ export default function CameraBreakdown() {
             />
           </div>
         ))}
+
+        {/* Fully assembled rig - flashes in at peak */}
+        <img
+          src={ASSEMBLED_IMG}
+          alt="Assembled camera rig"
+          className="cam-assembled absolute inset-0 w-full h-full object-contain p-8 sm:p-12 md:p-20 opacity-0 will-change-transform"
+        />
+
+        {/* Flash effect */}
+        <div className="cam-flash absolute inset-0 bg-white opacity-0 pointer-events-none z-5" />
 
         {/* Background glow */}
         <div className="cam-glow absolute inset-0 opacity-0 pointer-events-none z-10">
