@@ -163,7 +163,7 @@ export default function HeroSection() {
             className="flex flex-wrap gap-4"
           >
             <a
-              href="#contact"
+              href="/contact"
               className="group relative inline-flex items-center px-8 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_oklch(0.78_0.12_75/0.5)]"
             >
               <span className="relative z-10">Book a Consultation</span>

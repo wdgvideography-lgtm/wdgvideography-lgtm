@@ -75,7 +75,7 @@ export default function Navbar() {
 
           {/* CTA Button */}
           <a
-            href="#contact"
+            href="/contact"
             className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_20px_oklch(0.78_0.12_75/0.3)]"
           >
             Book Now
@@ -138,7 +138,7 @@ export default function Navbar() {
               className="mt-6 flex flex-col items-center gap-4"
             >
               <a
-                href="#contact"
+                href="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm"
               >

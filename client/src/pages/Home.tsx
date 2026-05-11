@@ -23,7 +23,6 @@ export default function Home() {
   const [phase, setPhase] = useState<Phase>("intro");
 
   useEffect(() => {
-    // Check if user has seen the intros this session
     const seen = sessionStorage.getItem("wdg-intro-seen");
     if (seen) {
       setPhase("site");

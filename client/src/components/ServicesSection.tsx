@@ -182,7 +182,7 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         </ul>
 
         <a
-          href="#contact"
+          href="/contact"
           className={`block w-full text-center py-3.5 font-body font-medium text-sm tracking-wide rounded-sm transition-all duration-500 ${
             service.popular
               ? "bg-gold text-primary-foreground hover:bg-gold-light hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)]"
