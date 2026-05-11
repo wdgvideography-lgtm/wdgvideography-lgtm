@@ -17,7 +17,7 @@ const LOGO_SRC = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
 const textOverlays = [
   { start: 0.5, end: 5.0, titleBold: "ELEVATING", titleLight: "YOUR BUSINESS", anim: "slideUp", showLogo: false },
   { start: 5.5, end: 10.5, titleBold: "ALL YOUR MARKETING", titleLight: "IN ONE PLACE", anim: "scaleIn", showLogo: false },
-  { start: 11.0, end: 15.5, titleBold: "BRAND. WEB.", titleLight: "STORYTELLING.", anim: "splitSlide", showLogo: false },
+  { start: 11.0, end: 15.5, titleBold: "BUILDING A BRAND", titleLight: "OR A WEBSITE", anim: "splitSlide", showLogo: false },
   { start: 16.0, end: 20.5, titleBold: "WE MANAGE", titleLight: "EVERYTHING", anim: "dropIn", showLogo: false },
   { start: 21.0, end: 26.5, titleBold: "WDG", titleLight: "VIDEOGRAPHY", anim: "buildUp", showLogo: true },
 ];
