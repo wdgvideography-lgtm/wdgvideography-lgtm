@@ -8,17 +8,18 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const VIDEO_SRC = "/manus-storage/intro-video_4c386f11.mp4";
+const VIDEO_SRC = "/manus-storage/intro-video-v3_69cab294.mp4";
+const LOGO_SRC = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
 
 // Text overlays timed to key moments in the video
-// Video is ~28 seconds of drone footage
+// Video is ~26.9 seconds played at 0.85x = ~31.6s real playback
+// Segments: harvest(0-11s video = 0-12.9s real) → equestrian(11-14.5s = 12.9-17s real) → bar(14.5-20.5s = 17-24.1s real) → DJI drone(20.5-26.9s = 24.1-31.6s real)
 const textOverlays = [
-  { start: 1.0, end: 4.5, title: "CINEMATIC", subtitle: "PRODUCTION", anim: "slideUp" },
-  { start: 5.5, end: 9.0, title: "YOUR VISION", subtitle: "OUR CRAFT", anim: "scaleIn" },
-  { start: 10.0, end: 13.5, title: "EVERY FRAME", subtitle: "TELLS A STORY", anim: "splitSlide" },
-  { start: 14.5, end: 18.0, title: "FROM CONCEPT", subtitle: "TO SCREEN", anim: "dropIn" },
-  { start: 19.0, end: 22.5, title: "STORIES", subtitle: "THAT MOVE", anim: "fadeBlur" },
-  { start: 23.5, end: 27.5, title: "WDG", subtitle: "VIDEOGRAPHY", anim: "buildUp" },
+  { start: 1.0, end: 6.0, titleBold: "ELEVATING", titleLight: "YOUR BUSINESS", anim: "slideUp", showLogo: false },
+  { start: 7.0, end: 12.0, titleBold: "ALL YOUR MARKETING", titleLight: "IN ONE PLACE", anim: "scaleIn", showLogo: false },
+  { start: 13.0, end: 17.5, titleBold: "BRAND. WEB.", titleLight: "STORYTELLING.", anim: "splitSlide", showLogo: false },
+  { start: 18.5, end: 23.0, titleBold: "WE MANAGE", titleLight: "EVERYTHING", anim: "dropIn", showLogo: false },
+  { start: 24.5, end: 30.5, titleBold: "WDG", titleLight: "VIDEOGRAPHY", anim: "buildUp", showLogo: true },
 ];
 
 // Unique animation variants for each text overlay
@@ -42,11 +43,6 @@ const animVariants: Record<string, { initial: any; animate: any; exit: any }> = 
     initial: { y: -120, opacity: 0, rotateX: 30 },
     animate: { y: 0, opacity: 1, rotateX: 0 },
     exit: { y: 80, opacity: 0, rotateX: -15 },
-  },
-  fadeBlur: {
-    initial: { opacity: 0, scale: 0.9, filter: "blur(20px)" },
-    animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
-    exit: { opacity: 0, scale: 1.1, filter: "blur(10px)" },
   },
   buildUp: {
     initial: { opacity: 0, scale: 0.5, letterSpacing: "0.8em" },
@@ -163,6 +159,15 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
   const activeOverlay = currentOverlay !== null ? textOverlays[currentOverlay] : null;
   const activeAnim = activeOverlay ? animVariants[activeOverlay.anim] : null;
 
+  // Determine font size for the bold title — "ALL YOUR MARKETING" needs to be slightly smaller
+  const getTitleSize = (text: string) => {
+    if (text.length > 14) {
+      // Slightly smaller for longer text like "ALL YOUR MARKETING"
+      return "text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[7rem] xl:text-[9rem]";
+    }
+    return "text-[4rem] sm:text-[5.5rem] md:text-[7rem] lg:text-[9rem] xl:text-[11rem]";
+  };
+
   return (
     <AnimatePresence>
       {!isExiting ? (
@@ -215,11 +220,22 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   className="text-center"
                 >
+                  {/* Logo appears above text on final slide */}
+                  {activeOverlay.showLogo && (
+                    <motion.img
+                      src={LOGO_SRC}
+                      alt="WDG Videography"
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                      className="h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 w-auto mx-auto mb-6 object-contain"
+                    />
+                  )}
                   <h1
-                    className="font-display text-[4rem] sm:text-[5.5rem] md:text-[7rem] lg:text-[9rem] xl:text-[11rem] font-bold text-white leading-[0.85] tracking-tight"
+                    className={`font-display ${getTitleSize(activeOverlay.titleBold)} font-bold text-white leading-[0.85] tracking-tight`}
                     style={{ textShadow: "0 4px 60px rgba(0,0,0,0.7), 0 0 120px rgba(0,0,0,0.4)" }}
                   >
-                    {activeOverlay.title}
+                    {activeOverlay.titleBold}
                   </h1>
                   <motion.p
                     initial={{ opacity: 0, y: 15 }}
@@ -228,7 +244,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
                     className="font-body text-base sm:text-lg md:text-xl lg:text-2xl text-gold uppercase tracking-[0.5em] mt-6"
                     style={{ textShadow: "0 2px 30px rgba(0,0,0,0.7)" }}
                   >
-                    {activeOverlay.subtitle}
+                    {activeOverlay.titleLight}
                   </motion.p>
                 </motion.div>
               )}
@@ -273,7 +289,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
           {/* WDG watermark */}
           <div className="absolute top-[7vh] right-6 sm:right-10 z-50">
             <img
-              src="/manus-storage/wdg-logo-transparent_d82f27ab.png"
+              src={LOGO_SRC}
               alt="WDG"
               className="h-8 w-auto object-contain opacity-70"
             />

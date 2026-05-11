@@ -36,3 +36,9 @@
 - [ ] Performance optimization
 - [ ] Mobile responsiveness testing
 - [x] Make the logo in the website header/navbar bigger
+- [x] Remove Club One scene from intro video
+- [x] Change intro text overlays to new 5-slide sequence
+- [x] Add WDG logo with transparent background on final slide
+- [x] Ensure no scenes with people's faces or other logos (except existing one)
+- [x] Verify the final 5 intro overlays in-browser after timing adjustment
+- [x] Audit the final intro MP4 end-to-end for unwanted faces/logos
