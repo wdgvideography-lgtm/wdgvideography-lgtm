@@ -1,6 +1,6 @@
 /**
  * WDG Videography - Home Page
- * Flow: Video Intro → Camera Breakdown (scroll) → Hero → Services → etc.
+ * Flow: Video Intro → Camera Video (with logo on last frame) → Main Site
  */
 
 import { useState, useEffect } from "react";
@@ -17,39 +17,46 @@ import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import CinematicIntro from "@/components/CinematicIntro";
 import CameraBreakdown from "@/components/CameraBreakdown";
 
+type Phase = "intro" | "camera" | "site";
+
 export default function Home() {
-  const [showIntro, setShowIntro] = useState(false);
-  const [introComplete, setIntroComplete] = useState(false);
+  const [phase, setPhase] = useState<Phase>("intro");
 
   useEffect(() => {
-    const lastSeen = sessionStorage.getItem("wdg-intro-seen");
-    if (!lastSeen) {
-      setShowIntro(true);
-    } else {
-      setIntroComplete(true);
+    // Check if user has seen the intros this session
+    const seen = sessionStorage.getItem("wdg-intro-seen");
+    if (seen) {
+      setPhase("site");
     }
   }, []);
 
   const handleIntroComplete = () => {
-    setShowIntro(false);
-    setIntroComplete(true);
+    setPhase("camera");
+  };
+
+  const handleCameraComplete = () => {
+    setPhase("site");
     sessionStorage.setItem("wdg-intro-seen", "true");
   };
 
   return (
     <>
-      {/* Video Intro */}
-      {showIntro && !introComplete && (
+      {/* Phase 1: Video Intro */}
+      {phase === "intro" && (
         <CinematicIntro onComplete={handleIntroComplete} />
       )}
 
-      {/* Main Site */}
-      {introComplete && (
+      {/* Phase 2: Camera Video with logo on last frame */}
+      {phase === "camera" && (
+        <CameraBreakdown onComplete={handleCameraComplete} />
+      )}
+
+      {/* Phase 3: Main Site */}
+      {phase === "site" && (
         <SmoothScroll>
           <div className="relative min-h-screen bg-background overflow-hidden">
             <FilmGrainOverlay />
             <Navbar />
-            <CameraBreakdown />
             <HeroSection />
             <ServicesSection />
             <ShowreelStrip />
