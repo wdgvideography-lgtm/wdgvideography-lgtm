@@ -53,7 +53,7 @@ export default function Navbar() {
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2.5 group">
             <img
-              src="/manus-storage/wdg-logo-cropped2_c8f7949b.png"
+              src="/manus-storage/wdg-logo-full_f80b9d25.png"
               alt="WDG Videography"
               className="h-10 w-auto object-contain"
             />
