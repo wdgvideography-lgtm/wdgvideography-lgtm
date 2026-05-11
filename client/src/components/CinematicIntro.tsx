@@ -12,14 +12,14 @@ const VIDEO_SRC = "/manus-storage/intro-video-v3_69cab294.mp4";
 const LOGO_SRC = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
 
 // Text overlays timed to key moments in the video
-// Video is ~26.9 seconds played at 0.85x = ~31.6s real playback
-// Segments: harvest(0-11s video = 0-12.9s real) → equestrian(11-14.5s = 12.9-17s real) → bar(14.5-20.5s = 17-24.1s real) → DJI drone(20.5-26.9s = 24.1-31.6s real)
+// Video is ~26.9 seconds played at normal speed (1x)
+// Segments: harvest(0-11s) → equestrian(11-14.5s) → bar(14.5-20.5s) → DJI drone(20.5-26.9s)
 const textOverlays = [
-  { start: 1.0, end: 6.0, titleBold: "ELEVATING", titleLight: "YOUR BUSINESS", anim: "slideUp", showLogo: false },
-  { start: 7.0, end: 12.0, titleBold: "ALL YOUR MARKETING", titleLight: "IN ONE PLACE", anim: "scaleIn", showLogo: false },
-  { start: 13.0, end: 17.5, titleBold: "BRAND. WEB.", titleLight: "STORYTELLING.", anim: "splitSlide", showLogo: false },
-  { start: 18.5, end: 23.0, titleBold: "WE MANAGE", titleLight: "EVERYTHING", anim: "dropIn", showLogo: false },
-  { start: 24.5, end: 30.5, titleBold: "WDG", titleLight: "VIDEOGRAPHY", anim: "buildUp", showLogo: true },
+  { start: 0.5, end: 5.0, titleBold: "ELEVATING", titleLight: "YOUR BUSINESS", anim: "slideUp", showLogo: false },
+  { start: 5.5, end: 10.5, titleBold: "ALL YOUR MARKETING", titleLight: "IN ONE PLACE", anim: "scaleIn", showLogo: false },
+  { start: 11.0, end: 15.5, titleBold: "BRAND. WEB.", titleLight: "STORYTELLING.", anim: "splitSlide", showLogo: false },
+  { start: 16.0, end: 20.5, titleBold: "WE MANAGE", titleLight: "EVERYTHING", anim: "dropIn", showLogo: false },
+  { start: 21.0, end: 26.5, titleBold: "WDG", titleLight: "VIDEOGRAPHY", anim: "buildUp", showLogo: true },
 ];
 
 // Unique animation variants for each text overlay
@@ -187,8 +187,8 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
               autoPlay
               preload="auto"
               className="w-full h-full object-cover"
-              onLoadedMetadata={(e) => {
-                (e.target as HTMLVideoElement).playbackRate = 0.85;
+              onLoadedMetadata={() => {
+                // Video plays at normal speed - timings are matched to video duration
               }}
               onError={() => {
                 // If video fails to load, skip the intro
