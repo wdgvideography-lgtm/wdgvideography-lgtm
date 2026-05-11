@@ -120,17 +120,42 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleCanPlay = () => {
-      setVideoReady(true);
-      video.play().catch(() => {
-        // Autoplay blocked - still show video, user can interact
+    const startVideo = () => {
+      if (!videoReady) {
         setVideoReady(true);
-      });
+        video.play().catch(() => {
+          // Autoplay blocked - still mark as ready so user sees content
+          setVideoReady(true);
+        });
+      }
     };
 
-    video.addEventListener("canplaythrough", handleCanPlay);
-    return () => video.removeEventListener("canplaythrough", handleCanPlay);
-  }, []);
+    // Try multiple events to ensure video starts
+    video.addEventListener("canplaythrough", startVideo);
+    video.addEventListener("canplay", startVideo);
+    video.addEventListener("loadeddata", startVideo);
+
+    // Fallback: if video hasn't started after 3 seconds, skip intro
+    const fallbackTimer = setTimeout(() => {
+      if (!videoReady) {
+        // Try to play anyway
+        video.play().catch(() => {});
+        setVideoReady(true);
+      }
+    }, 3000);
+
+    // If video is already ready (cached)
+    if (video.readyState >= 3) {
+      startVideo();
+    }
+
+    return () => {
+      video.removeEventListener("canplaythrough", startVideo);
+      video.removeEventListener("canplay", startVideo);
+      video.removeEventListener("loadeddata", startVideo);
+      clearTimeout(fallbackTimer);
+    };
+  }, [videoReady]);
 
   const activeOverlay = currentOverlay !== null ? textOverlays[currentOverlay] : null;
   const activeAnim = activeOverlay ? animVariants[activeOverlay.anim] : null;
@@ -151,10 +176,15 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
               src={VIDEO_SRC}
               muted
               playsInline
+              autoPlay
               preload="auto"
               className="w-full h-full object-cover"
               onLoadedMetadata={(e) => {
                 (e.target as HTMLVideoElement).playbackRate = 0.85;
+              }}
+              onError={() => {
+                // If video fails to load, skip the intro
+                handleComplete();
               }}
             />
           </div>
