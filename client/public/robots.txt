@@ -1,0 +1,13 @@
+# WDG Videography - robots.txt
+# https://www.wdgvideography.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /__manus__/
+
+# Sitemap
+Sitemap: https://www.wdgvideography.com/sitemap.xml
+
+# Crawl-delay (optional, respected by some bots)
+Crawl-delay: 1

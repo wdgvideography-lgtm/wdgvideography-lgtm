@@ -1,0 +1,21 @@
+{
+  "name": "WDG Videography",
+  "short_name": "WDG",
+  "description": "High-end cinematic video production and full-scale digital marketing. Based in Cheltenham, Gloucestershire.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "icons": [
+    {
+      "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/favicon-512-D7cLHw9gtnSY5ePRbifAVq.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/favicon-512-D7cLHw9gtnSY5ePRbifAVq.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

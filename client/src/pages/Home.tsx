@@ -16,6 +16,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import CinematicIntro from "@/components/CinematicIntro";
 import CameraBreakdown from "@/components/CameraBreakdown";
+import SEO from "@/components/SEO";
 
 type Phase = "intro" | "camera" | "site";
 
@@ -40,6 +41,13 @@ export default function Home() {
 
   return (
     <>
+      <SEO
+        title="Cinematic Video Production & Marketing in Cheltenham"
+        description="WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, and full-scale digital marketing. Based in Cheltenham, Gloucestershire. Serving businesses across the UK."
+        keywords="videography Cheltenham, video production Gloucestershire, cinematic video production, brand videos, social media content creation, corporate video, promotional video, marketing agency Cheltenham, website design Cheltenham, digital marketing Gloucestershire, WDG Videography"
+        canonicalUrl="https://www.wdgvideography.com/"
+      />
+
       {/* Phase 1: Video Intro */}
       {phase === "intro" && (
         <CinematicIntro onComplete={handleIntroComplete} />
