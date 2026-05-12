@@ -1,4 +1,6 @@
 {
+  "buildCommand": "",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/((?!assets/|robots\\.txt|sitemap\\.xml|manifest\\.json).*)", "destination": "/index.html" }
   ]
