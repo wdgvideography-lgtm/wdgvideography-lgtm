@@ -8,8 +8,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const CAMERA_VIDEO = "/manus-storage/camera-video_a2989dd1.mp4";
-const LOGO_IMG = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
+const CAMERA_VIDEO = "/assets/camera-video.mp4";
+const LOGO_IMG = "/assets/wdg-logo.png";
 
 interface CameraBreakdownProps {
   onComplete: () => void;

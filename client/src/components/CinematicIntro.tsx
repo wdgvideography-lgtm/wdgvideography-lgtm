@@ -8,8 +8,8 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const VIDEO_SRC = "/manus-storage/intro-video-v3_69cab294.mp4";
-const LOGO_SRC = "/manus-storage/wdg-logo-transparent_d82f27ab.png";
+const VIDEO_SRC = "/assets/intro-video.mp4";
+const LOGO_SRC = "/assets/wdg-logo.png";
 
 // Text overlays timed to key moments in the video
 // Video is ~26.9 seconds played at normal speed (1x)
