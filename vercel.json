@@ -1,7 +1,8 @@
 {
-  "buildCommand": "",
-  "outputDirectory": "dist",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist/public",
   "rewrites": [
-    { "source": "/((?!assets/|robots\\.txt|sitemap\\.xml|manifest\\.json).*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|robots\.txt|sitemap\.xml|manifest\.json).*)", "destination": "/index.html" }
   ]
 }
