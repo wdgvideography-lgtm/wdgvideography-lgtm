@@ -3,6 +3,9 @@
   "buildCommand": "pnpm run build",
   "outputDirectory": "dist/public",
   "rewrites": [
-    { "source": "/((?!assets/|robots\.txt|sitemap\.xml|manifest\.json).*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
