@@ -1,99 +1,78 @@
 /**
  * Hero Section — Noir Cinema Design
- * Hardened: image fallback, null-safe GSAP context, scrub:true
+ * Parallax: pure CSS transform via single passive scroll listener (no GSAP on scroll path)
  */
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/hero-bg-eDByuz2aV74bwBnYkP7UgL.webp";
 
 export default function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const headingRef  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const heading = headingRef.current;
-    const parallax = parallaxRef.current;
-    const overlay = overlayRef.current;
-    if (!section || !heading || !parallax || !overlay) return;
+    let ticking = false;
 
-    const ctx = gsap.context(() => {
-      gsap.to(parallax, {
-        y: 200,
-        scale: 1.15,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (parallaxRef.current) {
+          // Parallax: move bg at 40% of scroll speed
+          parallaxRef.current.style.transform = `translateZ(0) translateY(${y * 0.4}px)`;
+        }
+        if (headingRef.current) {
+          // Heading fades and rises as user scrolls
+          const progress = Math.min(y / (window.innerHeight * 0.6), 1);
+          headingRef.current.style.transform = `translateZ(0) translateY(${-progress * 80}px)`;
+          headingRef.current.style.opacity = String(1 - progress);
+        }
+        ticking = false;
       });
+    };
 
-      gsap.to(heading, {
-        y: -120,
-        opacity: 0,
-        scale: 0.92,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "15% top",
-          end: "70% top",
-          scrub: true,
-        },
-      });
-
-      gsap.to(overlay, {
-        opacity: 0.8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "30% top",
-          end: "100% top",
-          scrub: true,
-        },
-      });
-    }, section);
-
-    return () => ctx.revert();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <section
       id="home"
-      ref={sectionRef}
       className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
     >
-      <div ref={parallaxRef} className="absolute inset-0 -top-24 -bottom-24 scale-105" style={{ willChange: "transform", transform: "translateZ(0)" }}>
+      {/* Parallax Background */}
+      <div
+        ref={parallaxRef}
+        className="absolute inset-0 -top-24 -bottom-24 scale-110"
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
+      >
         <img
           src={HERO_BG}
           alt="Cinematic production studio"
           className="w-full h-full object-cover"
           loading="eager"
-          onError={(e) => {
-            const img = e.currentTarget as HTMLImageElement;
-            img.style.display = "none";
-          }}
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
         />
       </div>
 
+      {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
-      <div ref={overlayRef} className="absolute inset-0 bg-background opacity-0" />
 
+      {/* Vignette */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.6) 100%)"
       }} />
 
-      <div ref={headingRef} className="relative z-10 container pt-20">
+      {/* Content */}
+      <div
+        ref={headingRef}
+        className="relative z-10 container pt-20"
+        style={{ willChange: "transform, opacity" }}
+      >
         <div className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
@@ -174,6 +153,7 @@ export default function HeroSection() {
         </div>
       </div>
 
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
