@@ -1,25 +1,15 @@
 /**
- * Showreel Strip — Noir Cinema Design
- * Infinite horizontal scrolling marquee with keywords
- * Creates a visual break between sections with cinematic flair
+ * Showreel Strip — Infinite horizontal marquee
+ * Hardened: width calc deferred until after first paint, null-safe
  */
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const words = [
-  "CINEMATIC",
-  "STORYTELLING",
-  "BRAND VIDEOS",
-  "SOCIAL MEDIA",
-  "REELS",
-  "MARKETING",
-  "PRODUCTION",
-  "STRATEGY",
-  "CONTENT",
-  "GROWTH",
-  "CREATIVE",
-  "DIGITAL",
+  "CINEMATIC", "STORYTELLING", "BRAND VIDEOS", "SOCIAL MEDIA",
+  "REELS", "MARKETING", "PRODUCTION", "STRATEGY",
+  "CONTENT", "GROWTH", "CREATIVE", "DIGITAL",
 ];
 
 export default function ShowreelStrip() {
@@ -31,28 +21,37 @@ export default function ShowreelStrip() {
     const inner2 = innerRef2.current;
     if (!inner || !inner2) return;
 
-    // Forward scroll
-    const totalWidth = inner.scrollWidth / 2;
-    const tl1 = gsap.to(inner, {
-      x: -totalWidth,
-      duration: 35,
-      ease: "none",
-      repeat: -1,
-    });
+    // Defer until after layout paint so scrollWidth is accurate
+    const rafId = requestAnimationFrame(() => {
+      const totalWidth = inner.scrollWidth / 2;
+      const totalWidth2 = inner2.scrollWidth / 2;
 
-    // Reverse scroll
-    const totalWidth2 = inner2.scrollWidth / 2;
-    gsap.set(inner2, { x: -totalWidth2 });
-    const tl2 = gsap.to(inner2, {
-      x: 0,
-      duration: 40,
-      ease: "none",
-      repeat: -1,
+      if (totalWidth === 0 || totalWidth2 === 0) return; // Guard: layout not ready
+
+      const tl1 = gsap.to(inner, {
+        x: -totalWidth,
+        duration: 35,
+        ease: "none",
+        repeat: -1,
+      });
+
+      gsap.set(inner2, { x: -totalWidth2 });
+      const tl2 = gsap.to(inner2, {
+        x: 0,
+        duration: 40,
+        ease: "none",
+        repeat: -1,
+      });
+
+      // Store refs for cleanup
+      (inner as any)._gsapTl = tl1;
+      (inner2 as any)._gsapTl = tl2;
     });
 
     return () => {
-      tl1.kill();
-      tl2.kill();
+      cancelAnimationFrame(rafId);
+      if ((inner as any)._gsapTl) (inner as any)._gsapTl.kill();
+      if ((inner2 as any)._gsapTl) (inner2 as any)._gsapTl.kill();
     };
   }, []);
 
@@ -71,23 +70,17 @@ export default function ShowreelStrip() {
 
   return (
     <div className="relative py-10 overflow-hidden">
-      {/* Top decorative line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
-      {/* Bottom decorative line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
-
-      {/* Fade edges */}
       <div className="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-      {/* Row 1 - Forward */}
       <div className="mb-4">
         <div ref={innerRef} className="flex items-center gap-8">
           {renderWords(words)}
         </div>
       </div>
 
-      {/* Row 2 - Reverse, slightly dimmer */}
       <div className="opacity-40">
         <div ref={innerRef2} className="flex items-center gap-8">
           {renderWords([...words].reverse())}
