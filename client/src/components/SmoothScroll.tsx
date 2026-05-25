@@ -10,15 +10,13 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Refresh ScrollTrigger on load and resize
     ScrollTrigger.refresh();
-
     const handleResize = () => ScrollTrigger.refresh();
     window.addEventListener("resize", handleResize);
 
-    // Custom cursor spotlight effect
     const cursor = cursorRef.current;
     if (!cursor) return;
 
@@ -33,26 +31,29 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     };
 
     const animateCursor = () => {
-      cursorX += (mouseX - cursorX) * 0.08;
-      cursorY += (mouseY - cursorY) * 0.08;
-      cursor.style.transform = `translate(${cursorX - 150}px, ${cursorY - 150}px)`;
-      requestAnimationFrame(animateCursor);
+      // Pause RAF when tab is not visible to save CPU
+      if (!document.hidden) {
+        cursorX += (mouseX - cursorX) * 0.08;
+        cursorY += (mouseY - cursorY) * 0.08;
+        cursor.style.transform = `translate(${cursorX - 150}px, ${cursorY - 150}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animateCursor);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    const animFrame = requestAnimationFrame(animateCursor);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    rafRef.current = requestAnimationFrame(animateCursor);
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(animFrame);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   return (
     <div className="relative">
-      {/* Cursor spotlight - only visible on desktop */}
+      {/* Cursor spotlight - desktop only */}
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none z-[5] hidden lg:block"
