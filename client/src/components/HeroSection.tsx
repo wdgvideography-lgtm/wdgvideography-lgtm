@@ -36,7 +36,7 @@ export default function HeroSection() {
           trigger: section,
           start: "top top",
           end: "bottom top",
-          scrub: 1.2,
+          scrub: true,
         },
       });
 
@@ -50,7 +50,7 @@ export default function HeroSection() {
           trigger: section,
           start: "15% top",
           end: "70% top",
-          scrub: 1,
+          scrub: true,
         },
       });
 
@@ -62,7 +62,7 @@ export default function HeroSection() {
           trigger: section,
           start: "30% top",
           end: "100% top",
-          scrub: 1,
+          scrub: true,
         },
       });
     }, section);
