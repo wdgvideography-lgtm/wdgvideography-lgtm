@@ -1,6 +1,6 @@
 /**
  * CTA Section — Noir Cinema Design
- * Parallax: pure CSS via passive scroll listener, no GSAP on scroll path
+ * Parallax via passive scroll listener only. No GSAP.
  */
 
 import { useEffect, useRef } from "react";
@@ -9,53 +9,37 @@ import { motion } from "framer-motion";
 const CTA_BG   = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/cta-bg-WCke8jvRoA77RQEvuDjxXM.webp";
 const ABOUT_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/about-bg-LoxoCYvwss2gdFWhhP58Sg.webp";
 
-function useParallax(ref: React.RefObject<HTMLElement | null>, speed = 0.3) {
+export default function CTASection() {
+  const ctaSectionRef = useRef<HTMLElement>(null);
+  const ctaBgRef      = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const section = ctaSectionRef.current;
+    const bg      = ctaBgRef.current;
+    if (!section || !bg) return;
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        if (!el) { ticking = false; return; }
-        const rect = el.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed;
-        el.style.transform = `translateZ(0) translateY(${offset}px)`;
+        const rect   = section.getBoundingClientRect();
+        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.25;
+        bg.style.transform = `translateZ(0) translateY(${offset}px)`;
         ticking = false;
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [ref, speed]);
-}
-
-export default function CTASection() {
-  const ctaSectionRef = useRef<HTMLElement>(null);
-  const ctaBgRef      = useRef<HTMLDivElement>(null);
-  const ctaBgWrapper  = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    ctaBgWrapper.current = ctaBgRef.current;
   }, []);
-
-  // Use the wrapper ref trick to satisfy hook rules
-  const bgRef = useRef<HTMLDivElement>(null);
-  useParallax(bgRef as any, 0.25);
 
   return (
     <>
       {/* About Section */}
       <section id="about" className="relative py-28 lg:py-36 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src={ABOUT_BG}
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover opacity-20"
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-          />
+          <img src={ABOUT_BG} alt="" aria-hidden="true" className="w-full h-full object-cover opacity-20"
+               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
           <div className="absolute inset-0 bg-background/90" />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
@@ -88,19 +72,9 @@ export default function CTASection() {
 
       {/* CTA Section */}
       <section id="contact" ref={ctaSectionRef} className="relative py-28 lg:py-44 overflow-hidden">
-        {/* Parallax background — GPU layer, moved via passive scroll */}
-        <div
-          ref={bgRef}
-          className="absolute inset-0 -top-20 -bottom-20"
-          style={{ willChange: "transform", transform: "translateZ(0)" }}
-        >
-          <img
-            src={CTA_BG}
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover"
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-          />
+        <div ref={ctaBgRef} className="absolute inset-0 -top-20 -bottom-20" style={{ willChange: "transform", transform: "translateZ(0)" }}>
+          <img src={CTA_BG} alt="" aria-hidden="true" className="w-full h-full object-cover"
+               onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
         </div>
         <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
         <div className="absolute inset-0 pointer-events-none">
