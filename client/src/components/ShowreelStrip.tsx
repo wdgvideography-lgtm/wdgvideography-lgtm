@@ -76,13 +76,13 @@ export default function ShowreelStrip() {
       <div className="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <div className="mb-4">
-        <div ref={innerRef} className="flex items-center gap-8">
+        <div ref={innerRef} className="flex items-center gap-8" style={{ willChange: "transform", transform: "translateZ(0)" }}>
           {renderWords(words)}
         </div>
       </div>
 
       <div className="opacity-40">
-        <div ref={innerRef2} className="flex items-center gap-8">
+        <div ref={innerRef2} className="flex items-center gap-8" style={{ willChange: "transform", transform: "translateZ(0)" }}>
           {renderWords([...words].reverse())}
         </div>
       </div>
