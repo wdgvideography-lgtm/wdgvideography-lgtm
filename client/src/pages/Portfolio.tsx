@@ -3,7 +3,7 @@
  * Showcases client work: videos, photos, categories
  */
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,102 +11,89 @@ import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-const VIDEO_1 = "https://base44.app/api/apps/6a0c1534017166f536b1ac32/files/mp/public/6a0c1534017166f536b1ac32/b7e4e37a3_88918947c_video_1457891288982719.mp4";
-const VIDEO_2 = "https://base44.app/api/apps/6a0c1534017166f536b1ac32/files/mp/public/6a0c1534017166f536b1ac32/1978d3aa0_b1c2d9cbb_video_1650157482769766.mp4";
+const BASE = "https://base44.app/api/apps/6a0c1534017166f536b1ac32/files/mp/public/6a0c1534017166f536b1ac32/";
 
 type Category = "all" | "brand" | "social" | "event";
 
 interface PortfolioItem {
   id: string;
-  type: "video";
   src: string;
   title: string;
   client: string;
   category: Category;
   aspect: "landscape" | "portrait";
-  description: string;
 }
 
 const items: PortfolioItem[] = [
-  {
-    id: "v1",
-    type: "video",
-    src: VIDEO_1,
-    title: "Brand Showreel",
-    client: "WDG Videography",
-    category: "brand",
-    aspect: "landscape",
-    description: "Cinematic production showcase",
-  },
-  {
-    id: "v2",
-    type: "video",
-    src: VIDEO_2,
-    title: "Social Content",
-    client: "WDG Videography",
-    category: "social",
-    aspect: "portrait",
-    description: "Short-form vertical content",
-  },
+  { id: "v1",  src: BASE + "41816deb1_1014bd7d9_video_1925110218188544.mp4", title: "Project 1",  client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v2",  src: BASE + "7dbc8bb74_a7e2197c8_video_1602615164178826.mp4",  title: "Project 2",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v3",  src: BASE + "51c2947a9_aa93edc33_video_1643151083626827.mp4",  title: "Project 3",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v4",  src: BASE + "15a13ba50_c5fff6c6b_video_1539403330944160.mp4",  title: "Project 4",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v5",  src: BASE + "daeba5ad7_68ebb28ef_video_1310483361190446.mp4",  title: "Project 5",  client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v6",  src: BASE + "c672ad863_3f578fb54_video_974261825347290.mp4",   title: "Project 6",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v7",  src: BASE + "39b6ed3a7_f96b0bfd8_video_966490356258390.mp4",   title: "Project 7",  client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v8",  src: BASE + "5f071903d_1d056d128_video_1501162541704998.mp4",  title: "Project 8",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v9",  src: BASE + "92473ff6f_c9d060f54_video_2445815295857953.mp4",  title: "Project 9",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v10", src: BASE + "262c16565_fab392c8f_video_1491984292421836.mp4",  title: "Project 10", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v11", src: BASE + "77579e573_3e81c1896_video_2237593870406821.mp4",  title: "Project 11", client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v12", src: BASE + "5db2421e2_0d5a63fde_video_882178007529442.mp4",   title: "Project 12", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v13", src: BASE + "4c359ed7d_337ede89a_video_4371910569620863.mp4",  title: "Project 13", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v14", src: BASE + "e0cffee09_350df3ecf_video_1511044330651926.mp4",  title: "Project 14", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v15", src: BASE + "a7b4de805_22f99855f_video_1696811741634391.mp4",  title: "Project 15", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v16", src: BASE + "06e4b5166_a033fe743_video_940455922204769.mp4",   title: "Project 16", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v17", src: BASE + "b6ce5a2e4_10f619c48_video_1137230612814887.mp4",  title: "Project 17", client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v18", src: BASE + "0309432c4_fb303dcb8_video_2144991479757183.mp4",  title: "Project 18", client: "Client", category: "event",  aspect: "portrait" },
 ];
 
-const categories: { id: Category; label: string }[] = [
-  { id: "all",    label: "All Work" },
-  { id: "brand",  label: "Brand Films" },
-  { id: "social", label: "Social Content" },
-  { id: "event",  label: "Events" },
-];
-
+// ── Video Card ──────────────────────────────────────────────────────────────
 function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (hovered) {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+    }
+  }, [hovered]);
+
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.94 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.94 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="relative group cursor-pointer overflow-hidden rounded-lg bg-zinc-900"
+      style={{ aspectRatio: item.aspect === "portrait" ? "9/16" : "16/9" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onClick={onClick}
-      className={`group relative cursor-pointer overflow-hidden rounded-sm border border-border/20 hover:border-gold/30 transition-all duration-500 bg-card/20 ${item.aspect === "portrait" ? "row-span-2" : ""}`}
     >
-      {/* Video thumbnail — paused, shows first frame */}
-      <div className={`relative w-full overflow-hidden ${item.aspect === "portrait" ? "aspect-[9/16]" : "aspect-video"}`}>
-        <video
-          src={item.src}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          muted
-          playsInline
-          preload="metadata"
-          onMouseEnter={e => (e.currentTarget as HTMLVideoElement).play()}
-          onMouseLeave={e => {
-            const v = e.currentTarget as HTMLVideoElement;
-            v.pause();
-            v.currentTime = 0;
-          }}
-        />
-        {/* Play button overlay */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-          <div className="w-14 h-14 rounded-full bg-black/50 border border-gold/40 backdrop-blur-sm flex items-center justify-center">
-            <svg className="w-6 h-6 text-gold ml-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </div>
-        </div>
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+      <video
+        ref={videoRef}
+        src={item.src}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <p className="text-white font-semibold text-sm leading-tight">{item.title}</p>
+        <p className="text-amber-400 text-xs mt-0.5">{item.client}</p>
       </div>
-
-      {/* Info */}
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <p className="text-[10px] text-gold font-body tracking-[0.25em] uppercase mb-1">{item.client}</p>
-        <h3 className="font-display text-base font-semibold text-foreground">{item.title}</h3>
-        <p className="text-xs text-muted-foreground font-body mt-1">{item.description}</p>
-      </div>
-
-      {/* Expand icon */}
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="w-8 h-8 rounded-sm bg-black/60 border border-gold/30 backdrop-blur-sm flex items-center justify-center">
-          <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+      {/* Play icon */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+          <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
           </svg>
         </div>
       </div>
@@ -114,185 +101,143 @@ function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void
   );
 }
 
-function LightboxModal({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
+// ── Lightbox ────────────────────────────────────────────────────────────────
+function Lightbox({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
     <AnimatePresence>
       <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
         onClick={onClose}
       >
         <motion.div
+          className="relative max-w-sm w-full"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           onClick={e => e.stopPropagation()}
-          className={`relative w-full bg-card/10 border border-border/20 rounded-sm overflow-hidden ${item.aspect === "portrait" ? "max-w-sm" : "max-w-5xl"}`}
         >
           <video
             src={item.src}
-            className="w-full"
-            controls
             autoPlay
+            controls
             playsInline
+            className="w-full rounded-lg"
+            style={{ aspectRatio: item.aspect === "portrait" ? "9/16" : "16/9" }}
           />
-          <div className="p-5">
-            <p className="text-[10px] text-gold font-body tracking-[0.25em] uppercase mb-1">{item.client}</p>
-            <h3 className="font-display text-lg font-semibold text-foreground">{item.title}</h3>
-            <p className="text-sm text-muted-foreground font-body mt-1">{item.description}</p>
+          <div className="mt-3 text-center">
+            <p className="text-white font-semibold">{item.title}</p>
+            <p className="text-amber-400 text-sm">{item.client}</p>
           </div>
+          <button
+            onClick={onClose}
+            className="absolute -top-10 right-0 text-white/70 hover:text-white text-sm"
+          >
+            ✕ Close
+          </button>
         </motion.div>
-
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 w-10 h-10 rounded-full border border-border/40 bg-black/60 flex items-center justify-center text-muted-foreground hover:text-gold hover:border-gold/50 transition-all duration-300"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
       </motion.div>
     </AnimatePresence>
   );
 }
 
+// ── Main Page ────────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
   const [lightboxItem, setLightboxItem] = useState<PortfolioItem | null>(null);
 
-  const filtered = activeCategory === "all"
-    ? items
-    : items.filter(i => i.category === activeCategory);
+  const categories: { key: Category; label: string }[] = [
+    { key: "all",   label: "All Work" },
+    { key: "brand", label: "Brand Films" },
+    { key: "social",label: "Social Content" },
+    { key: "event", label: "Events" },
+  ];
+
+  const filtered = activeCategory === "all" ? items : items.filter(i => i.category === activeCategory);
 
   return (
-    <>
+    <ErrorBoundary>
       <SEO
-        title="Portfolio — WDG Videography"
-        description="View our client work — brand films, social content, event coverage, and more. WDG Videography, Cheltenham."
-        keywords="videography portfolio, brand films Cheltenham, social media video, WDG Videography work"
-        canonicalUrl="https://www.wdgvideography.com/portfolio"
+        title="Portfolio | WDG Videography"
+        description="Our work — brand films, social content and event coverage across the UK."
       />
-
-      <div className="relative min-h-screen bg-background overflow-hidden">
-        <FilmGrainOverlay />
+      <div className="min-h-screen bg-zinc-950 text-white">
         <Navbar />
+        <FilmGrainOverlay />
 
         {/* Hero */}
-        <section className="relative pt-36 pb-16 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-36 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-gold/[0.03] blur-[80px] pointer-events-none" />
-          <div className="container text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4"
-            >
-              Our Work
-            </motion.span>
-            <div className="overflow-hidden mb-4">
-              <motion.h1
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-foreground leading-tight"
-              >
-                Portfolio
-              </motion.h1>
-            </div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.7 }}
-              className="text-muted-foreground font-body text-lg max-w-xl mx-auto"
-            >
-              A selection of our latest client work — from cinematic brand films to high-converting social content.
-            </motion.p>
-          </div>
-        </section>
-
-        {/* Category Filter */}
-        <section className="container mb-12">
-          <motion.div
+        <section className="pt-32 pb-12 px-6 text-center">
+          <motion.p
+            className="text-amber-400 text-sm font-medium tracking-widest uppercase mb-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+          >
+            Our Work
+          </motion.p>
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-3"
+            transition={{ delay: 0.2 }}
           >
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-5 py-2 text-xs font-body tracking-[0.2em] uppercase rounded-sm border transition-all duration-300 ${
-                  activeCategory === cat.id
-                    ? "bg-gold text-primary-foreground border-gold"
-                    : "border-border/30 text-muted-foreground hover:border-gold/40 hover:text-gold"
-                }`}
-              >
-                {cat.label}
-              </button>
+            The Portfolio
+          </motion.h1>
+          <motion.p
+            className="text-zinc-400 max-w-xl mx-auto text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            Brand films, social content and event coverage — crafted to convert.
+          </motion.p>
+        </section>
+
+        {/* Filter Tabs */}
+        <div className="flex justify-center gap-3 px-6 mb-10 flex-wrap">
+          {categories.map(cat => (
+            <button
+              key={cat.key}
+              onClick={() => setActiveCategory(cat.key)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                activeCategory === cat.key
+                  ? "bg-amber-500 text-black"
+                  : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <section className="max-w-7xl mx-auto px-4 pb-24">
+          <motion.div
+            className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3"
+            layout
+          >
+            {filtered.map(item => (
+              <div key={item.id} className="break-inside-avoid">
+                <VideoCard item={item} onClick={() => setLightboxItem(item)} />
+              </div>
             ))}
           </motion.div>
         </section>
 
-        {/* Grid */}
-        <section className="container pb-28">
-          <motion.div
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-auto"
-          >
-            <AnimatePresence mode="popLayout">
-              {filtered.map(item => (
-                <VideoCard
-                  key={item.id}
-                  item={item}
-                  onClick={() => setLightboxItem(item)}
-                />
-              ))}
-            </AnimatePresence>
-
-            {filtered.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="col-span-full text-center py-20 text-muted-foreground font-body"
-              >
-                No work in this category yet — check back soon.
-              </motion.div>
-            )}
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="mt-20 text-center"
-          >
-            <div className="w-px h-16 bg-gradient-to-b from-transparent via-gold/30 to-transparent mx-auto mb-8" />
-            <p className="text-muted-foreground font-body mb-6">Ready to create something like this?</p>
-            <a
-              href="/contact?service=consultation"
-              className="inline-flex items-center px-8 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm hover:bg-gold-light transition-all duration-500 hover:shadow-[0_0_40px_oklch(0.78_0.12_75/0.5)]"
-            >
-              Book a Free Consultation
-            </a>
-          </motion.div>
-        </section>
-
-        <ErrorBoundary silent><Footer /></ErrorBoundary>
+        <Footer />
       </div>
 
-      {/* Lightbox */}
       {lightboxItem && (
-        <LightboxModal item={lightboxItem} onClose={() => setLightboxItem(null)} />
+        <Lightbox item={lightboxItem} onClose={() => setLightboxItem(null)} />
       )}
-    </>
+    </ErrorBoundary>
   );
 }
