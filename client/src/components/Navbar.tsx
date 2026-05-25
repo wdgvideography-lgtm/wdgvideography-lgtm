@@ -1,7 +1,6 @@
 /**
  * Navbar — Noir Cinema Design
- * Fixed navigation with scroll-based background transition,
- * animated hamburger, and smooth mobile menu
+ * Hardened: close on route change, logo onError, keyboard escape closes menu
  */
 
 import { useEffect, useState } from "react";
@@ -9,12 +8,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 
 const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "Services", href: "/#services" },
+  { label: "Home",      href: "/#home" },
+  { label: "Services",  href: "/#services" },
   { label: "Marketing", href: "/#marketing" },
-  { label: "About", href: "/#about" },
+  { label: "About",     href: "/#about" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact",   href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -23,21 +22,27 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const isContactPage = location === "/contact";
 
+  // Close mobile menu on route change
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 60);
-    };
+    setMobileOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  // Escape key closes menu
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Prevent body scroll when mobile menu open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
@@ -54,16 +59,15 @@ export default function Navbar() {
         }`}
       >
         <div className="container flex items-center justify-between">
-          {/* Logo */}
-          <a href="/#home" className="flex items-center gap-2.5 group">
+          <a href="/#home" className="flex items-center gap-2.5 group" aria-label="WDG Videography Home">
             <img
               src="/assets/wdg-logo.png"
               alt="WDG Videography"
               className="h-16 w-auto object-contain"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
             />
           </a>
 
-          {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
@@ -77,42 +81,28 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button - Hidden on Contact page */}
-          {!isContactPage ? (
+          {!isContactPage && (
             <a
               href="/contact"
               className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_20px_oklch(0.78_0.12_75/0.3)]"
             >
               Book Now
             </a>
-          ) : null}
+          )}
 
-          {/* Mobile Menu Button */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => setMobileOpen((o) => !o)}
             className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
           >
-            <motion.span
-              animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="w-6 h-[2px] bg-foreground block origin-center"
-            />
-            <motion.span
-              animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.2 }}
-              className="w-6 h-[2px] bg-foreground block"
-            />
-            <motion.span
-              animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="w-6 h-[2px] bg-foreground block origin-center"
-            />
+            <motion.span animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }} transition={{ duration: 0.3 }} className="w-6 h-[2px] bg-foreground block origin-center" />
+            <motion.span animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} transition={{ duration: 0.2 }} className="w-6 h-[2px] bg-foreground block" />
+            <motion.span animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }} transition={{ duration: 0.3 }} className="w-6 h-[2px] bg-foreground block origin-center" />
           </button>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -121,6 +111,9 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 bg-background/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-6 lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
             {navLinks.map((link, i) => (
               <motion.a
@@ -143,7 +136,7 @@ export default function Navbar() {
               transition={{ delay: 0.4, duration: 0.4 }}
               className="mt-6 flex flex-col items-center gap-4"
             >
-              {!isContactPage ? (
+              {!isContactPage && (
                 <a
                   href="/contact"
                   onClick={() => setMobileOpen(false)}
@@ -151,7 +144,7 @@ export default function Navbar() {
                 >
                   Book Now
                 </a>
-              ) : null}
+              )}
               <p className="text-xs text-muted-foreground font-body mt-4">
                 wdg.videography@gmail.com
               </p>
