@@ -3,6 +3,7 @@
  * Plays the cinematic camera macro video
  * When video ends, holds on last frame and shows WDG Videography logo for 4 seconds
  * Then transitions to the hero section
+ * Hardened: max-wait failsafe, unmount guard, autoplay fallback
  */
 
 import { useEffect, useRef, useState, useCallback } from "react";
@@ -10,6 +11,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const CAMERA_VIDEO = "/assets/camera-video.mp4";
 const LOGO_IMG = "/assets/wdg-logo.png";
+/** Max time to wait for video before skipping — prevents infinite black screen */
+const MAX_WAIT_MS = 12000;
 
 interface CameraBreakdownProps {
   onComplete: () => void;
@@ -19,53 +22,64 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoEnded, setVideoEnded] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const mountedRef = useRef(true);
+  const autoplayBlocked = useRef(false);
+  const [showTapToPlay, setShowTapToPlay] = useState(false);
 
   const handleExit = useCallback(() => {
-    if (isExiting) return;
+    if (!mountedRef.current || isExiting) return;
     setIsExiting(true);
-    setTimeout(() => onComplete(), 1000);
+    setTimeout(() => {
+      if (mountedRef.current) onComplete();
+    }, 1000);
   }, [isExiting, onComplete]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   // When video ends, show logo for 4 seconds then exit
   useEffect(() => {
     if (!videoEnded) return;
-    const timer = setTimeout(() => {
-      handleExit();
-    }, 4000);
+    const timer = setTimeout(() => handleExit(), 4000);
     return () => clearTimeout(timer);
   }, [videoEnded, handleExit]);
 
-  // Start video playback
+  // Start video playback + max-wait failsafe
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const tryPlay = () => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          setAutoplayBlocked(true);
-        });
+    // Failsafe: if video hasn't started playing within MAX_WAIT_MS, skip intro
+    const failsafe = setTimeout(() => {
+      if (mountedRef.current && video.paused && !videoEnded) {
+        handleExit();
+      }
+    }, MAX_WAIT_MS);
+
+    const tryPlay = async () => {
+      try {
+        await video.play();
+        autoplayBlocked.current = false;
+        setShowTapToPlay(false);
+      } catch {
+        autoplayBlocked.current = true;
+        setShowTapToPlay(true);
       }
     };
 
     const handleCanPlay = () => tryPlay();
     video.addEventListener("canplay", handleCanPlay);
     video.addEventListener("loadeddata", handleCanPlay);
-
     if (video.readyState >= 2) tryPlay();
-
-    const fallback = setTimeout(() => {
-      if (video.paused) tryPlay();
-    }, 1500);
 
     return () => {
       video.removeEventListener("canplay", handleCanPlay);
       video.removeEventListener("loadeddata", handleCanPlay);
-      clearTimeout(fallback);
+      clearTimeout(failsafe);
     };
-  }, []);
+  }, [handleExit, videoEnded]);
 
   return (
     <AnimatePresence>
@@ -76,7 +90,6 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
           transition={{ duration: 1, ease: "easeInOut" }}
           className="fixed inset-0 z-[190] bg-black overflow-hidden"
         >
-          {/* Video */}
           <video
             ref={videoRef}
             src={CAMERA_VIDEO}
@@ -88,7 +101,6 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
             onEnded={() => setVideoEnded(true)}
           />
 
-          {/* Logo overlay - appears on last frame after video ends */}
           <AnimatePresence>
             {videoEnded && (
               <motion.div
@@ -97,15 +109,12 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="absolute inset-0 flex flex-col items-center justify-center z-20"
               >
-                {/* Dark overlay on last frame */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.6 }}
                   transition={{ duration: 0.6 }}
                   className="absolute inset-0 bg-black"
                 />
-
-                {/* Logo and text */}
                 <motion.img
                   src={LOGO_IMG}
                   alt="WDG Videography"
@@ -113,6 +122,7 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="relative z-10 h-24 sm:h-32 md:h-40 lg:h-48 w-auto object-contain"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
                 <motion.h2
                   initial={{ opacity: 0, y: 15 }}
@@ -134,14 +144,15 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
             )}
           </AnimatePresence>
 
-          {/* Autoplay blocked - tap to play */}
-          {autoplayBlocked && !videoEnded && (
+          {showTapToPlay && !videoEnded && (
             <div
               className="absolute inset-0 flex flex-col items-center justify-center z-40 cursor-pointer"
               onClick={() => {
                 const video = videoRef.current;
                 if (video) {
-                  video.play().then(() => setAutoplayBlocked(false)).catch(() => {});
+                  video.play()
+                    .then(() => setShowTapToPlay(false))
+                    .catch(() => handleExit());
                 }
               }}
             >
@@ -154,7 +165,6 @@ export default function CameraBreakdown({ onComplete }: CameraBreakdownProps) {
             </div>
           )}
 
-          {/* Skip button */}
           <button
             onClick={handleExit}
             className="absolute bottom-8 right-6 sm:right-10 z-50 flex items-center gap-2 px-5 py-2.5 text-[10px] font-body text-white/50 tracking-[0.25em] uppercase hover:text-white transition-all duration-300 border border-white/10 rounded-sm hover:border-gold/50 hover:bg-gold/5 backdrop-blur-sm"
