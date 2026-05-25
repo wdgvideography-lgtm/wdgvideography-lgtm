@@ -1,7 +1,6 @@
 /**
  * Hero Section — Noir Cinema Design
- * Full-viewport cinematic hero with parallax background,
- * scroll-linked text transforms, and dramatic entrance animations
+ * Hardened: image fallback, null-safe GSAP context, scrub:true
  */
 
 import { useEffect, useRef } from "react";
@@ -27,7 +26,6 @@ export default function HeroSection() {
     if (!section || !heading || !parallax || !overlay) return;
 
     const ctx = gsap.context(() => {
-      // Parallax background movement
       gsap.to(parallax, {
         y: 200,
         scale: 1.15,
@@ -40,7 +38,6 @@ export default function HeroSection() {
         },
       });
 
-      // Heading fades and moves up on scroll
       gsap.to(heading, {
         y: -120,
         opacity: 0,
@@ -54,7 +51,6 @@ export default function HeroSection() {
         },
       });
 
-      // Overlay darkens on scroll
       gsap.to(overlay, {
         opacity: 0.8,
         ease: "none",
@@ -76,30 +72,29 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
     >
-      {/* Parallax Background */}
       <div ref={parallaxRef} className="absolute inset-0 -top-24 -bottom-24 scale-105">
         <img
           src={HERO_BG}
           alt="Cinematic production studio"
           className="w-full h-full object-cover"
           loading="eager"
+          onError={(e) => {
+            const img = e.currentTarget as HTMLImageElement;
+            img.style.display = "none";
+          }}
         />
       </div>
 
-      {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/30 to-background" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
       <div ref={overlayRef} className="absolute inset-0 bg-background opacity-0" />
 
-      {/* Vignette Effect */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse at center, transparent 40%, rgba(10,10,10,0.6) 100%)"
       }} />
 
-      {/* Content */}
       <div ref={headingRef} className="relative z-10 container pt-20">
         <div className="max-w-4xl">
-          {/* Location Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -112,7 +107,6 @@ export default function HeroSection() {
             </span>
           </motion.div>
 
-          {/* Main Heading with staggered character reveal */}
           <div className="overflow-hidden mb-2">
             <motion.h1
               initial={{ y: "100%" }}
@@ -144,7 +138,6 @@ export default function HeroSection() {
             </motion.h1>
           </div>
 
-          {/* Subheading */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -155,7 +148,6 @@ export default function HeroSection() {
             We don't just capture moments — we build the frameworks that drive real business results.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,16 +174,13 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10"
       >
-        <span className="text-[10px] text-muted-foreground/60 font-body tracking-[0.3em] uppercase">
-          Scroll
-        </span>
+        <span className="text-[10px] text-muted-foreground/60 font-body tracking-[0.3em] uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -205,7 +194,6 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
