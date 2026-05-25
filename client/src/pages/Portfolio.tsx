@@ -18,6 +18,7 @@ type Category = "all" | "brand" | "social" | "event";
 interface PortfolioItem {
   id: string;
   src: string;
+  poster: string;
   title: string;
   client: string;
   category: Category;
@@ -25,24 +26,24 @@ interface PortfolioItem {
 }
 
 const items: PortfolioItem[] = [
-  { id: "v1",  src: BASE + "41816deb1_1014bd7d9_video_1925110218188544.mp4", title: "Project 1",  client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v2",  src: BASE + "7dbc8bb74_a7e2197c8_video_1602615164178826.mp4",  title: "Project 2",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v3",  src: BASE + "51c2947a9_aa93edc33_video_1643151083626827.mp4",  title: "Project 3",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v4",  src: BASE + "15a13ba50_c5fff6c6b_video_1539403330944160.mp4",  title: "Project 4",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v5",  src: BASE + "daeba5ad7_68ebb28ef_video_1310483361190446.mp4",  title: "Project 5",  client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v6",  src: BASE + "c672ad863_3f578fb54_video_974261825347290.mp4",   title: "Project 6",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v7",  src: BASE + "39b6ed3a7_f96b0bfd8_video_966490356258390.mp4",   title: "Project 7",  client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v8",  src: BASE + "5f071903d_1d056d128_video_1501162541704998.mp4",  title: "Project 8",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v9",  src: BASE + "92473ff6f_c9d060f54_video_2445815295857953.mp4",  title: "Project 9",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v10", src: BASE + "262c16565_fab392c8f_video_1491984292421836.mp4",  title: "Project 10", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v11", src: BASE + "77579e573_3e81c1896_video_2237593870406821.mp4",  title: "Project 11", client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v12", src: BASE + "5db2421e2_0d5a63fde_video_882178007529442.mp4",   title: "Project 12", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v13", src: BASE + "4c359ed7d_337ede89a_video_4371910569620863.mp4",  title: "Project 13", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v14", src: BASE + "e0cffee09_350df3ecf_video_1511044330651926.mp4",  title: "Project 14", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v15", src: BASE + "a7b4de805_22f99855f_video_1696811741634391.mp4",  title: "Project 15", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v16", src: BASE + "06e4b5166_a033fe743_video_940455922204769.mp4",   title: "Project 16", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v17", src: BASE + "b6ce5a2e4_10f619c48_video_1137230612814887.mp4",  title: "Project 17", client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v18", src: BASE + "0309432c4_fb303dcb8_video_2144991479757183.mp4",  title: "Project 18", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v1",  src: BASE + "41816deb1_1014bd7d9_video_1925110218188544.mp4", poster: BASE + "73ad22d74_v1_2s.jpg",  title: "Project 1",  client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v2",  src: BASE + "7dbc8bb74_a7e2197c8_video_1602615164178826.mp4",  poster: BASE + "15252aff2_v2_2s.jpg",  title: "Project 2",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v3",  src: BASE + "51c2947a9_aa93edc33_video_1643151083626827.mp4",  poster: BASE + "c74ddbb15_v3_2s.jpg",  title: "Project 3",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v4",  src: BASE + "15a13ba50_c5fff6c6b_video_1539403330944160.mp4",  poster: BASE + "f97bdf438_v4_2s.jpg",  title: "Project 4",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v5",  src: BASE + "daeba5ad7_68ebb28ef_video_1310483361190446.mp4",  poster: BASE + "fb21454f7_v5_2s.jpg",  title: "Project 5",  client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v6",  src: BASE + "c672ad863_3f578fb54_video_974261825347290.mp4",   poster: BASE + "0c787f76e_v6_2s.jpg",  title: "Project 6",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v7",  src: BASE + "39b6ed3a7_f96b0bfd8_video_966490356258390.mp4",   poster: BASE + "cac14b694_v7_2s.jpg",  title: "Project 7",  client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v8",  src: BASE + "5f071903d_1d056d128_video_1501162541704998.mp4",  poster: BASE + "0dd80f4a2_v8_2s.jpg",  title: "Project 8",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v9",  src: BASE + "92473ff6f_c9d060f54_video_2445815295857953.mp4",  poster: BASE + "17a933471_v9_2s.jpg",  title: "Project 9",  client: "Client", category: "social", aspect: "portrait" },
+  { id: "v10", src: BASE + "262c16565_fab392c8f_video_1491984292421836.mp4",  poster: BASE + "4d6b7f69f_v10_2s.jpg", title: "Project 10", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v11", src: BASE + "77579e573_3e81c1896_video_2237593870406821.mp4",  poster: BASE + "6d4f5e93b_v11_2s.jpg", title: "Project 11", client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v12", src: BASE + "5db2421e2_0d5a63fde_video_882178007529442.mp4",   poster: BASE + "ae645f10e_v12_2s.jpg", title: "Project 12", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v13", src: BASE + "4c359ed7d_337ede89a_video_4371910569620863.mp4",  poster: BASE + "f78452b32_v13_2s.jpg", title: "Project 13", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v14", src: BASE + "e0cffee09_350df3ecf_video_1511044330651926.mp4",  poster: BASE + "01a91c33b_v14_2s.jpg", title: "Project 14", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v15", src: BASE + "a7b4de805_22f99855f_video_1696811741634391.mp4",  poster: BASE + "008896c79_v15_2s.jpg", title: "Project 15", client: "Client", category: "social", aspect: "portrait" },
+  { id: "v16", src: BASE + "06e4b5166_a033fe743_video_940455922204769.mp4",   poster: BASE + "6168a3e9e_v16_2s.jpg", title: "Project 16", client: "Client", category: "event",  aspect: "portrait" },
+  { id: "v17", src: BASE + "b6ce5a2e4_10f619c48_video_1137230612814887.mp4",  poster: BASE + "2115df38b_v17_2s.jpg", title: "Project 17", client: "Client", category: "brand",  aspect: "portrait" },
+  { id: "v18", src: BASE + "0309432c4_fb303dcb8_video_2144991479757183.mp4",  poster: BASE + "d4b4d7849_v18_2s.jpg", title: "Project 18", client: "Client", category: "event",  aspect: "portrait" },
 ];
 
 // ── Video Card ──────────────────────────────────────────────────────────────
@@ -77,10 +78,11 @@ function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void
       <video
         ref={videoRef}
         src={item.src}
+        poster={item.poster}
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
       {/* Overlay */}
@@ -90,7 +92,7 @@ function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void
         <p className="text-amber-400 text-xs mt-0.5">{item.client}</p>
       </div>
       {/* Play icon */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute inset-0 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity duration-300">
         <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
           <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z" />
@@ -127,6 +129,7 @@ function Lightbox({ item, onClose }: { item: PortfolioItem; onClose: () => void 
         >
           <video
             src={item.src}
+            poster={item.poster}
             autoPlay
             controls
             playsInline
@@ -155,10 +158,10 @@ export default function Portfolio() {
   const [lightboxItem, setLightboxItem] = useState<PortfolioItem | null>(null);
 
   const categories: { key: Category; label: string }[] = [
-    { key: "all",   label: "All Work" },
-    { key: "brand", label: "Brand Films" },
-    { key: "social",label: "Social Content" },
-    { key: "event", label: "Events" },
+    { key: "all",    label: "All Work" },
+    { key: "brand",  label: "Brand Films" },
+    { key: "social", label: "Social Content" },
+    { key: "event",  label: "Events" },
   ];
 
   const filtered = activeCategory === "all" ? items : items.filter(i => i.category === activeCategory);
