@@ -3,12 +3,8 @@
  * Hardened: removed sectionRef.current! force-cast, null-safe GSAP scope
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface ServiceTier {
   name: string;
@@ -196,57 +192,26 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
 }
 
 export default function ServicesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const title = titleRef.current;
-    if (!section || !title) return; // Null-safe — no force-cast
 
-    const ctx = gsap.context(() => {
-      const children = Array.from(title.children);
-      if (!children.length) return;
-
-      gsap.fromTo(
-        children,
-        { opacity: 0, y: 40, filter: "blur(8px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: title,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="relative py-28 lg:py-36">
+    <section id="services" className="relative py-28 lg:py-36">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/[0.02] blur-[120px]" />
       </div>
 
       <div className="relative container">
-        <div ref={titleRef} className="text-center mb-16 lg:mb-24">
-          <span className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
+        <div className="text-center mb-16 lg:mb-24">
+          <motion.span initial={{ opacity: 0, y: 20, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
             Our Services
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+          </motion.span>
+          <motion.h2 initial={{ opacity: 0, y: 30, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }} className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
             Discover Our Services
-          </h2>
-          <p className="text-muted-foreground font-body text-lg max-w-2xl mx-auto leading-relaxed">
+          </motion.h2>
+          <motion.p initial={{ opacity: 0, y: 20, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }} className="text-muted-foreground font-body text-lg max-w-2xl mx-auto leading-relaxed">
             Structured service tiers designed to scale with your business. From a targeted boost to a complete digital overhaul.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-5">
