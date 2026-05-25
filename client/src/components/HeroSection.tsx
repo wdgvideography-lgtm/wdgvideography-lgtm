@@ -72,7 +72,7 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
     >
-      <div ref={parallaxRef} className="absolute inset-0 -top-24 -bottom-24 scale-105">
+      <div ref={parallaxRef} className="absolute inset-0 -top-24 -bottom-24 scale-105" style={{ willChange: "transform", transform: "translateZ(0)" }}>
         <img
           src={HERO_BG}
           alt="Cinematic production studio"
