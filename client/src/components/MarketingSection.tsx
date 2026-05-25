@@ -84,7 +84,7 @@ export default function MarketingSection() {
   return (
     <section id="marketing" ref={sectionRef} className="relative py-28 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div ref={imageRef} className="absolute inset-0 -top-20 -bottom-20">
+        <div ref={imageRef} className="absolute inset-0 -top-20 -bottom-20" style={{ willChange: "transform", transform: "translateZ(0)" }}>
           <img
             src={MARKETING_BG}
             alt=""
