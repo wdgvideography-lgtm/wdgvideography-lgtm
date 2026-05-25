@@ -103,8 +103,25 @@
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
   }
+
+  /*
+   * scroll-behavior: smooth is REMOVED — it fights GSAP ScrollTrigger
+   * and causes the page to stutter/stick when scrolling through sections.
+   * Smooth anchor scrolling is handled by GSAP where needed.
+   */
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+
+  /*
+   * GPU-compositing hints for all GSAP-animated elements.
+   * transform and opacity changes stay on the compositor thread
+   * and never trigger layout or paint — eliminates jank.
+   */
+  [data-gsap],
+  .parallax-layer {
+    will-change: transform;
+    transform: translateZ(0);
   }
 }
 
