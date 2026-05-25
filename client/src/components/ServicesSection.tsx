@@ -1,7 +1,6 @@
 /**
  * Services Section — Noir Cinema Design
- * Scroll-triggered card reveals with stagger, animated counters,
- * and hover depth effects
+ * Hardened: removed sectionRef.current! force-cast, null-safe GSAP scope
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -80,6 +79,7 @@ function AnimatedPrice({ price, numericPrice }: { price: string; numericPrice: n
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [display, setDisplay] = useState("£0");
   const hasAnimated = useRef(false);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isInView || hasAnimated.current) return;
@@ -91,19 +91,20 @@ function AnimatedPrice({ price, numericPrice }: { price: string; numericPrice: n
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const currentVal = Math.floor(eased * numericPrice);
 
       if (progress < 1) {
         setDisplay("£" + currentVal.toLocaleString());
-        requestAnimationFrame(animate);
+        rafRef.current = requestAnimationFrame(animate);
       } else {
         setDisplay(price);
+        rafRef.current = null;
       }
     };
 
-    requestAnimationFrame(animate);
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current !== null) cancelAnimationFrame(rafRef.current); };
   }, [isInView, price, numericPrice]);
 
   return <span ref={ref}>{display}</span>;
@@ -120,17 +121,13 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         delay: index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={{
-        y: -12,
-        transition: { duration: 0.4, ease: "easeOut" },
-      }}
+      whileHover={{ y: -12, transition: { duration: 0.4, ease: "easeOut" } }}
       className={`relative group rounded-sm border backdrop-blur-sm transition-all duration-500 ${
         service.popular
           ? "border-gold/50 bg-gradient-to-b from-gold/8 to-gold/2 shadow-[0_0_60px_oklch(0.78_0.12_75/0.08)]"
           : "border-border/40 bg-card/40 hover:border-gold/30 hover:bg-card/60"
       }`}
     >
-      {/* Popular Badge */}
       {service.popular && (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -143,14 +140,13 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         </motion.div>
       )}
 
-      {/* Card Content */}
       <div className="p-6 lg:p-8 space-y-6">
         <div>
           <h3 className="font-display text-xl font-semibold text-foreground mb-3">
             {service.name}
           </h3>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-xs text-muted-foreground font-body uppercase tracking-wider">From</span>
+            <span className="text-xs text-muted-foreground font-body uppercase tracking-wider">Starting at</span>
             <span className="font-mono text-2xl lg:text-3xl font-bold text-gold">
               <AnimatedPrice price={service.price} numericPrice={service.numericPrice} />
             </span>
@@ -170,18 +166,11 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
               className="flex items-start gap-3"
             >
               <div className="w-4 h-4 mt-0.5 shrink-0 rounded-full border border-gold/40 flex items-center justify-center">
-                <svg
-                  className="w-2.5 h-2.5 text-gold"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-2.5 h-2.5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-sm text-muted-foreground font-body leading-relaxed">
-                {feature}
-              </span>
+              <span className="text-sm text-muted-foreground font-body leading-relaxed">{feature}</span>
             </motion.li>
           ))}
         </ul>
@@ -198,7 +187,6 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         </a>
       </div>
 
-      {/* Hover glow */}
       <div className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent rounded-sm" />
         <div className="absolute inset-px rounded-sm border border-gold/10" />
@@ -212,11 +200,14 @@ export default function ServicesSection() {
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
     const title = titleRef.current;
-    if (!title) return;
+    if (!section || !title) return; // Null-safe — no force-cast
 
     const ctx = gsap.context(() => {
-      const children = title.children;
+      const children = Array.from(title.children);
+      if (!children.length) return;
+
       gsap.fromTo(
         children,
         { opacity: 0, y: 40, filter: "blur(8px)" },
@@ -234,24 +225,18 @@ export default function ServicesSection() {
           },
         }
       );
-    }, sectionRef.current!);
+    }, section);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="relative py-28 lg:py-36"
-    >
-      {/* Subtle radial gradient background */}
+    <section id="services" ref={sectionRef} className="relative py-28 lg:py-36">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold/[0.02] blur-[120px]" />
       </div>
 
       <div className="relative container">
-        {/* Section Header */}
         <div ref={titleRef} className="text-center mb-16 lg:mb-24">
           <span className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
             Our Services
@@ -264,7 +249,6 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-5">
           {services.map((service, index) => (
             <ServiceCard key={service.name} service={service} index={index} />
