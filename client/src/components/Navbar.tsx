@@ -1,6 +1,7 @@
 /**
  * Navbar — Noir Cinema Design
- * Hardened: close on route change, logo onError, keyboard escape closes menu
+ * Hardened: GPU layer promotion, reduced backdrop-blur, will-change:transform,
+ *           Escape closes menu, aria attrs, close on route change
  */
 
 import { useEffect, useState } from "react";
@@ -22,25 +23,22 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const isContactPage = location === "/contact";
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location]);
+  useEffect(() => { setMobileOpen(false); }, [location]);
 
   useEffect(() => {
+    // Read initial scroll position immediately
+    setScrolled(window.scrollY > 60);
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Escape key closes menu
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Prevent body scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -52,9 +50,15 @@ export default function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        /*
+         * will-change:transform promotes the nav to its own compositor layer.
+         * backdrop-blur reduced from 2xl to xl — still frosted, much cheaper to paint.
+         * translateZ(0) forces GPU rasterisation so scroll never triggers a repaint.
+         */
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-background/85 backdrop-blur-2xl border-b border-gold/10 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+            ? "bg-background/90 backdrop-blur-xl border-b border-gold/10 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
             : "bg-transparent py-5"
         }`}
       >
@@ -110,7 +114,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-6 lg:hidden"
+            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-xl flex flex-col items-center justify-center gap-6 lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
@@ -145,9 +149,7 @@ export default function Navbar() {
                   Book Now
                 </a>
               )}
-              <p className="text-xs text-muted-foreground font-body mt-4">
-                wdg.videography@gmail.com
-              </p>
+              <p className="text-xs text-muted-foreground font-body mt-4">wdg.videography@gmail.com</p>
             </motion.div>
           </motion.div>
         )}
