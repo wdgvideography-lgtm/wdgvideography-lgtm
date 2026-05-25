@@ -1,9 +1,9 @@
 /**
  * Contact Page — Full form with service type dropdown
- * Sends form data to backend which emails wdg.videography@gmail.com
+ * Hardened: email validation, submit debounce, disabled state on pending
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { useSearch } from "wouter";
@@ -11,6 +11,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const serviceOptions = [
   { value: "consultation", label: "Book a Consultation" },
@@ -25,6 +27,7 @@ const serviceOptions = [
 
 export default function Contact() {
   const searchString = useSearch();
+  const lastSubmitRef = useRef<number>(0);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -35,7 +38,6 @@ export default function Contact() {
     message: "",
   });
 
-  // Pre-select service from URL params
   useEffect(() => {
     const params = new URLSearchParams(searchString);
     const service = params.get("service");
@@ -43,6 +45,7 @@ export default function Contact() {
       setFormData((prev) => ({ ...prev, service }));
     }
   }, [searchString]);
+
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
@@ -60,8 +63,25 @@ export default function Contact() {
     e.preventDefault();
     setError("");
 
-    if (!formData.firstName || !formData.email || !formData.service || !formData.message) {
-      setError("Please fill in all required fields.");
+    // Debounce: prevent double-submits within 3 seconds
+    const now = Date.now();
+    if (now - lastSubmitRef.current < 3000) return;
+    lastSubmitRef.current = now;
+
+    if (!formData.firstName.trim()) {
+      setError("Please enter your first name.");
+      return;
+    }
+    if (!formData.email.trim() || !EMAIL_RE.test(formData.email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!formData.service) {
+      setError("Please select a service.");
+      return;
+    }
+    if (!formData.message.trim() || formData.message.trim().length < 10) {
+      setError("Please enter a message (at least 10 characters).");
       return;
     }
 
@@ -71,6 +91,8 @@ export default function Contact() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const isPending = submitMutation.isPending ?? (submitMutation as any).isLoading ?? false;
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
@@ -86,7 +108,6 @@ export default function Contact() {
       <section className="pt-32 pb-24 lg:pb-32">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -104,16 +125,15 @@ export default function Contact() {
               </p>
             </motion.div>
 
-            {/* Form */}
             {!submitted ? (
               <motion.form
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 onSubmit={handleSubmit}
+                noValidate
                 className="space-y-6"
               >
-                {/* Name Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-body text-muted-foreground mb-2">
@@ -125,7 +145,8 @@ export default function Contact() {
                       value={formData.firstName}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50"
+                      disabled={isPending}
+                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
                       placeholder="Your first name"
                     />
                   </div>
@@ -138,61 +159,57 @@ export default function Contact() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50"
+                      disabled={isPending}
+                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
                       placeholder="Your last name"
                     />
                   </div>
                 </div>
 
-                {/* Email & Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-body text-muted-foreground mb-2">
-                      Email <span className="text-gold">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-body text-muted-foreground mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50"
-                      placeholder="+44 7XXX XXXXXX"
-                    />
-                  </div>
-                </div>
-
-                {/* Service Dropdown */}
                 <div>
                   <label className="block text-sm font-body text-muted-foreground mb-2">
-                    What service are you interested in? <span className="text-gold">*</span>
+                    Email Address <span className="text-gold">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={isPending}
+                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-body text-muted-foreground mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    disabled={isPending}
+                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
+                    placeholder="+44 7xxx xxxxxx"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-body text-muted-foreground mb-2">
+                    Service <span className="text-gold">*</span>
                   </label>
                   <select
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors appearance-none cursor-pointer"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C8A951' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 16px center",
-                    }}
+                    disabled={isPending}
+                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors disabled:opacity-50"
                   >
-                    <option value="" disabled>Select a service...</option>
+                    <option value="">Select a service...</option>
                     {serviceOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -201,7 +218,6 @@ export default function Contact() {
                   </select>
                 </div>
 
-                {/* Message */}
                 <div>
                   <label className="block text-sm font-body text-muted-foreground mb-2">
                     Message <span className="text-gold">*</span>
@@ -212,46 +228,46 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors resize-none placeholder:text-muted-foreground/50"
-                    placeholder="Tell us about your project, what you're looking for, and any specific requirements..."
+                    disabled={isPending}
+                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 resize-none disabled:opacity-50"
+                    placeholder="Tell us about your project..."
                   />
                 </div>
 
-                {/* Error */}
                 {error && (
-                  <p className="text-red-400 text-sm font-body">{error}</p>
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-sm text-destructive font-body"
+                  >
+                    {error}
+                  </motion.p>
                 )}
 
-                {/* Submit */}
                 <button
                   type="submit"
-                  disabled={submitMutation.isPending}
-                  className="w-full py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isPending}
+                  className="w-full py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {submitMutation.isPending ? "Sending..." : "Send Message"}
+                  {isPending ? "Sending..." : "Send Message"}
                 </button>
               </motion.form>
             ) : (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-16"
+                transition={{ duration: 0.5 }}
+                className="text-center py-20"
               >
-                <div className="w-16 h-16 rounded-full border-2 border-gold flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-6">
                   <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <h2 className="font-display text-3xl font-bold text-foreground mb-4">Message Sent!</h2>
-                <p className="text-muted-foreground font-body text-lg mb-8">
-                  Thank you for getting in touch. We'll get back to you within 24 hours.
+                <p className="text-muted-foreground font-body leading-relaxed max-w-md mx-auto">
+                  Thanks for reaching out. We'll be in touch within 24 hours to discuss your project.
                 </p>
-                <a
-                  href="/"
-                  className="inline-flex items-center px-8 py-3 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm hover:bg-gold-light transition-all duration-300"
-                >
-                  Back to Home
-                </a>
               </motion.div>
             )}
           </div>
