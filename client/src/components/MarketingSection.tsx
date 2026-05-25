@@ -73,7 +73,7 @@ export default function MarketingSection() {
             trigger: section,
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.5,
+            scrub: true,
           },
         }
       );
