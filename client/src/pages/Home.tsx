@@ -20,11 +20,28 @@ import SEO from "@/components/SEO";
 
 type Phase = "intro" | "camera" | "site";
 
+/** Safe sessionStorage wrapper — private browsing / Safari ITP can throw */
+function getSessionItem(key: string): string | null {
+  try {
+    return sessionStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function setSessionItem(key: string, value: string): void {
+  try {
+    sessionStorage.setItem(key, value);
+  } catch {
+    // Silently fail — user still gets the full site
+  }
+}
+
 export default function Home() {
   const [phase, setPhase] = useState<Phase>("intro");
 
   useEffect(() => {
-    const seen = sessionStorage.getItem("wdg-intro-seen");
+    const seen = getSessionItem("wdg-intro-seen");
     if (seen) {
       setPhase("site");
     }
@@ -36,7 +53,7 @@ export default function Home() {
 
   const handleCameraComplete = () => {
     setPhase("site");
-    sessionStorage.setItem("wdg-intro-seen", "true");
+    setSessionItem("wdg-intro-seen", "true");
   };
 
   return (
