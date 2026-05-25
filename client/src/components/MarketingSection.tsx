@@ -1,6 +1,6 @@
 /**
  * Marketing Management Section — Noir Cinema Design
- * Split layout with parallax image and staggered content reveals
+ * Hardened: image onError fallback, null-safe refs, scrub:true already set
  */
 
 import { useEffect, useRef } from "react";
@@ -61,7 +61,6 @@ export default function MarketingSection() {
     if (!section || !image) return;
 
     const ctx = gsap.context(() => {
-      // Parallax on the background image
       gsap.fromTo(
         image,
         { y: 60, scale: 1.08 },
@@ -83,25 +82,24 @@ export default function MarketingSection() {
   }, []);
 
   return (
-    <section
-      id="marketing"
-      ref={sectionRef}
-      className="relative py-28 lg:py-36 overflow-hidden"
-    >
-      {/* Background with parallax */}
+    <section id="marketing" ref={sectionRef} className="relative py-28 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div ref={imageRef} className="absolute inset-0 -top-20 -bottom-20">
-          <img src={MARKETING_BG} alt="" className="w-full h-full object-cover opacity-[0.06]" />
+          <img
+            src={MARKETING_BG}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover opacity-[0.06]"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+          />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/80" />
       </div>
 
-      {/* Decorative line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
 
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Left Content */}
           <div>
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -153,18 +151,13 @@ export default function MarketingSection() {
               className="inline-flex items-center gap-3 px-7 py-3.5 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm hover:bg-gold-light transition-all duration-500 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] group"
             >
               Book a Marketing Meeting
-              <svg
-                className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
+                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </motion.a>
           </div>
 
-          {/* Right - Service Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
             {marketingServices.map((service, index) => (
               <motion.div
@@ -172,31 +165,17 @@ export default function MarketingSection() {
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{
-                  duration: 0.7,
-                  delay: index * 0.12,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{
-                  y: -6,
-                  scale: 1.03,
-                  transition: { duration: 0.3 },
-                }}
+                transition={{ duration: 0.7, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6, scale: 1.03, transition: { duration: 0.3 } }}
                 className="relative p-6 lg:p-7 rounded-sm border border-border/40 bg-card/30 backdrop-blur-sm hover:border-gold/30 hover:bg-card/50 transition-all duration-500 group overflow-hidden"
               >
-                {/* Hover gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
                 <div className="relative z-10">
                   <div className="w-10 h-10 rounded-sm border border-gold/20 bg-gold/5 flex items-center justify-center text-gold mb-5 group-hover:border-gold/40 group-hover:bg-gold/10 transition-all duration-300">
                     {service.icon}
                   </div>
-                  <h3 className="font-display text-base font-semibold text-foreground mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed">
-                    {service.description}
-                  </p>
+                  <h3 className="font-display text-base font-semibold text-foreground mb-2">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground font-body leading-relaxed">{service.description}</p>
                 </div>
               </motion.div>
             ))}
