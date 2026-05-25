@@ -1,7 +1,6 @@
 /**
  * CTA Section — Noir Cinema Design
- * About section + dramatic CTA with bokeh background
- * Scroll-triggered text reveals and parallax depth
+ * Hardened: scrub lag removed, image onError fallback, null-safe refs
  */
 
 import { useEffect, useRef } from "react";
@@ -24,7 +23,6 @@ export default function CTASection() {
     if (!cta || !ctaBg) return;
 
     const ctx = gsap.context(() => {
-      // Parallax on CTA background
       gsap.fromTo(
         ctaBg,
         { scale: 1.2, y: 50 },
@@ -36,7 +34,7 @@ export default function CTASection() {
             trigger: cta,
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.5,
+            scrub: true,
           },
         }
       );
@@ -49,14 +47,18 @@ export default function CTASection() {
     <>
       {/* About / Who We Are Section */}
       <section id="about" className="relative py-28 lg:py-36 overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0">
-          <img src={ABOUT_BG} alt="" className="w-full h-full object-cover opacity-20" />
+          <img
+            src={ABOUT_BG}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover opacity-20"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+          />
           <div className="absolute inset-0 bg-background/90" />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
 
-        {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
 
         <div className="relative container">
@@ -117,8 +119,6 @@ export default function CTASection() {
               marketer's mind to every project. We don't just capture moments — we build the frameworks
               that drive real business results.
             </motion.p>
-
-
           </div>
         </div>
       </section>
@@ -129,18 +129,21 @@ export default function CTASection() {
         ref={ctaRef}
         className="relative py-28 lg:py-44 overflow-hidden"
       >
-        {/* Parallax Background */}
         <div ref={ctaBgRef} className="absolute inset-0 -top-20 -bottom-20">
-          <img src={CTA_BG} alt="" className="w-full h-full object-cover" />
+          <img
+            src={CTA_BG}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+          />
         </div>
         <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
 
-        {/* Radial glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/[0.04] blur-[100px]" />
         </div>
 
-        {/* Content */}
         <div className="relative container text-center">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -182,33 +185,30 @@ export default function CTASection() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-lg text-muted-foreground font-body max-w-2xl mx-auto leading-relaxed mb-12"
           >
-            By booking a consultation, we can build you a brand image and work out exactly what you want
-            to portray before the shoot. It's also a great way for us to help you understand what we can do for you.
+            By booking a consultation, you'll work directly with our team to build a tailored plan.
+            No templates, no guesswork — just results.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="flex flex-wrap gap-4 justify-center"
           >
-            <motion.a
+            <a
               href="/contact?service=consultation"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm shadow-[0_0_20px_oklch(0.78_0.12_75/0.2)] hover:shadow-[0_0_50px_oklch(0.78_0.12_75/0.5)] transition-all duration-500"
+              className="group relative inline-flex items-center px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wide rounded-sm overflow-hidden transition-all duration-500 hover:shadow-[0_0_50px_oklch(0.78_0.12_75/0.5)]"
             >
-              Book a Consultation
-            </motion.a>
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center px-10 py-4 border border-gold/30 text-gold font-body font-medium text-sm tracking-wide rounded-sm hover:bg-gold/10 hover:border-gold/60 transition-all duration-300 backdrop-blur-sm"
+              <span className="relative z-10">Book a Free Consultation</span>
+              <div className="absolute inset-0 bg-gold-light translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+            </a>
+            <a
+              href="tel:+447584065559"
+              className="inline-flex items-center px-10 py-4 border border-gold/30 text-gold font-body font-medium text-sm tracking-wide rounded-sm hover:bg-gold/10 hover:border-gold/60 transition-all duration-300"
             >
-              Email Us Directly
-            </motion.a>
+              Call Us
+            </a>
           </motion.div>
         </div>
       </section>
