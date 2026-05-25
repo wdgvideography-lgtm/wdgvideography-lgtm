@@ -129,7 +129,7 @@ export default function CTASection() {
         ref={ctaRef}
         className="relative py-28 lg:py-44 overflow-hidden"
       >
-        <div ref={ctaBgRef} className="absolute inset-0 -top-20 -bottom-20">
+        <div ref={ctaBgRef} className="absolute inset-0 -top-20 -bottom-20" style={{ willChange: "transform", transform: "translateZ(0)" }}>
           <img
             src={CTA_BG}
             alt=""
