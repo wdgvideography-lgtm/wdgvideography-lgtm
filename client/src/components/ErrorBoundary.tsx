@@ -4,14 +4,14 @@ import { Component, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
+  /** If true, renders nothing instead of the error UI when a child crashes */
+  silent?: boolean;
 }
 
 interface State {
   hasError: boolean;
   error: Error | null;
 }
-
-const IS_DEV = import.meta.env?.DEV === true;
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
@@ -24,35 +24,23 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: { componentStack: string }) {
-    // Log to console in dev only; swap for a real error service in prod
-    if (IS_DEV) {
-      console.error("[ErrorBoundary]", error, info.componentStack);
-    }
+    // Always log to console — safe, not shown to users, critical for debugging
+    console.error("[WDG ErrorBoundary]", error.message, "\n", error.stack, "\n", info.componentStack);
   }
 
   render() {
     if (this.state.hasError) {
+      if (this.props.silent) return null;
+
       return (
         <div className="flex items-center justify-center min-h-screen p-8 bg-background">
           <div className="flex flex-col items-center w-full max-w-md p-8 text-center">
-            <AlertTriangle
-              size={48}
-              className="text-destructive mb-6 flex-shrink-0"
-            />
-            <h2 className="text-xl font-display text-foreground mb-3">
-              Something went wrong
-            </h2>
+            <AlertTriangle size={48} className="text-destructive mb-6 flex-shrink-0" />
+            <h2 className="text-xl font-display text-foreground mb-3">Something went wrong</h2>
             <p className="text-sm text-muted-foreground font-body mb-6 leading-relaxed">
               We had a small hiccup. Try reloading the page — if it keeps
               happening, get in touch at wdg.videography@gmail.com
             </p>
-            {IS_DEV && this.state.error && (
-              <div className="p-4 w-full rounded bg-muted overflow-auto mb-6 text-left">
-                <pre className="text-xs text-muted-foreground whitespace-break-spaces">
-                  {this.state.error.stack}
-                </pre>
-              </div>
-            )}
             <button
               onClick={() => window.location.reload()}
               className={cn(
@@ -68,7 +56,6 @@ class ErrorBoundary extends Component<Props, State> {
         </div>
       );
     }
-
     return this.props.children;
   }
 }
