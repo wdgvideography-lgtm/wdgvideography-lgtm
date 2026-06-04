@@ -82,6 +82,10 @@
   --sidebar-ring: oklch(0.78 0.12 75);
   --sidebar-primary: oklch(0.78 0.12 75);
   --sidebar-primary-foreground: oklch(0.1 0.005 60);
+  #services {
+  scroll-margin-top: 96px;
+}
+
 }
 
 @layer base {
