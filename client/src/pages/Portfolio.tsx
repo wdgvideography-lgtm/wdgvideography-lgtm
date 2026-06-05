@@ -1,6 +1,15 @@
 /**
  * Portfolio Page — WDG Videography
- * Showcases client work: videos, photos, categories
+ *
+ * VIDEO HOSTING NOTE:
+ * All portfolio videos must be self-hosted. Place your .mp4 files and poster
+ * .jpg thumbnails in /public/portfolio/ and update the `items` array below.
+ *
+ * Each entry needs:
+ *   src:    "/portfolio/your-video.mp4"
+ *   poster: "/portfolio/your-poster.jpg"   (recommended: a 2-second frame)
+ *
+ * The previous base44.app CDN URLs are no longer active (404).
  */
 
 import { useState, useRef, useEffect } from "react";
@@ -10,8 +19,6 @@ import Footer from "@/components/Footer";
 import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
-
-const BASE = "https://base44.app/api/apps/6a0c1534017166f536b1ac32/files/mp/public/6a0c1534017166f536b1ac32/";
 
 type Category = "all" | "brand" | "social" | "event";
 
@@ -25,28 +32,23 @@ interface PortfolioItem {
   aspect: "landscape" | "portrait";
 }
 
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * ADD YOUR VIDEOS HERE
+ * Place files in /public/portfolio/ and reference them as "/portfolio/name.mp4"
+ *
+ * Example:
+ *   { id: "v1", src: "/portfolio/brand-shoot-acme.mp4",
+ *     poster: "/portfolio/brand-shoot-acme-poster.jpg",
+ *     title: "Acme Brand Film", client: "Acme Ltd",
+ *     category: "brand", aspect: "portrait" },
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
 const items: PortfolioItem[] = [
-  { id: "v1",  src: BASE + "41816deb1_1014bd7d9_video_1925110218188544.mp4", poster: BASE + "73ad22d74_v1_2s.jpg",  title: "Project 1",  client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v2",  src: BASE + "7dbc8bb74_a7e2197c8_video_1602615164178826.mp4",  poster: BASE + "15252aff2_v2_2s.jpg",  title: "Project 2",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v3",  src: BASE + "51c2947a9_aa93edc33_video_1643151083626827.mp4",  poster: BASE + "c74ddbb15_v3_2s.jpg",  title: "Project 3",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v4",  src: BASE + "15a13ba50_c5fff6c6b_video_1539403330944160.mp4",  poster: BASE + "f97bdf438_v4_2s.jpg",  title: "Project 4",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v5",  src: BASE + "daeba5ad7_68ebb28ef_video_1310483361190446.mp4",  poster: BASE + "fb21454f7_v5_2s.jpg",  title: "Project 5",  client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v6",  src: BASE + "c672ad863_3f578fb54_video_974261825347290.mp4",   poster: BASE + "0c787f76e_v6_2s.jpg",  title: "Project 6",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v7",  src: BASE + "39b6ed3a7_f96b0bfd8_video_966490356258390.mp4",   poster: BASE + "cac14b694_v7_2s.jpg",  title: "Project 7",  client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v8",  src: BASE + "5f071903d_1d056d128_video_1501162541704998.mp4",  poster: BASE + "0dd80f4a2_v8_2s.jpg",  title: "Project 8",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v9",  src: BASE + "92473ff6f_c9d060f54_video_2445815295857953.mp4",  poster: BASE + "17a933471_v9_2s.jpg",  title: "Project 9",  client: "Client", category: "social", aspect: "portrait" },
-  { id: "v10", src: BASE + "262c16565_fab392c8f_video_1491984292421836.mp4",  poster: BASE + "4d6b7f69f_v10_2s.jpg", title: "Project 10", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v11", src: BASE + "77579e573_3e81c1896_video_2237593870406821.mp4",  poster: BASE + "6d4f5e93b_v11_2s.jpg", title: "Project 11", client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v12", src: BASE + "5db2421e2_0d5a63fde_video_882178007529442.mp4",   poster: BASE + "ae645f10e_v12_2s.jpg", title: "Project 12", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v13", src: BASE + "4c359ed7d_337ede89a_video_4371910569620863.mp4",  poster: BASE + "f78452b32_v13_2s.jpg", title: "Project 13", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v14", src: BASE + "e0cffee09_350df3ecf_video_1511044330651926.mp4",  poster: BASE + "01a91c33b_v14_2s.jpg", title: "Project 14", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v15", src: BASE + "a7b4de805_22f99855f_video_1696811741634391.mp4",  poster: BASE + "008896c79_v15_2s.jpg", title: "Project 15", client: "Client", category: "social", aspect: "portrait" },
-  { id: "v16", src: BASE + "06e4b5166_a033fe743_video_940455922204769.mp4",   poster: BASE + "6168a3e9e_v16_2s.jpg", title: "Project 16", client: "Client", category: "event",  aspect: "portrait" },
-  { id: "v17", src: BASE + "b6ce5a2e4_10f619c48_video_1137230612814887.mp4",  poster: BASE + "2115df38b_v17_2s.jpg", title: "Project 17", client: "Client", category: "brand",  aspect: "portrait" },
-  { id: "v18", src: BASE + "0309432c4_fb303dcb8_video_2144991479757183.mp4",  poster: BASE + "d4b4d7849_v18_2s.jpg", title: "Project 18", client: "Client", category: "event",  aspect: "portrait" },
+  // — paste your entries here —
 ];
 
-// ── Video Card ──────────────────────────────────────────────────────────────
+// ── Video Card ────────────────────────────────────────────────────────────────
 function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -103,7 +105,7 @@ function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void
   );
 }
 
-// ── Lightbox ────────────────────────────────────────────────────────────────
+// ── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -152,7 +154,33 @@ function Lightbox({ item, onClose }: { item: PortfolioItem; onClose: () => void 
   );
 }
 
-// ── Main Page ────────────────────────────────────────────────────────────────
+// ── Empty state ───────────────────────────────────────────────────────────────
+function PortfolioEmpty() {
+  return (
+    <div className="flex flex-col items-center justify-center py-32 px-6 text-center">
+      <div className="w-16 h-px bg-gold/60 mx-auto mb-8" />
+      <p className="text-gold text-xs font-body tracking-[0.3em] uppercase mb-4">
+        Coming Soon
+      </p>
+      <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Portfolio Being Updated
+      </h2>
+      <p className="text-muted-foreground font-body max-w-md leading-relaxed mb-8">
+        Our latest client work is being prepared for this gallery. In the meantime,
+        get in touch to discuss your project — we'd love to show you our work directly.
+      </p>
+      <a
+        href="/contact"
+        className="inline-flex items-center gap-2 px-8 py-3 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)]"
+      >
+        Get In Touch
+      </a>
+      <div className="w-16 h-px bg-gold/60 mx-auto mt-8" />
+    </div>
+  );
+}
+
+// ── Main Page ─────────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
   const [lightboxItem, setLightboxItem] = useState<PortfolioItem | null>(null);
@@ -165,12 +193,14 @@ export default function Portfolio() {
   ];
 
   const filtered = activeCategory === "all" ? items : items.filter(i => i.category === activeCategory);
+  const isEmpty = filtered.length === 0;
 
   return (
     <ErrorBoundary>
       <SEO
         title="Portfolio | WDG Videography"
         description="Our work — brand films, social content and event coverage across the UK."
+        canonicalUrl="https://www.wdgvideography.com/portfolio"
       />
       <div className="min-h-screen bg-zinc-950 text-white">
         <Navbar />
@@ -205,35 +235,41 @@ export default function Portfolio() {
         </section>
 
         {/* Filter Tabs */}
-        <div className="flex justify-center gap-3 px-6 mb-10 flex-wrap">
-          {categories.map(cat => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                activeCategory === cat.key
-                  ? "bg-amber-500 text-black"
-                  : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <section className="max-w-7xl mx-auto px-4 pb-24">
-          <motion.div
-            className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3"
-            layout
-          >
-            {filtered.map(item => (
-              <div key={item.id} className="break-inside-avoid">
-                <VideoCard item={item} onClick={() => setLightboxItem(item)} />
-              </div>
+        {!isEmpty && (
+          <div className="flex justify-center gap-3 px-6 mb-10 flex-wrap">
+            {categories.map(cat => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  activeCategory === cat.key
+                    ? "bg-amber-500 text-black"
+                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                }`}
+              >
+                {cat.label}
+              </button>
             ))}
-          </motion.div>
-        </section>
+          </div>
+        )}
+
+        {/* Grid or Empty State */}
+        {isEmpty ? (
+          <PortfolioEmpty />
+        ) : (
+          <section className="max-w-7xl mx-auto px-4 pb-24">
+            <motion.div
+              className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3"
+              layout
+            >
+              {filtered.map(item => (
+                <div key={item.id} className="break-inside-avoid">
+                  <VideoCard item={item} onClick={() => setLightboxItem(item)} />
+                </div>
+              ))}
+            </motion.div>
+          </section>
+        )}
 
         <Footer />
       </div>

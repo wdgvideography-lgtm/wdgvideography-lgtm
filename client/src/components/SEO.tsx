@@ -18,7 +18,7 @@ interface SEOProps {
 
 const SITE_NAME = "WDG Videography";
 const BASE_URL = "https://www.wdgvideography.com";
-const DEFAULT_OG_IMAGE = `${BASE_URL}/manus-storage/og-image-1200_2a58737c.png`;
+const DEFAULT_OG_IMAGE = `${BASE_URL}/assets/og-image.jpg`;
 const DEFAULT_DESCRIPTION =
   "WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, and full-scale digital marketing. Based in Cheltenham, Gloucestershire.";
 
