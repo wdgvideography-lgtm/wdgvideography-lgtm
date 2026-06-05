@@ -29,7 +29,7 @@ function setSessionItem(key: string, value: string): void {
 }
 
 export default function Home() {
-  const [phase, setPhase] = useState<Phase>("intro");
+  const [phase, setPhase] = useState<Phase>("site");
 
   useEffect(() => {
     if (getSessionItem("wdg-intro-seen")) setPhase("site");
