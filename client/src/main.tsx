@@ -19,7 +19,11 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   if (!isUnauthorized) return;
 
-  window.location.href = getLoginUrl();
+  // Only redirect if an OAuth portal is configured — skip silently for static deployments.
+  const loginUrl = getLoginUrl();
+  if (!loginUrl || loginUrl.startsWith("undefined")) return;
+
+  window.location.href = loginUrl;
 };
 
 queryClient.getQueryCache().subscribe(event => {

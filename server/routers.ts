@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { notifyOwner } from "./_core/notification";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const appRouter = router({
@@ -69,11 +70,23 @@ export const appRouter = router({
           .filter(Boolean)
           .join("\n");
 
-        // Send notification to owner
-        await notifyOwner({
-          title: `New Enquiry: ${serviceLabel} - ${input.firstName} ${input.lastName}`.trim(),
-          content: emailContent,
-        });
+        // Send notification to owner — gracefully degrade if service not configured.
+        // Do NOT leak internal config errors to the client.
+        try {
+          await notifyOwner({
+            title: `New Enquiry: ${serviceLabel} - ${input.firstName} ${input.lastName}`.trim(),
+            content: emailContent,
+          });
+        } catch (err) {
+          // notifyOwner throws TRPCError when env vars are missing, or network errors
+          // when the service is unreachable. Log server-side only, never expose to client.
+          console.error("[contact.submit] Notification delivery failed:", err);
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message:
+              "Your message could not be delivered right now. Please email us directly at wdg.videography@gmail.com or call +44 7584 065559.",
+          });
+        }
 
         return { success: true };
       }),
