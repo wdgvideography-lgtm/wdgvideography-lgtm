@@ -6,8 +6,8 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const CTA_BG   = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/cta-bg-WCke8jvRoA77RQEvuDjxXM.webp";
-const ABOUT_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/about-bg-LoxoCYvwss2gdFWhhP58Sg.webp";
+const CTA_BG   = "/assets/cta-bg.webp";
+const ABOUT_BG = "/assets/about-bg.webp";
 
 export default function CTASection() {
   const ctaSectionRef = useRef<HTMLElement>(null);

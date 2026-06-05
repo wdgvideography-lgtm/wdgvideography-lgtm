@@ -6,7 +6,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/hero-bg-eDByuz2aV74bwBnYkP7UgL.webp";
+const HERO_BG = "/assets/hero-bg.webp";
 
 export default function HeroSection() {
   const parallaxRef = useRef<HTMLDivElement>(null);

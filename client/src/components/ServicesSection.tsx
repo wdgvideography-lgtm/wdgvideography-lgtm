@@ -3,7 +3,7 @@
  * Hardened: removed sectionRef.current! force-cast, null-safe GSAP scope
  */
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 
 interface ServiceTier {

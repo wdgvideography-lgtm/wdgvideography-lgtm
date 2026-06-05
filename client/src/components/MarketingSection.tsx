@@ -6,7 +6,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const MARKETING_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663571760510/79C4qyHCxe8ZKeaXP3ZwkD/marketing-bg-2mbH7FzBg8iW7WUq3LdfyV.webp";
+const MARKETING_BG = "/assets/marketing-bg.webp";
 
 const marketingServices = [
   {
