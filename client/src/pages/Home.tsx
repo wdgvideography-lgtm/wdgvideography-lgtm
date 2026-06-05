@@ -29,10 +29,15 @@ function setSessionItem(key: string, value: string): void {
 }
 
 export default function Home() {
-  const [phase, setPhase] = useState<Phase>("site");
+  // Show intro for first-time visitors; skip straight to site on return visits
+  const [phase, setPhase] = useState<Phase>(
+    getSessionItem("wdg-intro-seen") ? "site" : "intro"
+  );
 
   useEffect(() => {
-    if (getSessionItem("wdg-intro-seen")) setPhase("site");
+    // No-op: initial state already handles the sessionStorage check above.
+    // This effect intentionally left empty so the intro plays on first load
+    // without a flash — the useState initialiser runs synchronously.
   }, []);
 
   const handleIntroComplete  = () => setPhase("camera");

@@ -20,12 +20,22 @@ export const appRouter = router({
     submit: publicProcedure
       .input(
         z.object({
-          firstName: z.string().min(1),
-          lastName: z.string().optional().default(""),
-          email: z.string().email(),
-          phone: z.string().optional().default(""),
-          service: z.string().min(1),
-          message: z.string().min(1),
+          firstName: z.string().min(1).max(100).trim(),
+          lastName: z.string().max(100).trim().optional().default(""),
+          email: z.string().email().max(320).trim(),
+          phone: z.string().max(30).trim().optional().default(""),
+          // Validated against the known service catalogue — rejects arbitrary strings
+          service: z.enum([
+            "consultation",
+            "social-media",
+            "website-design",
+            "content-creation",
+            "brand-building",
+            "basic-service",
+            "business-growth",
+            "bespoke-project",
+          ]),
+          message: z.string().min(10, "Message must be at least 10 characters").max(5000).trim(),
         })
       )
       .mutation(async ({ input }) => {

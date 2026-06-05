@@ -31,13 +31,13 @@ describe("contact.submit", () => {
       email: "john@example.com",
       phone: "+44 7584 065559",
       service: "basic-service",
-      message: "I'd like to book a basic service shoot.",
+      message: "I'd like to book a basic service shoot with WDG.",
     });
 
     expect(result).toEqual({ success: true });
   });
 
-  it("rejects submission with missing required fields", async () => {
+  it("rejects submission with missing first name", async () => {
     const ctx = createPublicContext();
     const caller = appRouter.createCaller(ctx);
 
@@ -46,7 +46,7 @@ describe("contact.submit", () => {
         firstName: "",
         email: "john@example.com",
         service: "basic-service",
-        message: "Test",
+        message: "A valid message here.",
       })
     ).rejects.toThrow();
   });
@@ -60,7 +60,36 @@ describe("contact.submit", () => {
         firstName: "John",
         email: "not-an-email",
         service: "basic-service",
-        message: "Test",
+        message: "A valid message here.",
+      })
+    ).rejects.toThrow();
+  });
+
+  it("rejects submission with unknown service value", async () => {
+    const ctx = createPublicContext();
+    const caller = appRouter.createCaller(ctx);
+
+    await expect(
+      caller.contact.submit({
+        firstName: "John",
+        email: "john@example.com",
+        // @ts-expect-error — intentionally testing invalid enum value
+        service: "hacked-service",
+        message: "A valid message here.",
+      })
+    ).rejects.toThrow();
+  });
+
+  it("rejects message shorter than 10 characters", async () => {
+    const ctx = createPublicContext();
+    const caller = appRouter.createCaller(ctx);
+
+    await expect(
+      caller.contact.submit({
+        firstName: "John",
+        email: "john@example.com",
+        service: "basic-service",
+        message: "Short",
       })
     ).rejects.toThrow();
   });
