@@ -39,7 +39,7 @@ class ErrorBoundary extends Component<Props, State> {
             <h2 className="text-xl font-display text-foreground mb-3">Something went wrong</h2>
             <p className="text-sm text-muted-foreground font-body mb-6 leading-relaxed">
               We had a small hiccup. Try reloading the page — if it keeps
-              happening, get in touch at wdg.videography@gmail.com
+              happening, get in touch at will@wdgvideography.com
             </p>
             <button
               onClick={() => window.location.reload()}

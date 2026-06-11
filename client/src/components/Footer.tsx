@@ -129,10 +129,10 @@ export default function Footer() {
                   </svg>
                 </div>
                 <a
-                  href="mailto:wdg.videography@gmail.com"
+                  href="mailto:will@wdgvideography.com"
                   className="text-sm text-muted-foreground font-body hover:text-gold transition-colors duration-300"
                 >
-                  wdg.videography@gmail.com
+                  will@wdgvideography.com
                 </a>
               </li>
               <li className="flex items-center gap-3 group">

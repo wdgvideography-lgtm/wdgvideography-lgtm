@@ -149,7 +149,7 @@ export default function Navbar() {
                   Book Now
                 </a>
               )}
-              <p className="text-xs text-muted-foreground font-body mt-4">wdg.videography@gmail.com</p>
+              <p className="text-xs text-muted-foreground font-body mt-4">will@wdgvideography.com</p>
             </motion.div>
           </motion.div>
         )}
