@@ -72,6 +72,15 @@ const items: PortfolioItem[] = [
     category: "event",
     aspect: "landscape",
   },
+  {
+    id: "v4",
+    src: "/portfolio/showreel-4.mp4",
+    poster: "/portfolio/poster-1.jpg",
+    title: "Social Reel",
+    client: "WDG Videography",
+    category: "social",
+    aspect: "landscape",
+  },
 ];
 
 // ── Video Card ────────────────────────────────────────────────────────────────
