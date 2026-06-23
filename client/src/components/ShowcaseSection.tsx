@@ -133,10 +133,7 @@ export default function ShowcaseSection() {
                       autoPlay
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
-                      <p className="text-white font-body text-xs font-medium">{v.label}</p>
-                    </div>
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
                   </motion.div>
                 ))}
               </div>
@@ -226,11 +223,7 @@ export default function ShowcaseSection() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <p className="text-white font-body text-sm font-medium">{img.label}</p>
-                      <p className="text-gold text-xs font-body mt-0.5">From £25 / image</p>
-                    </div>
+
                   </motion.div>
                 ))}
               </div>
