@@ -37,10 +37,10 @@ export default function ProcessSection() {
       <div className="container">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16 lg:mb-20"
         >
           <span className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
