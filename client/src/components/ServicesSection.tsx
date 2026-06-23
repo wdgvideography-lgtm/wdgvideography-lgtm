@@ -83,11 +83,11 @@ const services: ServiceTier[] = [
   },
   {
     name: "Product Videography",
-    price: "From £100",
-    numericPrice: 100,
+    price: "From £50",
+    numericPrice: 50,
     serviceId: "product-videography",
     features: [
-      "Shot in our Cheltenham studio",
+      "Quick-cut reel from £50",
       "15-sec social reel from £100",
       "60-sec hero video from £350",
       "Hero video + social cutdowns from £500",
