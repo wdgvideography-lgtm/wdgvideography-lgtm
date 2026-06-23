@@ -135,15 +135,15 @@ function AnimatedPrice({ price, numericPrice }: { price: string; numericPrice: n
 function ServiceCard({ service, index }: { service: ServiceTier; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 80 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{
-        duration: 0.8,
-        delay: index * 0.12,
+        duration: 0.6,
+        delay: index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={{ y: -12, transition: { duration: 0.4, ease: "easeOut" } }}
+      whileHover={{ y: -6, transition: { duration: 0.3, ease: "easeOut" } }}
       className={`relative group rounded-sm border backdrop-blur-sm transition-all duration-500 ${
         service.popular
           ? "border-gold/50 bg-gradient-to-b from-gold/8 to-gold/2 shadow-[0_0_60px_oklch(0.78_0.12_75/0.08)]"
@@ -181,10 +181,10 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
           {service.features.map((feature, i) => (
             <motion.li
               key={i}
-              initial={{ opacity: 0, x: -10 }}
+              initial={{ opacity: 0, x: -6 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 + i * 0.05 + 0.3 }}
+              transition={{ delay: index * 0.05 + i * 0.03 + 0.15 }}
               className="flex items-start gap-3"
             >
               <div className="w-4 h-4 mt-0.5 shrink-0 rounded-full border border-gold/40 flex items-center justify-center">
@@ -229,13 +229,13 @@ export default function ServicesSection() {
 
       <div className="relative container">
         <div className="text-center mb-16 lg:mb-24">
-          <motion.span initial={{ opacity: 0, y: 20, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
+          <motion.span initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
             Our Services
           </motion.span>
-          <motion.h2 initial={{ opacity: 0, y: 30, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }} className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.08 }} className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
             Discover Our Services
           </motion.h2>
-          <motion.p initial={{ opacity: 0, y: 20, filter: "blur(8px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }} className="text-muted-foreground font-body text-lg max-w-2xl mx-auto leading-relaxed">
+          <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.15 }} className="text-muted-foreground font-body text-lg max-w-2xl mx-auto leading-relaxed">
             Structured service tiers designed to scale with your business. From a targeted boost to a complete digital overhaul.
           </motion.p>
         </div>
