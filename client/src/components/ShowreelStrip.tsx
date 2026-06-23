@@ -30,7 +30,7 @@ export default function ShowreelStrip() {
 
       const tl1 = gsap.to(inner, {
         x: -totalWidth,
-        duration: 35,
+        duration: 38,
         ease: "none",
         repeat: -1,
       });
@@ -38,7 +38,7 @@ export default function ShowreelStrip() {
       gsap.set(inner2, { x: -totalWidth2 });
       const tl2 = gsap.to(inner2, {
         x: 0,
-        duration: 40,
+        duration: 38,
         ease: "none",
         repeat: -1,
       });
