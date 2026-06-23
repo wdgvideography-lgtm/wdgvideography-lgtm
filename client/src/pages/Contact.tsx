@@ -16,12 +16,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const serviceOptions = [
   { value: "consultation", label: "Book a Consultation" },
+  { value: "product-photography", label: "Product Photography (From £25/image)" },
+  { value: "product-videography", label: "Product Videography (From £100)" },
   { value: "social-media", label: "Social Media Management" },
   { value: "website-design", label: "Website Design" },
   { value: "content-creation", label: "Content Creation" },
   { value: "brand-building", label: "Brand Building" },
-  { value: "basic-service", label: "Basic Service (From £450)" },
-  { value: "business-growth", label: "Business Growth Service (From £650)" },
+  { value: "basic-service", label: "Basic Service Video (From £450)" },
+  { value: "business-growth", label: "Business Growth Video (From £650)" },
   { value: "bespoke-project", label: "Bespoke Project (From £1,200)" },
 ];
 
