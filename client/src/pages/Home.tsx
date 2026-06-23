@@ -10,6 +10,7 @@ import ServicesSection from "@/components/ServicesSection";
 import ShowreelStrip from "@/components/ShowreelStrip";
 import MarketingSection from "@/components/MarketingSection";
 import ProcessSection from "@/components/ProcessSection";
+import ShowcaseSection from "@/components/ShowcaseSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -74,6 +75,7 @@ export default function Home() {
             <ErrorBoundary silent><Navbar /></ErrorBoundary>
             <ErrorBoundary silent><HeroSection /></ErrorBoundary>
             <ErrorBoundary silent><ServicesSection /></ErrorBoundary>
+            <ErrorBoundary silent><ShowcaseSection /></ErrorBoundary>
             <ErrorBoundary silent><ShowreelStrip /></ErrorBoundary>
             <ErrorBoundary silent><MarketingSection /></ErrorBoundary>
             <ErrorBoundary silent><ProcessSection /></ErrorBoundary>
