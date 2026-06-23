@@ -45,7 +45,15 @@ interface PortfolioItem {
  * ─────────────────────────────────────────────────────────────────────────────
  */
 const items: PortfolioItem[] = [
-  // — paste your entries here —
+  {
+    id: "v1",
+    src: "/portfolio/showreel-1.mp4",
+    poster: "/portfolio/poster-1.jpg",
+    title: "Brand Showreel",
+    client: "WDG Videography",
+    category: "brand",
+    aspect: "landscape",
+  },
 ];
 
 // ── Video Card ────────────────────────────────────────────────────────────────
