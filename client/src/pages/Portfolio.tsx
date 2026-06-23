@@ -38,7 +38,16 @@ interface PortfolioItem {
  * Place files in /public/portfolio/ and reference them as "/portfolio/name.mp4"
  *
  * Example:
- *   { id: "v1", src: "/portfolio/brand-shoot-acme.mp4",
+ *   {
+    id: "v8",
+    src: "/portfolio/showreel-8.mp4",
+    poster: "/portfolio/poster-1.jpg",
+    title: "Film",
+    client: "WDG Videography",
+    category: "brand",
+    aspect: "landscape",
+  },
+  { id: "v1", src: "/portfolio/brand-shoot-acme.mp4",
  *     poster: "/portfolio/brand-shoot-acme-poster.jpg",
  *     title: "Acme Brand Film", client: "Acme Ltd",
  *     category: "brand", aspect: "portrait" },
