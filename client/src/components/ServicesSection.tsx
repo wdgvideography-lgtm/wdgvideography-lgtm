@@ -78,7 +78,20 @@ const services: ServiceTier[] = [
       "5 images from £100",
       "10 images from £175",
       "20 images from £300",
-      "Product video reels from £100",
+      "Photography + video bundles available",
+    ],
+  },
+  {
+    name: "Product Videography",
+    price: "From £100",
+    numericPrice: 100,
+    serviceId: "product-videography",
+    features: [
+      "Shot in our Cheltenham studio",
+      "15-sec social reel from £100",
+      "60-sec hero video from £350",
+      "Hero video + social cutdowns from £500",
+      "360° turntable option available",
     ],
   },
 ];
