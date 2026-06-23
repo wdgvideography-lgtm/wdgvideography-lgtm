@@ -23,7 +23,7 @@ export default function CTASection() {
       ticking = true;
       requestAnimationFrame(() => {
         const rect   = section.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.25;
+        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.12;
         bg.style.transform = `translateZ(0) translateY(${offset}px)`;
         ticking = false;
       });
