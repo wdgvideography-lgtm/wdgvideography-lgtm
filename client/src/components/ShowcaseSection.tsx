@@ -9,12 +9,12 @@ import { motion, AnimatePresence } from "framer-motion";
 type Tab = "photography" | "web";
 
 const productImages = [
-  { src: "/assets/product-whisky.png",   label: "Premium Spirits",   style: "Dark Luxury Studio" },
-  { src: "/assets/product-perfume.png",  label: "Luxury Fragrance",  style: "Clean White Studio" },
-  { src: "/assets/product-skincare.png", label: "Skincare Range",    style: "Moody Lifestyle" },
-  { src: "/assets/product-coffee.png",   label: "Artisan Coffee",    style: "Warm Lifestyle" },
-  { src: "/assets/product-watch.png",    label: "Premium Timepiece", style: "Dramatic Dark Studio" },
-  { src: "/assets/product-handbag.png",  label: "Luxury Fashion",    style: "Pastel Editorial" },
+  { src: "/portfolio/poster-1.jpg",  label: "Brand Showreel",     style: "WDG Videography" },
+  { src: "/portfolio/poster-2.jpg",  label: "Brand Film",          style: "WDG Videography" },
+  { src: "/portfolio/poster-5.jpg",  label: "Social Content",      style: "WDG Videography" },
+  { src: "/portfolio/poster-6.jpg",  label: "Social Reel",         style: "WDG Videography" },
+  { src: "/portfolio/poster-7.jpg",  label: "Cinematic Film",      style: "WDG Videography" },
+  { src: "/portfolio/poster-10.jpg", label: "Event Coverage",      style: "WDG Videography" },
 ];
 
 const webProjects = [
