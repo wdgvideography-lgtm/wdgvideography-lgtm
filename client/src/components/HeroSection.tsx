@@ -22,7 +22,7 @@ export default function HeroSection() {
         const y = window.scrollY;
         if (parallaxRef.current) {
           // Parallax: move bg at 40% of scroll speed
-          parallaxRef.current.style.transform = `translateZ(0) translateY(${y * 0.4}px)`;
+          parallaxRef.current.style.transform = `translateZ(0) translateY(${y * 0.25}px)`;
         }
         if (headingRef.current) {
           // Heading fades and rises as user scrolls
