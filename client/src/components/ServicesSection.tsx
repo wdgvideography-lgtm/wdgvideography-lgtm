@@ -135,13 +135,13 @@ function AnimatedPrice({ price, numericPrice }: { price: string; numericPrice: n
 function ServiceCard({ service, index }: { service: ServiceTier; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{
-        duration: 0.6,
-        delay: index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 0.75,
+        delay: index * 0.1,
+        ease: [0.16, 1, 0.3, 1],
       }}
       whileHover={{ y: -6, transition: { duration: 0.3, ease: "easeOut" } }}
       className={`relative group rounded-sm border backdrop-blur-sm transition-all duration-500 ${
@@ -152,10 +152,10 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
     >
       {service.popular && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, type: "spring" }}
+          transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-gold text-primary-foreground text-[10px] font-body font-bold tracking-[0.2em] uppercase rounded-sm shadow-[0_4px_20px_oklch(0.78_0.12_75/0.3)]"
         >
           Most Popular
@@ -181,10 +181,10 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
           {service.features.map((feature, i) => (
             <motion.li
               key={i}
-              initial={{ opacity: 0, x: -6 }}
+              initial={{ opacity: 0, x: -4 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.05 + i * 0.03 + 0.15 }}
+              transition={{ delay: index * 0.1 + i * 0.04 + 0.2, duration: 0.4, ease: "easeOut" }}
               className="flex items-start gap-3"
             >
               <div className="w-4 h-4 mt-0.5 shrink-0 rounded-full border border-gold/40 flex items-center justify-center">
