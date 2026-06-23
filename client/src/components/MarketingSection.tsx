@@ -45,7 +45,7 @@ export default function MarketingSection() {
       ticking = true;
       requestAnimationFrame(() => {
         const rect   = section.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.2;
+        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.12;
         image.style.transform = `translateZ(0) translateY(${offset}px)`;
         ticking = false;
       });
