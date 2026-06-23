@@ -68,6 +68,19 @@ const services: ServiceTier[] = [
       "Price depends on each project",
     ],
   },
+  {
+    name: "Product Photography",
+    price: "From £25/image",
+    numericPrice: 25,
+    serviceId: "product-photography",
+    features: [
+      "Studio-lit, professionally edited",
+      "5 images from £100",
+      "10 images from £175",
+      "20 images from £300",
+      "Product video reels from £100",
+    ],
+  },
 ];
 
 function AnimatedPrice({ price, numericPrice }: { price: string; numericPrice: number }) {
@@ -214,7 +227,7 @@ export default function ServicesSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-5">
           {services.map((service, index) => (
             <ServiceCard key={service.name} service={service} index={index} />
           ))}
@@ -223,3 +236,4 @@ export default function ServicesSection() {
     </section>
   );
 }
+
