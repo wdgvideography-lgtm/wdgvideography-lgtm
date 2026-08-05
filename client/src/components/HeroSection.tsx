@@ -1,54 +1,20 @@
 /**
  * Hero Section — Noir Cinema Design
- * Parallax: pure CSS transform via single passive scroll listener (no GSAP on scroll path)
+ * Parallax removed for natural scroll flow. Static background, framer-motion entrance only.
  */
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const HERO_BG = "/assets/hero-bg.webp";
 
 export default function HeroSection() {
-  const parallaxRef = useRef<HTMLDivElement>(null);
-  const headingRef  = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (parallaxRef.current) {
-          // Parallax: move bg at 40% of scroll speed
-          parallaxRef.current.style.transform = `translateZ(0) translateY(${y * 0.25}px)`;
-        }
-        if (headingRef.current) {
-          // Heading fades and rises as user scrolls
-          const progress = Math.min(y / (window.innerHeight * 0.6), 1);
-          headingRef.current.style.transform = `translateZ(0) translateY(${-progress * 80}px)`;
-          headingRef.current.style.opacity = String(1 - progress);
-        }
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <section
       id="home"
       className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
     >
-      {/* Parallax Background */}
-      <div
-        ref={parallaxRef}
-        className="absolute inset-0 -top-24 -bottom-24 scale-110"
-        style={{ willChange: "transform", transform: "translateZ(0)" }}
-      >
+      {/* Background */}
+      <div className="absolute inset-0 -top-24 -bottom-24 scale-110">
         <img
           src={HERO_BG}
           alt="Cinematic production studio"
@@ -68,11 +34,7 @@ export default function HeroSection() {
       }} />
 
       {/* Content */}
-      <div
-        ref={headingRef}
-        className="relative z-10 container pt-20"
-        style={{ willChange: "transform, opacity" }}
-      >
+      <div className="relative z-10 container pt-20">
         <div className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
