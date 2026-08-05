@@ -1,38 +1,14 @@
 /**
  * CTA Section — Noir Cinema Design
- * Parallax via passive scroll listener only. No GSAP.
+ * Parallax removed for natural scroll flow. Static background, framer-motion entrance only.
  */
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const CTA_BG   = "/assets/cta-bg.webp";
 const ABOUT_BG = "/assets/about-bg.webp";
 
 export default function CTASection() {
-  const ctaSectionRef = useRef<HTMLElement>(null);
-  const ctaBgRef      = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = ctaSectionRef.current;
-    const bg      = ctaBgRef.current;
-    if (!section || !bg) return;
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const rect   = section.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.12;
-        bg.style.transform = `translateZ(0) translateY(${offset}px)`;
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <>
       {/* About Section */}
@@ -71,8 +47,8 @@ export default function CTASection() {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" ref={ctaSectionRef} className="relative py-28 lg:py-44 overflow-hidden">
-        <div ref={ctaBgRef} className="absolute inset-0 -top-20 -bottom-20" style={{ willChange: "transform", transform: "translateZ(0)" }}>
+      <section id="contact" className="relative py-28 lg:py-44 overflow-hidden">
+        <div className="absolute inset-0 -top-20 -bottom-20">
           <img src={CTA_BG} alt="" aria-hidden="true" className="w-full h-full object-cover"
                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
         </div>
