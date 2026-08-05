@@ -1,9 +1,8 @@
 /**
  * Marketing Management Section — Noir Cinema Design
- * Parallax: pure CSS via passive scroll listener, no GSAP on scroll path
+ * Parallax removed for natural scroll flow. Static background, framer-motion entrance only.
  */
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const MARKETING_BG = "/assets/marketing-bg.webp";
@@ -32,37 +31,10 @@ const marketingServices = [
 ];
 
 export default function MarketingSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const imageRef   = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    const image   = imageRef.current;
-    if (!section || !image) return;
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const rect   = section.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.12;
-        image.style.transform = `translateZ(0) translateY(${offset}px)`;
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <section id="marketing" ref={sectionRef} className="relative py-28 lg:py-36 overflow-hidden">
+    <section id="marketing" className="relative py-28 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div
-          ref={imageRef}
-          className="absolute inset-0 -top-20 -bottom-20"
-          style={{ willChange: "transform", transform: "translateZ(0)" }}
-        >
+        <div className="absolute inset-0 -top-20 -bottom-20">
           <img
             src={MARKETING_BG}
             alt=""
