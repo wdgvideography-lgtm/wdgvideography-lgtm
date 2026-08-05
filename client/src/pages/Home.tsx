@@ -70,7 +70,7 @@ export default function Home() {
 
       {phase === "site" && (
         <SmoothScroll>
-          <div className="relative min-h-screen bg-background overflow-hidden">
+          <div className="relative min-h-screen bg-background overflow-x-hidden">
             <ErrorBoundary silent><FilmGrainOverlay /></ErrorBoundary>
             <ErrorBoundary silent><Navbar /></ErrorBoundary>
             <ErrorBoundary silent><HeroSection /></ErrorBoundary>
