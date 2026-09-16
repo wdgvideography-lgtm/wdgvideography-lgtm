@@ -14,6 +14,7 @@ const navLinks = [
   { label: "Marketing", href: "/#marketing" },
   { label: "About",     href: "/#about" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Apps",      href: "/app-development" },
   { label: "Contact",   href: "/contact" },
 ];
 

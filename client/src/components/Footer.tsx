@@ -11,6 +11,7 @@ const quickLinks = [
   { label: "Marketing", href: "#marketing" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
+  { label: "App Development", href: "/app-development" },
 ];
 
 const socialLinks = [

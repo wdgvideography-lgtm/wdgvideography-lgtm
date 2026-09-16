@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { trpc } from "@/lib/trpc";
+const ENQUIRY_ENDPOINT = "https://assistant-36b1ac32.base44.app/functions/wdgSiteEnquiry";
 import { useSearch } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +20,7 @@ const serviceOptions = [
   { value: "product-videography", label: "Product Videography (From £100)" },
   { value: "social-media", label: "Social Media Management" },
   { value: "website-design", label: "Website Design" },
+  { value: "app-development", label: "App Development" },
   { value: "content-creation", label: "Content Creation" },
   { value: "brand-building", label: "Brand Building" },
   { value: "basic-service", label: "Basic Service Video (From £450)" },
@@ -51,15 +52,8 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const submitMutation = trpc.contact.submit.useMutation({
-    onSuccess: () => {
-      setSubmitted(true);
-      setError("");
-    },
-    onError: (err: any) => {
-      setError(err.message || "Something went wrong. Please try again.");
-    },
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,14 +81,39 @@ export default function Contact() {
       return;
     }
 
-    submitMutation.mutate(formData);
+    setSubmitting(true);
+    fetch(ENQUIRY_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName: formData.firstName.trim(),
+        lastName: (formData.lastName || "").trim(),
+        email: formData.email.trim(),
+        phone: (formData.phone || "").trim(),
+        service: formData.service,
+        message: formData.message.trim(),
+        source: "contact",
+        honeypot,
+      }),
+    })
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data?.success !== true) {
+          setError(data?.error || "Something went wrong. Please try again.");
+          return;
+        }
+        setSubmitted(true);
+        setError("");
+      })
+      .catch(() => setError("Network error — please check your connection and try again."))
+      .finally(() => setSubmitting(false));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const isPending = submitMutation.isPending ?? (submitMutation as any).isLoading ?? false;
+  const isPending = submitting;
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
@@ -136,6 +155,9 @@ export default function Contact() {
                 noValidate
                 className="space-y-6"
               >
+            <input type="text" name="company_website" value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-body text-muted-foreground mb-2">

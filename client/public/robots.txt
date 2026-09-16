@@ -5,6 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /__manus__/
+Disallow: /meta-auth
 
 # Sitemap
 Sitemap: https://www.wdgvideography.com/sitemap.xml

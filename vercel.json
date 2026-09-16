@@ -28,7 +28,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://assistant-36b1ac32.base44.app; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
         }
       ]
     },
@@ -77,8 +77,19 @@
       "destination": "/sitemap.xml"
     },
     {
+      "source": "/llms.txt",
+      "destination": "/llms.txt"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/meta-auth",
+      "destination": "https://www.facebook.com/v21.0/dialog/oauth?client_id=4726644814224955&redirect_uri=https%3A%2F%2Fapi.base44.com%2Fapps%2F6a68569f7eaa12ac44f2fae2%2Ffunctions%2FmetaOAuthCallback&scope=ads_management%2Cads_read%2Cpages_show_list%2Cpages_read_engagement%2Cpages_manage_metadata%2Cpages_manage_posts%2Cbusiness_management%2Cinstagram_basic%2Cinstagram_content_publish%2Cpublic_profile&response_type=code",
+      "permanent": false
     }
   ]
 }

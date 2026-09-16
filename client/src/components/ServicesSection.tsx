@@ -244,6 +244,36 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <ServiceCard key={service.name} service={service} index={index} />
           ))}
+
+          <motion.a
+            href="/app-development"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.75, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ y: -6 }}
+            className="md:col-span-2 xl:col-span-3 group relative rounded-sm border border-gold/50 bg-gradient-to-r from-gold/10 via-gold/5 to-transparent p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all duration-500 hover:border-gold/70 hover:shadow-[0_0_60px_oklch(0.78_0.12_75/0.12)]"
+          >
+            <div className="flex-1">
+              <span className="inline-block text-[10px] font-body text-gold tracking-[0.25em] uppercase mb-3">
+                New Service · WDG Software Division
+              </span>
+              <h3 className="font-display text-xl lg:text-2xl font-semibold text-foreground mb-2 group-hover:text-gold transition-colors duration-300">
+                Custom App Development
+              </h3>
+              <p className="text-sm text-muted-foreground font-body leading-relaxed max-w-xl">
+                We design and build custom business apps — farm management, restaurant
+                operations, client portals, AI tools. Real apps, live and in use today.
+                See the software we've built.
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm group-hover:bg-gold-light transition-all duration-300 shrink-0">
+              Explore Our Apps
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
+          </motion.a>
         </div>
       </div>
     </section>

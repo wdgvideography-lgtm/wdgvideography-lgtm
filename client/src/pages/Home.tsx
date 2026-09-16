@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
+import AppDevSection from "@/components/AppDevSection";
 import ShowreelStrip from "@/components/ShowreelStrip";
 import MarketingSection from "@/components/MarketingSection";
 import ProcessSection from "@/components/ProcessSection";
@@ -51,8 +52,8 @@ export default function Home() {
     <>
       <SEO
         title="Cinematic Video Production & Marketing in Cheltenham"
-        description="WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, and full-scale digital marketing. Based in Cheltenham, Gloucestershire."
-        keywords="videography Cheltenham, video production Gloucestershire, cinematic video production, brand videos, social media content creation, corporate video, promotional video, marketing agency Cheltenham, website design Cheltenham, digital marketing Gloucestershire, WDG Videography"
+        description="WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, custom app development, and full-scale digital marketing. Based in Cheltenham, Gloucestershire."
+        keywords="videography Cheltenham, app development Cheltenham, video production Gloucestershire, cinematic video production, brand videos, social media content creation, corporate video, promotional video, marketing agency Cheltenham, website design Cheltenham, digital marketing Gloucestershire, WDG Videography"
         canonicalUrl="https://www.wdgvideography.com/"
       />
 
@@ -75,6 +76,7 @@ export default function Home() {
             <ErrorBoundary silent><Navbar /></ErrorBoundary>
             <ErrorBoundary silent><HeroSection /></ErrorBoundary>
             <ErrorBoundary silent><ServicesSection /></ErrorBoundary>
+            <ErrorBoundary silent><AppDevSection /></ErrorBoundary>
             <ErrorBoundary silent><ShowcaseSection /></ErrorBoundary>
             <ErrorBoundary silent><ShowreelStrip /></ErrorBoundary>
             <ErrorBoundary silent><MarketingSection /></ErrorBoundary>

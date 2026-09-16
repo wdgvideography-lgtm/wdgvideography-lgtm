@@ -35,6 +35,9 @@ export const appRouter = router({
             "basic-service",
             "business-growth",
             "bespoke-project",
+            "product-photography",
+            "product-videography",
+            "app-development",
           ]),
           message: z.string().min(10, "Message must be at least 10 characters").max(5000).trim(),
         })
@@ -49,6 +52,9 @@ export const appRouter = router({
           "basic-service": "Basic Service (From £450)",
           "business-growth": "Business Growth Service (From £650)",
           "bespoke-project": "Bespoke Project (From £1,200)",
+          "product-photography": "Product Photography (From £25/image)",
+          "product-videography": "Product Videography (From £100)",
+          "app-development": "Custom App Development",
         };
 
         const serviceLabel = serviceLabels[input.service] || input.service;
