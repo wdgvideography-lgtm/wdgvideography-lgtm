@@ -151,8 +151,8 @@ export default function Portfolio() {
     <ErrorBoundary>
       <div className="min-h-screen bg-background text-foreground">
         <SEO
-          title="Portfolio | WDG Videography"
-          description="Browse WDG Videography's full portfolio of brand films, social reels, and event coverage across England."
+          title="Video Portfolio — Brand Films, Reels & Event Videos"
+          description="Browse WDG Videography's portfolio of cinematic brand films, social media reels, product videos and event coverage, filmed across Cheltenham, Gloucestershire and England."
         />
         <FilmGrainOverlay />
         <Navbar />
