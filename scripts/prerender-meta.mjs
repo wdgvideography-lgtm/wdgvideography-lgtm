@@ -19,6 +19,11 @@ const routes = {
     desc: "Get in touch with WDG Videography for cinematic video production, brand videos, social media content, website design, and digital marketing services in Cheltenham, Gloucestershire. Free consultation available.",
   },
 };
+// Service pages: read titles/descriptions from the shared data file
+const svcSrc = fs.readFileSync(path.resolve("client/src/data/servicePages.ts"), "utf8");
+for (const m of svcSrc.matchAll(/slug: "([^"]+)"[\s\S]*?seoTitle:\s*"([^"]+)",\s*seoDescription:\s*"([^"]+)"/g)) {
+  routes[m[1]] = { title: `${m[2]} | WDG Videography`, desc: m[3] };
+}
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 for (const [slug, m] of Object.entries(routes)) {
   const url = `${SITE}/${slug}`;

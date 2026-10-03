@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Portfolio from "./pages/Portfolio";
 import AppDevelopment from "./pages/AppDevelopment";
+import ServicePage from "./pages/ServicePage";
+import { servicePages } from "./data/servicePages";
 
 function Router() {
   return (
@@ -17,6 +19,9 @@ function Router() {
       <Route path={"/contact"} component={Contact} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/app-development"} component={AppDevelopment} />
+      {servicePages.map((p) => (
+        <Route key={p.slug} path={`/${p.slug}`}>{() => <ServicePage slug={p.slug} />}</Route>
+      ))}
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

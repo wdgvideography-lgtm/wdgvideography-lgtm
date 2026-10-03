@@ -12,6 +12,11 @@ const quickLinks = [
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
   { label: "App Development", href: "/app-development" },
+  { label: "Video Production", href: "/video-production" },
+  { label: "Product Photography", href: "/product-photography" },
+  { label: "Product Videography", href: "/product-videography" },
+  { label: "Website Design", href: "/website-design" },
+  { label: "Social Media Marketing", href: "/social-media-marketing" },
 ];
 
 const socialLinks = [

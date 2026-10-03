@@ -207,6 +207,12 @@ function ServiceCard({ service, index }: { service: ServiceTier; index: number }
         >
           Request a Booking
         </a>
+        <a
+          href={({"basic-service":"/video-production","business-growth":"/video-production","bespoke-project":"/video-production","website-design":"/website-design","product-photography":"/product-photography","product-videography":"/product-videography"} as Record<string,string>)[service.serviceId] || "/video-production"}
+          className="block mt-3 text-center text-xs font-body text-muted-foreground hover:text-gold transition-colors"
+        >
+          Learn more about {service.name.toLowerCase()} →
+        </a>
       </div>
 
       <div className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
