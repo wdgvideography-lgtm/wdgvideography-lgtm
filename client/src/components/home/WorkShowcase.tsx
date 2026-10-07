@@ -11,7 +11,7 @@ const PROJECTS: Project[] = [
   { file: "harvest-sunset", title: "Harvest", client: "Gloucestershire farm", type: "Drone & ground film" },
   { file: "butchery", title: "Teddington’s", client: "Farm shop & butchery", type: "Brand film", portrait: true },
   { file: "amc-truck", title: "AMC Transport", client: "Haulage & drainage", type: "Aerial promo" },
-  { file: "dining", title: "The Longhorn", client: "Restaurant", type: "Venue reel", portrait: true },
+  { file: "longhorn-grill", title: "The Longhorn", client: "Restaurant & bar", type: "Venue reel", portrait: true },
   { file: "tack-shop", title: "Tack shop", client: "Equestrian retail", type: "Brand film" },
   { file: "club-one", title: "Club One", client: "Nightclub", type: "Venue film" },
 ];
@@ -27,6 +27,9 @@ export default function WorkShowcase() {
   const bar = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
+  const debug = useRef<HTMLPreElement>(null);
+  const showDebug = typeof window !== "undefined" && window.location.search.includes("debug");
+  const errors = useRef<string[]>([]);
 
   useEffect(() => {
     let raf = 0;
@@ -61,7 +64,10 @@ export default function WorkShowcase() {
         vids.current.forEach((v, i) => {
           if (!v) return;
           const on = near && Math.abs(i - f) < 0.75;
-          if (on) playVideo(v); else pauseVideo(v);
+          if (on) {
+            if (v.paused && showDebug) v.play().catch((e) => { const m = `${i + 1}: ${e.name} ${e.message}`; if (!errors.current.includes(m)) errors.current.push(m); });
+            else playVideo(v);
+          } else pauseVideo(v);
           // Draw the frame onto the card's canvas: sidesteps browsers that refuse to repaint <video> inside transformed cards.
           const c = canvases.current[i];
           if (on && c && v.readyState >= 2 && v.videoWidth) {
@@ -70,6 +76,12 @@ export default function WorkShowcase() {
           }
         });
         if (bar.current) bar.current.style.transform = `scaleX(${p})`;
+        if (showDebug && debug.current) {
+          const buf = (v: HTMLVideoElement) => { try { return v.buffered.length ? v.buffered.end(v.buffered.length - 1).toFixed(1) : "0"; } catch { return "?"; } };
+          debug.current.textContent = `p=${p.toFixed(2)} f=${f.toFixed(2)} near=${near} ua=${navigator.userAgent.slice(-60)}\n` +
+            vids.current.map((v, i) => v ? `${i + 1} ${PROJECTS[i].file}: paused=${v.paused} ready=${v.readyState} net=${v.networkState} t=${v.currentTime.toFixed(2)} buf=${buf(v)} ${v.videoWidth}x${v.videoHeight} err=${v.error ? v.error.code + " " + v.error.message : "none"}` : `${i + 1} -`).join("\n") +
+            (errors.current.length ? "\nplay(): " + errors.current.join(" | ") : "");
+        }
       }
       raf = requestAnimationFrame(tick);
     };
@@ -131,6 +143,7 @@ export default function WorkShowcase() {
           </div>
           <a href="/portfolio" className="pill !bg-white !text-foreground hover:!bg-gold">Full portfolio →</a>
         </div>
+        {showDebug && <pre ref={debug} className="fixed left-2 top-20 z-[100] text-[11px] leading-snug text-lime-300 bg-black/85 p-3 rounded-md max-w-[95vw] overflow-auto whitespace-pre-wrap" />}
         <div className="absolute left-0 right-0 bottom-0 h-[2px] bg-white/10"><div ref={bar} className="h-full bg-gold origin-left" style={{ transform: "scaleX(0)" }} /></div>
       </div>
     </section>
