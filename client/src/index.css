@@ -209,6 +209,7 @@
 @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 @keyframes scene-in { from { opacity: 0; transform: translateY(18px); } }
 @keyframes cut-flash { 0% { opacity: .35; } 100% { opacity: 0; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } * { animation-duration: .01ms !important; } }
 
 /* Websites: full-page screenshot drifts up inside its browser frame while the panel is in view */

@@ -1,4 +1,4 @@
-/** Marquee, Apps, Process and the closing call to action. */
+/** Marquee and Apps. */
 import { useReveal } from "@/hooks/useReveal";
 
 const ITEMS = ["Brand films", "Social reels", "Drone", "Websites", "Food & venue", "Farm & land", "Product video", "Apps"];
@@ -54,46 +54,3 @@ export function Apps() {
   );
 }
 
-const STEPS = [
-  ["Consultation", "We talk through your business, goals and audience, then come back with ideas and a fixed price."],
-  ["Pre-production", "Storyboard, shot list, locations and a filming date that suits you."],
-  ["Production", "A calm, well-planned shoot day with cinema cameras, lighting and drone where it helps."],
-  ["Post & delivery", "Edit, colour grade, music and captions. Files delivered ready to post and ready for your website."],
-];
-
-export function Process() {
-  const ref = useReveal<HTMLElement>();
-  return (
-    <section ref={ref} id="process" className="px-5 sm:px-8 lg:px-14 py-[12vh] hairline">
-      <div className="rv flex flex-wrap items-end justify-between gap-6 mb-12">
-        <h2 className="display text-[clamp(40px,5vw,84px)]">How a project <i>runs</i>.</h2>
-        <span className="eyebrow">04 · Process</span>
-      </div>
-      <ol className="grid gap-px bg-border md:grid-cols-4 rounded-2xl overflow-hidden border border-border">
-        {STEPS.map(([t, d], i) => (
-          <li key={t} className="rv bg-card p-7 lg:p-9" style={{ transitionDelay: `${i * 90}ms` }}>
-            <span className="font-display text-[56px] leading-none text-gold">0{i + 1}</span>
-            <h3 className="text-xl font-semibold mt-5 mb-2">{t}</h3>
-            <p className="text-muted-foreground text-[15px]">{d}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
-export function CTA() {
-  const ref = useReveal<HTMLElement>();
-  return (
-    <section ref={ref} id="contact" className="mx-3 sm:mx-5 lg:mx-8 mt-[6vh] rounded-t-[28px] text-white px-6 sm:px-10 lg:px-16 pt-[16vh] pb-[12vh]" style={{ background: "oklch(0.17 0.01 60)" }}>
-      <h2 className="rv display text-[clamp(60px,12vw,220px)] leading-[.85] tracking-[-.05em]">Let’s make<br />something <i>good</i>.</h2>
-      <div className="rv flex flex-wrap justify-between items-end gap-6 mt-[8vh]">
-        <p className="max-w-[420px] text-white/70">Tell us about your business. We’ll come back with ideas and a fixed, no-obligation price.</p>
-        <div className="flex flex-wrap gap-3">
-          <a href="/contact" className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
-          <a href="tel:+447584065559" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">+44 7584 065559</a>
-        </div>
-      </div>
-    </section>
-  );
-}

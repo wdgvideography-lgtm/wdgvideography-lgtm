@@ -13,7 +13,9 @@ import Websites from "@/components/home/Websites";
 import PhoneFan from "@/components/home/PhoneFan";
 import ColourGrade from "@/components/home/ColourGrade";
 import Services from "@/components/home/Services";
-import { Marquee, Apps, Process, CTA } from "@/components/home/Closing";
+import { Marquee, Apps } from "@/components/home/Closing";
+import Process from "@/components/home/Process";
+import CTA from "@/components/home/CTA";
 
 export default function Home() {
   return (
