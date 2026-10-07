@@ -15,12 +15,12 @@ const STEPS = [
 const N = STEPS.length;
 
 const BOARD = [
-  { img: "/media/tractor-wide.jpg", note: "1A · Drone establishing, golden hour" },
-  { img: "/media/butchery.jpg", note: "2B · Counter, hands at work, 50mm" },
-  { img: "/media/tack-shop.jpg", note: "3A · Owner interview, natural light" },
-  { img: "/media/dining.jpg", note: "4C · Slow push through the room" },
-  { img: "/media/amc-truck.jpg", note: "5A · Aerial track, vehicle in motion" },
-  { img: "/media/club-one.jpg", note: "6B · Detail pass, shallow focus" },
+  { img: "/media/harvest-wide.jpg", note: "1A · Drone: harvest fields, establishing shot" },
+  { img: "/media/herd.jpg", note: "1B · The herd at the fence, handheld" },
+  { img: "/media/feed.jpg", note: "1C · Close-up: cattle feeding" },
+  { img: "/media/butchery.jpg", note: "2A · Farm shop sign and entrance" },
+  { img: "/media/mince.jpg", note: "2B · Butchery: mince and cuts, detail" },
+  { img: "/media/dining.jpg", note: "3A · Slow push through the restaurant" },
 ];
 
 function Brief() {
@@ -28,10 +28,10 @@ function Brief() {
     <div className="p-6 sm:p-8 text-[14px] sm:text-[15px] leading-relaxed">
       <div className="flex items-center justify-between text-[11px] font-mono tracking-[.14em] text-black/45 mb-5"><span>ENQUIRY</span><span>FORM · WDGVIDEOGRAPHY.COM</span></div>
       <div className="rounded-2xl bg-black/[.05] p-4 sm:p-5 max-w-[88%]">
-        <p className="text-black/85">Hi Will. We run a farm shop and butchery near Tewkesbury. We’ve just refitted the shop and want people to see what we actually do: the farm, the counter, the people. Instagram mostly, but the website needs it too.</p>
+        <p className="text-black/85">Hi Will. We run a farm shop, butchery and restaurant near Tewkesbury, with our own herd. We want people to see the whole story: the fields, the counter, the plate. Instagram mostly, but the website needs it too.</p>
       </div>
       <div className="rounded-2xl bg-[#1b1a18] text-white/90 p-4 sm:p-5 max-w-[88%] ml-auto mt-4">
-        <p>Love this. Half a day on the farm at first light for the drone, then the counter and the team mid-morning when the light comes through the front windows.</p>
+        <p>Love this. Half a day: the fields and herd at first light for the drone, then the shop and butchery mid-morning, and the restaurant as it's set for lunch.</p>
         <p className="mt-3">You’d get a 2-minute brand film for the site and five vertical reels for Instagram, graded to match. <span className="text-gold">Fixed price £650</span>, no surprises.</p>
       </div>
       <div className="flex items-center gap-2 mt-5 text-[12px] text-black/50"><span className="w-2 h-2 rounded-full bg-[#28c840]" />Fixed price agreed · shoot booked</div>
@@ -58,11 +58,11 @@ function Storyboard() {
 
 function CallSheet() {
   const rows = [
-    ["06:40", "Sunrise", "Drone: fields, herd, approach to the farm"],
-    ["08:00", "Yard", "Tractor and feed run, handheld + gimbal"],
-    ["09:30", "Shop", "Counter, hands, product details, 50mm"],
+    ["06:40", "Fields", "Drone: harvest, the herd, approach to the farm"],
+    ["08:00", "Farm", "Herd at the fence, feeding, handheld + gimbal"],
+    ["09:30", "Shop", "Sign and entrance, counter, mince and cuts, 50mm"],
     ["10:30", "Shop", "Owner interview, two angles, lav mic"],
-    ["11:30", "Café", "Customers, plates, the room, slow pushes"],
+    ["11:30", "Restaurant", "The room set for lunch, plates, slow pushes"],
     ["12:30", "Wrap", "Backup cards on site, drive home"],
   ];
   return (
@@ -89,11 +89,11 @@ function CallSheet() {
 function Delivery() {
   const files = [
     ["Brand_Film_16x9_2m04.mp4", "graded · captions · music licensed"],
-    ["Reel_01_Sunrise.mp4", "9:16 · 18s"],
-    ["Reel_02_Counter.mp4", "9:16 · 22s"],
-    ["Reel_03_Owner.mp4", "9:16 · 27s"],
-    ["Reel_04_Cafe.mp4", "9:16 · 15s"],
-    ["Reel_05_Herd.mp4", "9:16 · 19s"],
+    ["Reel_01_Harvest.mp4", "9:16 · 18s"],
+    ["Reel_02_Herd.mp4", "9:16 · 22s"],
+    ["Reel_03_Butchery.mp4", "9:16 · 27s"],
+    ["Reel_04_Owner.mp4", "9:16 · 15s"],
+    ["Reel_05_Restaurant.mp4", "9:16 · 19s"],
     ["Website_Hero_Loop.mp4", "1080p · 8s · silent"],
     ["Stills/ (24 images)", "web + print sizes"],
   ];
