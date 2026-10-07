@@ -1,6 +1,6 @@
 /** ColourGrade — drag between the flat camera file and the finished grade. */
 import { useEffect, useRef } from "react";
-import { clamp, useReveal } from "@/hooks/useReveal";
+import { clamp, useReveal, playVideo, pauseVideo } from "@/hooks/useReveal";
 
 export default function ColourGrade() {
   const box = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ export default function ColourGrade() {
     let swept = false;
     const io = new IntersectionObserver((es) => {
       const e = es[0];
-      b.querySelectorAll("video").forEach((v) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()));
+      b.querySelectorAll("video").forEach((v) => (e.isIntersecting ? playVideo(v) : pauseVideo(v)));
       if (e.isIntersecting && !swept) {
         swept = true;
         const s = performance.now();

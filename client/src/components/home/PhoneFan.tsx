@@ -1,6 +1,6 @@
 /** PhoneFan — five phones playing reels fan out as you scroll. */
 import { useEffect, useRef } from "react";
-import { clamp, easeInOut, prefersReducedMotion } from "@/hooks/useReveal";
+import { clamp, easeInOut, prefersReducedMotion, playVideo, pauseVideo } from "@/hooks/useReveal";
 
 const REELS = [["dining", "Restaurant"], ["cattle", "The Longhorn"], ["butchery", "Teddington’s"], ["combine", "Harvest"], ["mince", "Butchery reel"]];
 
@@ -25,7 +25,7 @@ export default function PhoneFan() {
           e.style.transform = `translateX(${k * sp * fp}px) translateY(${Math.abs(k) * 28 * fp}px) rotate(${k * 7 * fp}deg) scale(${1 - Math.abs(k) * 0.04 * fp})`;
           e.style.zIndex = String(10 - Math.abs(k));
         });
-        vids.current.forEach((v) => { if (!v) return; if (near && v.paused) v.play().catch(() => {}); if (!near && !v.paused) v.pause(); });
+        vids.current.forEach((v) => (near ? playVideo(v) : pauseVideo(v)));
       }
       raf = requestAnimationFrame(tick);
     };

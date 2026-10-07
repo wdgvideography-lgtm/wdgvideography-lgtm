@@ -3,7 +3,7 @@
  * knocked out of ink, with footage running through the letters and following the cursor.
  */
 import { useEffect, useRef } from "react";
-import { claimDarkNav, prefersReducedMotion } from "@/hooks/useReveal";
+import { claimDarkNav, prefersReducedMotion, playVideo, pauseVideo } from "@/hooks/useReveal";
 import { CTA_LINES, CTA_UPM, CTA_CAP } from "./ctapath";
 
 const LH = 0.86 * CTA_UPM; // line height in font units
@@ -33,7 +33,7 @@ export default function CTA() {
         claimDarkNav("cta", r.top <= 40 && r.bottom >= 120);
         const near = r.top < window.innerHeight && r.bottom > 0;
         const v = vid.current;
-        if (v) { if (near && v.paused) v.play().catch(() => {}); if (!near && !v.paused) v.pause(); }
+        if (near) playVideo(v); else pauseVideo(v);
         cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
         if (v) v.style.transform = `scale(1.12) translate(${cx}px, ${cy}px)`;
       }

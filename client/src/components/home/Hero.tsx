@@ -3,7 +3,7 @@
  * Footage plays inside giant WDG letters; scrolling zooms through the letters until the film fills the frame.
  */
 import { useEffect, useRef } from "react";
-import { clamp, easeInOut, prefersReducedMotion, claimDarkNav } from "@/hooks/useReveal";
+import { clamp, easeInOut, prefersReducedMotion, claimDarkNav, playVideo, pauseVideo } from "@/hooks/useReveal";
 import { WDG_PATH, WDG_W, WDG_H } from "./wdgpath";
 
 export default function Hero() {
@@ -12,6 +12,7 @@ export default function Hero() {
   const mask = useRef<HTMLDivElement>(null);
   const under = useRef<HTMLDivElement>(null);
   const overlay = useRef<HTMLDivElement>(null);
+  const video = useRef<HTMLVideoElement>(null);
   const svg = useRef<SVGSVGElement>(null);
   const rects = useRef<(SVGRectElement | null)[]>([]);
   const geo = useRef({ w: 1000, h: 1000, base: 0.18 });
@@ -44,6 +45,7 @@ export default function Hero() {
       if (s) {
         const r = s.getBoundingClientRect();
         const p = clamp(-r.top / (r.height - window.innerHeight));
+        if (r.bottom > 0) playVideo(video.current); else pauseVideo(video.current);
         const z = easeInOut(clamp(p / 0.75));
         const { w, h, base } = geo.current;
         if (word.current) word.current.setAttribute("transform", `translate(${w / 2} ${h / 2}) scale(${base * (1 + z * 38)})`);
@@ -63,6 +65,7 @@ export default function Hero() {
     <section ref={section} id="home" className="relative" style={{ height: "320vh" }} aria-label="Introduction">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-background">
         <video
+          ref={video}
           className="absolute inset-0 w-full h-full object-cover"
           src="/media/tractor-wide.mp4"
           poster="/media/tractor-wide.jpg"

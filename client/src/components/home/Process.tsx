@@ -4,7 +4,7 @@
  * real footage as each stage arrives. Scroll drives everything.
  */
 import { useEffect, useRef, useState } from "react";
-import { clamp } from "@/hooks/useReveal";
+import { clamp, playVideo, pauseVideo } from "@/hooks/useReveal";
 
 const STEPS = [
   { n: "01", t: "Consultation", clip: "tack-shop", d: "We come to you, walk the business and listen. What do you sell, who buys it and what should they feel? You get ideas and a fixed price, not a vague quote.", meta: ["On site or over a call", "Fixed price within days"] },
@@ -46,9 +46,8 @@ export default function Process() {
         });
         vids.current.forEach((v, i) => {
           if (!v) return;
-          const on = near && Math.abs(i - a) <= 1;
-          if (on && v.paused) v.play().catch(() => {});
-          if (!on && !v.paused) v.pause();
+          const on = near && i === a;
+          if (on) playVideo(v); else pauseVideo(v);
         });
         if (rail.current) rail.current.style.transform = `scaleY(${p})`;
         if (tc.current) {

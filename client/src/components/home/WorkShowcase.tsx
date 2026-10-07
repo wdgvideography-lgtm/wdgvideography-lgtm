@@ -3,7 +3,7 @@
  * slides into the centre in turn with its title set huge behind it, neighbours waiting at the sides.
  */
 import { useEffect, useRef, useState } from "react";
-import { clamp, claimDarkNav } from "@/hooks/useReveal";
+import { clamp, claimDarkNav, playVideo, pauseVideo } from "@/hooks/useReveal";
 
 type Project = { file: string; title: string; client: string; type: string; portrait?: boolean };
 
@@ -56,9 +56,8 @@ export default function WorkShowcase() {
         });
         vids.current.forEach((v, i) => {
           if (!v) return;
-          const on = near && Math.abs(i - f) < 1.2;
-          if (on && v.paused) v.play().catch(() => {});
-          if (!on && !v.paused) v.pause();
+          const on = near && Math.abs(i - f) < 0.75;
+          if (on) playVideo(v); else pauseVideo(v);
         });
         if (bar.current) bar.current.style.transform = `scaleX(${p})`;
       }

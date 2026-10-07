@@ -29,3 +29,11 @@ export function claimDarkNav(key: string, on: boolean) {
   if (on) navClaims.add(key); else navClaims.delete(key);
   if (navClaims.size) document.body.dataset.nav = "dark"; else delete document.body.dataset.nav;
 }
+
+/** Play a background video the way iOS/Safari expects: muted + inline attributes set on the element itself. */
+export function playVideo(v: HTMLVideoElement | null) {
+  if (!v) return;
+  if (!v.hasAttribute("muted")) { v.muted = true; v.defaultMuted = true; v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); }
+  if (v.paused) v.play().catch(() => {});
+}
+export function pauseVideo(v: HTMLVideoElement | null) { if (v && !v.paused) v.pause(); }
