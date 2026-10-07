@@ -40,35 +40,37 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-gold: oklch(0.78 0.12 75);
-  --color-gold-light: oklch(0.85 0.1 75);
-  --color-gold-dark: oklch(0.65 0.14 75);
-  --font-display: "Playfair Display", serif;
-  --font-body: "Space Grotesk", sans-serif;
+  --color-gold: oklch(0.72 0.17 65);
+  --color-gold-light: oklch(0.8 0.15 70);
+  --color-gold-dark: oklch(0.6 0.16 60);
+  --color-paper: oklch(0.945 0.012 80);
+  --color-ink: oklch(0.17 0.01 60);
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
 :root {
-  --radius: 0.5rem;
-  --background: oklch(0.08 0.005 60);
-  --foreground: oklch(0.95 0.005 60);
-  --card: oklch(0.12 0.005 60);
-  --card-foreground: oklch(0.92 0.005 60);
-  --popover: oklch(0.12 0.005 60);
-  --popover-foreground: oklch(0.92 0.005 60);
-  --primary: oklch(0.78 0.12 75);
-  --primary-foreground: oklch(0.1 0.005 60);
-  --secondary: oklch(0.15 0.005 60);
-  --secondary-foreground: oklch(0.85 0.005 60);
-  --muted: oklch(0.18 0.005 60);
-  --muted-foreground: oklch(0.6 0.01 60);
-  --accent: oklch(0.15 0.01 60);
-  --accent-foreground: oklch(0.92 0.005 60);
+  --radius: 0.75rem;
+  --background: oklch(0.945 0.012 80);
+  --foreground: oklch(0.17 0.01 60);
+  --card: oklch(0.99 0.004 80);
+  --card-foreground: oklch(0.17 0.01 60);
+  --popover: oklch(0.99 0.004 80);
+  --popover-foreground: oklch(0.17 0.01 60);
+  --primary: oklch(0.72 0.17 65);
+  --primary-foreground: oklch(0.17 0.01 60);
+  --secondary: oklch(0.9 0.012 80);
+  --secondary-foreground: oklch(0.17 0.01 60);
+  --muted: oklch(0.9 0.012 80);
+  --muted-foreground: oklch(0.5 0.015 70);
+  --accent: oklch(0.9 0.012 80);
+  --accent-foreground: oklch(0.17 0.01 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.22 0.01 60);
-  --input: oklch(0.18 0.005 60);
-  --ring: oklch(0.78 0.12 75);
+  --border: oklch(0.17 0.01 60 / 14%);
+  --input: oklch(0.99 0.004 80);
+  --ring: oklch(0.72 0.17 65);
   --chart-1: oklch(0.78 0.12 75);
   --chart-2: oklch(0.65 0.14 75);
   --chart-3: oklch(0.55 0.12 75);
@@ -94,7 +96,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Inter Tight", "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -159,7 +162,7 @@
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, oklch(0.85 0.1 75), oklch(0.78 0.12 75), oklch(0.65 0.14 75));
+    background: linear-gradient(135deg, oklch(0.78 0.16 70), oklch(0.72 0.17 65), oklch(0.62 0.16 60));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -181,3 +184,29 @@
     box-shadow: 0 0 20px oklch(0.78 0.12 75 / 0.3), 0 0 60px oklch(0.78 0.12 75 / 0.1);
   }
 }
+
+
+/* ---------- Editorial design system (2026 redesign) ---------- */
+.font-display { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+.font-mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+.eyebrow { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted-foreground); font-weight: 500; }
+.display { font-family: "Inter Tight", system-ui, sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: .96; }
+.display i, .serif-accent { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-style: italic; color: var(--color-gold); letter-spacing: -.01em; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; background: var(--foreground); color: var(--background); font-weight: 500; font-size: 15px; transition: background .3s, color .3s, transform .3s; }
+.pill:hover { background: var(--color-gold); color: var(--foreground); transform: translateY(-1px); }
+.pill.gold { background: var(--color-gold); color: var(--foreground); }
+.pill.gold:hover { background: var(--foreground); color: var(--background); }
+.pill.ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+.pill.ghost:hover { background: var(--foreground); color: var(--background); }
+.rv { opacity: 0; transform: translateY(36px); transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+.card-media { position: relative; overflow: hidden; border-radius: 16px; background: #ddd; }
+.card-media video, .card-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
+.card-media:hover video, .card-media:hover img { transform: scale(1); }
+.hairline { border-top: 1px solid var(--border); }
+.mono-tag { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; letter-spacing: .06em; }
+@keyframes mq { to { transform: translateX(-50%); } }
+@keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+@keyframes scene-in { from { opacity: 0; transform: translateY(18px); } }
+@keyframes cut-flash { 0% { opacity: .35; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } * { animation-duration: .01ms !important; } }

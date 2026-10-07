@@ -1,53 +1,20 @@
 /**
- * WDG Videography - Home Page
- * Each section wrapped in a silent ErrorBoundary so one crash never kills the page.
+ * WDG Videography — Home (2026 editorial redesign).
+ * Each section is wrapped in a silent ErrorBoundary so one crash never kills the page.
  */
-
-import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import AppDevSection from "@/components/AppDevSection";
-import ShowreelStrip from "@/components/ShowreelStrip";
-import MarketingSection from "@/components/MarketingSection";
-import ProcessSection from "@/components/ProcessSection";
-import ShowcaseSection from "@/components/ShowcaseSection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
-import FilmGrainOverlay from "@/components/FilmGrainOverlay";
-import CinematicIntro from "@/components/CinematicIntro";
-import CameraBreakdown from "@/components/CameraBreakdown";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
-
-type Phase = "intro" | "camera" | "site";
-
-function getSessionItem(key: string): string | null {
-  try { return sessionStorage.getItem(key); } catch { return null; }
-}
-function setSessionItem(key: string, value: string): void {
-  try { sessionStorage.setItem(key, value); } catch { /* private browsing */ }
-}
+import Hero from "@/components/home/Hero";
+import Intro from "@/components/home/Intro";
+import EditTimeline from "@/components/home/EditTimeline";
+import PhoneFan from "@/components/home/PhoneFan";
+import ColourGrade from "@/components/home/ColourGrade";
+import Services from "@/components/home/Services";
+import { Marquee, Apps, Process, CTA } from "@/components/home/Closing";
 
 export default function Home() {
-  // Show intro for first-time visitors; skip straight to site on return visits
-  const [phase, setPhase] = useState<Phase>(
-    getSessionItem("wdg-intro-seen") ? "site" : "intro"
-  );
-
-  useEffect(() => {
-    // No-op: initial state already handles the sessionStorage check above.
-    // This effect intentionally left empty so the intro plays on first load
-    // without a flash — the useState initialiser runs synchronously.
-  }, []);
-
-  const handleIntroComplete  = () => setPhase("camera");
-  const handleCameraComplete = () => {
-    setPhase("site");
-    setSessionItem("wdg-intro-seen", "true");
-  };
-
   return (
     <>
       <SEO
@@ -56,36 +23,22 @@ export default function Home() {
         keywords="videography Cheltenham, app development Cheltenham, video production Gloucestershire, cinematic video production, brand videos, social media content creation, corporate video, promotional video, marketing agency Cheltenham, website design Cheltenham, digital marketing Gloucestershire, WDG Videography"
         canonicalUrl="https://www.wdgvideography.com/"
       />
-
-      {phase === "intro" && (
-        <ErrorBoundary silent>
-          <CinematicIntro onComplete={handleIntroComplete} />
-        </ErrorBoundary>
-      )}
-
-      {phase === "camera" && (
-        <ErrorBoundary silent>
-          <CameraBreakdown onComplete={handleCameraComplete} />
-        </ErrorBoundary>
-      )}
-
-      {phase === "site" && (
-        <SmoothScroll>
-          <div className="relative min-h-screen bg-background overflow-x-hidden">
-            <ErrorBoundary silent><FilmGrainOverlay /></ErrorBoundary>
-            <ErrorBoundary silent><Navbar /></ErrorBoundary>
-            <ErrorBoundary silent><HeroSection /></ErrorBoundary>
-            <ErrorBoundary silent><ServicesSection /></ErrorBoundary>
-            <ErrorBoundary silent><AppDevSection /></ErrorBoundary>
-            <ErrorBoundary silent><ShowcaseSection /></ErrorBoundary>
-            <ErrorBoundary silent><ShowreelStrip /></ErrorBoundary>
-            <ErrorBoundary silent><MarketingSection /></ErrorBoundary>
-            <ErrorBoundary silent><ProcessSection /></ErrorBoundary>
-            <ErrorBoundary silent><CTASection /></ErrorBoundary>
-            <ErrorBoundary silent><Footer /></ErrorBoundary>
-          </div>
-        </SmoothScroll>
-      )}
+      <div className="relative min-h-screen bg-background" style={{ overflowX: "clip" }}>
+        <ErrorBoundary silent><Navbar /></ErrorBoundary>
+        <main>
+          <ErrorBoundary silent><Hero /></ErrorBoundary>
+          <ErrorBoundary silent><Intro /></ErrorBoundary>
+          <ErrorBoundary silent><EditTimeline /></ErrorBoundary>
+          <ErrorBoundary silent><PhoneFan /></ErrorBoundary>
+          <ErrorBoundary silent><Marquee /></ErrorBoundary>
+          <ErrorBoundary silent><ColourGrade /></ErrorBoundary>
+          <ErrorBoundary silent><Services /></ErrorBoundary>
+          <ErrorBoundary silent><Apps /></ErrorBoundary>
+          <ErrorBoundary silent><Process /></ErrorBoundary>
+          <ErrorBoundary silent><CTA /></ErrorBoundary>
+        </main>
+        <ErrorBoundary silent><Footer /></ErrorBoundary>
+      </div>
     </>
   );
 }

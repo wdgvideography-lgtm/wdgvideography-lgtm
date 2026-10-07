@@ -1,16 +1,10 @@
-/**
- * Footer — Noir Cinema Design
- * Clean footer with social links, contact info, and subtle animations
- */
-
-import { motion } from "framer-motion";
+/** Footer — editorial redesign (dark block that closes every page). */
 
 const quickLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Marketing", href: "#marketing" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work", href: "/portfolio" },
+  { label: "Services & prices", href: "/#services" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/contact" },
   { label: "App Development", href: "/app-development" },
   { label: "Video Production", href: "/video-production" },
   { label: "Product Photography", href: "/product-photography" },
@@ -51,134 +45,44 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-border/20">
-      {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-
-      <div className="container py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
-          {/* Brand Column */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <div className="flex items-center gap-3">
-              <img
-                src="/assets/wdg-logo.png"
-                alt="WDG Videography"
-                className="h-12 w-auto object-contain"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground font-body leading-relaxed max-w-xs">
-              High-end cinematic production paired with full-scale digital management. Based in Cheltenham, Gloucestershire.
+    <footer className="text-white" style={{ background: "oklch(0.17 0.01 60)" }}>
+      <div className="px-5 sm:px-8 lg:px-14 pt-16 pb-10">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <img src="/assets/wdg-logo.png" alt="WDG Videography" width={160} height={90} className="h-10 w-auto mb-6" />
+            <p className="text-white/70 max-w-sm">
+              Cinematic films, social reels, websites and apps for businesses in Cheltenham, Gloucestershire and beyond. Shot, edited and graded in-house.
             </p>
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.15, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-full border border-border/40 flex items-center justify-center text-muted-foreground hover:text-gold hover:border-gold/50 hover:bg-gold/5 transition-all duration-300"
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </motion.a>
+            <div className="flex gap-3 mt-7">
+              {socialLinks.map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                  className="w-11 h-11 grid place-items-center rounded-full border border-white/15 hover:bg-gold hover:text-ink hover:border-gold transition-colors">
+                  {s.icon}
+                </a>
               ))}
             </div>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h4 className="font-body font-semibold text-foreground text-sm tracking-[0.15em] uppercase mb-6">
-              Quick Links
-            </h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-muted-foreground font-body hover:text-gold hover:pl-2 transition-all duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h4 className="font-body font-semibold text-foreground text-sm tracking-[0.15em] uppercase mb-6">
-              Get In Touch
-            </h4>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-full border border-border/30 flex items-center justify-center group-hover:border-gold/40 transition-colors">
-                  <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <a
-                  href="mailto:will@wdgvideography.com"
-                  className="text-sm text-muted-foreground font-body hover:text-gold transition-colors duration-300"
-                >
-                  will@wdgvideography.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-full border border-border/30 flex items-center justify-center group-hover:border-gold/40 transition-colors">
-                  <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <a
-                  href="tel:+447584065559"
-                  className="text-sm text-muted-foreground font-body hover:text-gold transition-colors duration-300"
-                >
-                  +44 7584 065559
-                </a>
-              </li>
-              <li className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-full border border-border/30 flex items-center justify-center group-hover:border-gold/40 transition-colors">
-                  <svg className="w-3.5 h-3.5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <span className="text-sm text-muted-foreground font-body">
-                  Cheltenham, Gloucestershire
-                </span>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-border/20">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground/70 font-body">
-              © 2026 WDG Videography. All rights reserved.
-            </p>
-            <p className="text-xs text-muted-foreground/40 font-body tracking-wider">
-              Cinematic Production & Digital Marketing
-            </p>
           </div>
+          <div>
+            <h3 className="eyebrow !text-white/50 mb-5">Pages</h3>
+            <ul className="space-y-2.5">
+              {quickLinks.map((l) => (
+                <li key={l.href}><a href={l.href} className="text-white/85 hover:text-gold transition-colors">{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="eyebrow !text-white/50 mb-5">Get in touch</h3>
+            <ul className="space-y-2.5 text-white/85">
+              <li><a href="mailto:will@wdgvideography.com" className="hover:text-gold transition-colors">will@wdgvideography.com</a></li>
+              <li><a href="tel:+447584065559" className="hover:text-gold transition-colors">+44 7584 065559</a></li>
+              <li>Cheltenham, Gloucestershire</li>
+            </ul>
+            <a href="/contact" className="pill gold mt-7">Start a project</a>
+          </div>
+        </div>
+        <div className="mt-14 pt-6 border-t border-white/10 flex flex-wrap justify-between gap-3 mono-tag text-white/45">
+          <span>© 2026 WDG VIDEOGRAPHY. ALL RIGHTS RESERVED.</span>
+          <span>FILM · SOCIAL · WEB · APPS</span>
         </div>
       </div>
     </footer>

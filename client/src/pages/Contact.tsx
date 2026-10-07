@@ -9,7 +9,6 @@ const ENQUIRY_ENDPOINT = "https://assistant-36b1ac32.base44.app/functions/wdgSit
 import { useSearch } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -123,7 +122,6 @@ export default function Contact() {
         keywords="contact WDG Videography, book videographer Cheltenham, video production enquiry, marketing consultation Gloucestershire, brand video quote"
         canonicalUrl="https://www.wdgvideography.com/contact"
       />
-      <FilmGrainOverlay />
       <Navbar />
 
       <section className="pt-32 pb-24 lg:pb-32">

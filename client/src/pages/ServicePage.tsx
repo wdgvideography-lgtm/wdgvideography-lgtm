@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 import NotFound from "@/pages/NotFound";
 import { servicePages } from "@/data/servicePages";
@@ -48,7 +47,6 @@ export default function ServicePage({ slug }: { slug: string }) {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
-      <FilmGrainOverlay />
       <Navbar />
 
       <section className="pt-32 pb-16 lg:pb-24">

@@ -7,7 +7,6 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import AppBriefWizard from "@/components/AppBriefWizard";
@@ -189,7 +188,6 @@ export default function AppDevelopment() {
         canonicalUrl="https://www.wdgvideography.com/app-development"
       />
       <div className="relative min-h-screen bg-background overflow-x-hidden">
-        <ErrorBoundary silent><FilmGrainOverlay /></ErrorBoundary>
         <ErrorBoundary silent><Navbar /></ErrorBoundary>
 
         {/* Hero */}

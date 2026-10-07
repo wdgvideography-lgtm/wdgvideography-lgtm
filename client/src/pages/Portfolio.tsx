@@ -7,7 +7,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FilmGrainOverlay from "@/components/FilmGrainOverlay";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
@@ -154,7 +153,6 @@ export default function Portfolio() {
           title="Video Portfolio — Brand Films, Reels & Event Videos"
           description="Browse WDG Videography's portfolio of cinematic brand films, social media reels, product videos and event coverage, filmed across Cheltenham, Gloucestershire and England."
         />
-        <FilmGrainOverlay />
         <Navbar />
 
         {/* Header */}

@@ -1,160 +1,124 @@
 /**
- * Navbar — Noir Cinema Design
- * Hardened: GPU layer promotion, reduced backdrop-blur, will-change:transform,
- *           Escape closes menu, aria attrs, close on route change
+ * Navbar — editorial redesign.
+ * Light by default; switches to a dark/white treatment when the page sets
+ * `data-nav="dark"` on <body> (used while the hero video fills the screen).
  */
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 
 const navLinks = [
-  { label: "Home",      href: "/#home" },
-  { label: "Services",  href: "/#services" },
-  { label: "Marketing", href: "/#marketing" },
-  { label: "About",     href: "/#about" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Apps",      href: "/app-development" },
-  { label: "Contact",   href: "/contact" },
+  { label: "Work", href: "/portfolio" },
+  { label: "Services", href: "/#services" },
+  { label: "Websites", href: "/website-design" },
+  { label: "Apps", href: "/app-development" },
+  { label: "About", href: "/#about" },
 ];
 
 export default function Navbar() {
   const [location] = useLocation();
+  const [open, setOpen] = useState(false);
+  const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const isContactPage = location === "/contact";
 
-  useEffect(() => { setMobileOpen(false); }, [location]);
+  useEffect(() => { setOpen(false); }, [location]);
 
   useEffect(() => {
-    // Read initial scroll position immediately
-    setScrolled(window.scrollY > 60);
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const body = document.body;
+    const read = () => {
+      setDark(body.dataset.nav === "dark");
+      setScrolled(window.scrollY > 24);
+    };
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(body, { attributes: true, attributeFilter: ["data-nav"] });
+    window.addEventListener("scroll", read, { passive: true });
+    return () => { mo.disconnect(); window.removeEventListener("scroll", read); };
   }, []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [mobileOpen]);
+  }, [open]);
+
+  const onDark = dark || open;
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        /*
-         * will-change:transform promotes the nav to its own compositor layer.
-         * backdrop-blur reduced from 2xl to xl — still frosted, much cheaper to paint.
-         * translateZ(0) forces GPU rasterisation so scroll never triggers a repaint.
-         */
-        style={{ willChange: "transform", transform: "translateZ(0)" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-background/90 backdrop-blur-xl border-b border-gold/10 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
-            : "bg-transparent py-5"
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${onDark ? "text-white" : "text-foreground"} ${
+          scrolled && !onDark ? "bg-background/85 backdrop-blur-md border-b border-border" : ""
         }`}
       >
-        <div className="container flex items-center justify-between">
-          <a href="/#home" className="flex items-center gap-2.5 group" aria-label="WDG Videography Home">
+        <div className="flex items-center justify-between px-5 sm:px-8 lg:px-14 h-[72px]">
+          <a href="/" aria-label="WDG Videography home" className="flex items-center">
             <img
-              src="/assets/wdg-logo.png"
+              src={onDark ? "/assets/wdg-logo.png" : "/assets/wdg-logo-dark.png"}
               alt="WDG Videography"
-              className="h-16 w-auto object-contain"
-              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              width={160}
+              height={90}
+              className="h-9 w-auto object-contain"
             />
           </a>
 
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="relative text-sm font-body text-muted-foreground hover:text-foreground transition-colors duration-300 group py-1"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full" />
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-8">
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="text-[15px] font-medium opacity-85 hover:opacity-100 hover:text-gold transition-colors">
+                {l.label}
               </a>
             ))}
-          </div>
+          </nav>
 
-          {!isContactPage && (
-            <a
-              href="/contact"
-              className="hidden lg:inline-flex items-center px-5 py-2.5 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_20px_oklch(0.78_0.12_75/0.3)]"
-            >
-              Book Now
+          <div className="flex items-center gap-3">
+            <a href="/contact" className={`pill hidden sm:inline-flex ${onDark ? "!bg-white !text-foreground hover:!bg-gold" : ""}`}>
+              Start a project
             </a>
-          )}
-
-          <button
-            onClick={() => setMobileOpen((o) => !o)}
-            className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-          >
-            <motion.span animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }} transition={{ duration: 0.3 }} className="w-6 h-[2px] bg-foreground block origin-center" />
-            <motion.span animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} transition={{ duration: 0.2 }} className="w-6 h-[2px] bg-foreground block" />
-            <motion.span animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }} transition={{ duration: 0.3 }} className="w-6 h-[2px] bg-foreground block origin-center" />
-          </button>
-        </div>
-      </motion.nav>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-xl flex flex-col items-center justify-center gap-6 lg:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-          >
-            {navLinks.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                className="text-3xl font-display font-semibold text-foreground hover:text-gold transition-colors duration-300"
-              >
-                {link.label}
-              </motion.a>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              className="mt-6 flex flex-col items-center gap-4"
+            <button
+              type="button"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="lg:hidden w-11 h-11 grid place-items-center rounded-full"
             >
-              {!isContactPage && (
-                <a
-                  href="/contact"
-                  onClick={() => setMobileOpen(false)}
-                  className="px-10 py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm"
-                >
-                  Book Now
-                </a>
-              )}
-              <p className="text-xs text-muted-foreground font-body mt-4">will@wdgvideography.com</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <span className="relative block w-6 h-4">
+                <span className={`absolute left-0 right-0 h-[2px] bg-current transition-all ${open ? "top-1/2 rotate-45" : "top-0"}`} />
+                <span className={`absolute left-0 right-0 top-1/2 h-[2px] bg-current transition-opacity ${open ? "opacity-0" : ""}`} />
+                <span className={`absolute left-0 right-0 h-[2px] bg-current transition-all ${open ? "top-1/2 -rotate-45" : "top-full"}`} />
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile menu */}
+      <div
+        className={`fixed inset-0 z-40 bg-ink text-white transition-opacity duration-500 lg:hidden ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        style={{ background: "oklch(0.17 0.01 60)" }}
+        aria-hidden={!open}
+      >
+        <div className="h-full flex flex-col justify-end px-6 pb-10 pt-24">
+          <nav aria-label="Mobile" className="flex flex-col gap-2 mb-10">
+            {[...navLinks, { label: "Contact", href: "/contact" }].map((l, i) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="font-display text-[44px] leading-[1.05] transition-all"
+                style={{ transitionDelay: `${i * 50}ms`, transform: open ? "none" : "translateY(14px)", opacity: open ? 1 : 0 }}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <a href="/contact" className="pill gold justify-center">Start a project</a>
+          <p className="mono-tag mt-8 text-white/50">CHELTENHAM · GLOUCESTERSHIRE</p>
+        </div>
+      </div>
     </>
   );
 }
