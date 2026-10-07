@@ -20,6 +20,7 @@ const N = PROJECTS.length;
 export default function WorkShowcase() {
   const section = useRef<HTMLElement>(null);
   const cards = useRef<(HTMLDivElement | null)[]>([]);
+  const dims = useRef<(HTMLDivElement | null)[]>([]);
   const vids = useRef<(HTMLVideoElement | null)[]>([]);
   const titles = useRef<(HTMLDivElement | null)[]>([]);
   const bar = useRef<HTMLDivElement>(null);
@@ -43,10 +44,12 @@ export default function WorkShowcase() {
         cards.current.forEach((c, i) => {
           if (!c) return;
           const d = i - f, ad = Math.abs(d);
-          c.style.transform = `translate(-50%,-50%) translateX(${d * gap}px) scale(${1 - Math.min(ad, 2) * 0.18}) rotateY(${clamp(d, -1, 1) * -10}deg)`;
+          // 2D transforms only: Safari can stop repainting <video> inside 3D-transformed or filtered layers.
+          c.style.transform = `translate(-50%,-50%) translateX(${d * gap}px) scale(${1 - Math.min(ad, 2) * 0.18})`;
           c.style.opacity = String(clamp(1 - (ad - 0.5) * 0.9, 0.18, 1));
           c.style.zIndex = String(10 - Math.round(ad));
-          c.style.filter = `brightness(${1 - Math.min(ad, 1) * 0.55})`;
+          const dim = dims.current[i];
+          if (dim) dim.style.opacity = String(Math.min(ad, 1) * 0.55);
         });
         titles.current.forEach((t, i) => {
           if (!t) return;
@@ -71,7 +74,7 @@ export default function WorkShowcase() {
 
   return (
     <section ref={section} id="showreel" className="relative" style={{ height: `${(N + 1) * 100}vh` }} aria-label="Featured work">
-      <div className="sticky top-0 h-[100svh] overflow-hidden text-white" style={{ background: "oklch(0.13 0.008 60)", perspective: 1400 }}>
+      <div className="sticky top-0 h-[100svh] overflow-hidden text-white" style={{ background: "oklch(0.13 0.008 60)" }}>
         {/* header */}
         <div className="absolute top-[88px] left-5 right-5 sm:left-8 sm:right-8 lg:left-14 lg:right-14 flex justify-between items-start z-20 pointer-events-none">
           <div>
@@ -93,7 +96,7 @@ export default function WorkShowcase() {
         ))}
 
         {/* cards */}
-        <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" }}>
+        <div className="absolute inset-0">
           {PROJECTS.map((p, i) => (
             <div key={p.file} ref={(el) => { cards.current[i] = el; }}
               className="absolute top-1/2 left-1/2 rounded-[18px] overflow-hidden bg-black shadow-[0_60px_120px_-40px_rgba(0,0,0,.8)] will-change-transform"
@@ -105,6 +108,7 @@ export default function WorkShowcase() {
               }}>
               <video ref={(el) => { vids.current[i] = el; }} src={`/media/${p.file}.mp4`} poster={`/media/${p.file}.jpg`}
                 muted loop playsInline preload={i < 2 ? "auto" : "metadata"} className="absolute inset-0 w-full h-full object-cover" aria-hidden="true" />
+              <div ref={(el) => { dims.current[i] = el; }} className="absolute inset-0 bg-black pointer-events-none" style={{ opacity: i === 0 ? 0 : 0.55 }} />
               <span className="absolute top-3.5 left-4 mono-tag text-white/80">{String(i + 1).padStart(2, "0")}</span>
             </div>
           ))}
