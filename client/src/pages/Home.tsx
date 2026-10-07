@@ -8,7 +8,7 @@ import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Hero from "@/components/home/Hero";
 import Intro from "@/components/home/Intro";
-import EditTimeline from "@/components/home/EditTimeline";
+import WorkShowcase from "@/components/home/WorkShowcase";
 import PhoneFan from "@/components/home/PhoneFan";
 import ColourGrade from "@/components/home/ColourGrade";
 import Services from "@/components/home/Services";
@@ -28,7 +28,7 @@ export default function Home() {
         <main>
           <ErrorBoundary silent><Hero /></ErrorBoundary>
           <ErrorBoundary silent><Intro /></ErrorBoundary>
-          <ErrorBoundary silent><EditTimeline /></ErrorBoundary>
+          <ErrorBoundary silent><WorkShowcase /></ErrorBoundary>
           <ErrorBoundary silent><PhoneFan /></ErrorBoundary>
           <ErrorBoundary silent><Marquee /></ErrorBoundary>
           <ErrorBoundary silent><ColourGrade /></ErrorBoundary>

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
 const navLinks = [
-  { label: "Work", href: "/portfolio" },
+  { label: "Work", href: "/#showreel" },
   { label: "Services", href: "/#services" },
   { label: "Websites", href: "/website-design" },
   { label: "Apps", href: "/app-development" },

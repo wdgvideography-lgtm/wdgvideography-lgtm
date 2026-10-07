@@ -22,3 +22,10 @@ export const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 export const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** Shared control of the navbar colour: several sections may ask for the dark (white-text) nav. */
+const navClaims = new Set<string>();
+export function claimDarkNav(key: string, on: boolean) {
+  if (on) navClaims.add(key); else navClaims.delete(key);
+  if (navClaims.size) document.body.dataset.nav = "dark"; else delete document.body.dataset.nav;
+}

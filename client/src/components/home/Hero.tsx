@@ -3,7 +3,7 @@
  * Footage plays inside giant WDG letters; scrolling zooms through the letters until the film fills the frame.
  */
 import { useEffect, useRef } from "react";
-import { clamp, easeInOut, prefersReducedMotion } from "@/hooks/useReveal";
+import { clamp, easeInOut, prefersReducedMotion, claimDarkNav } from "@/hooks/useReveal";
 import { WDG_PATH, WDG_W, WDG_H } from "./wdgpath";
 
 export default function Hero() {
@@ -33,8 +33,8 @@ export default function Hero() {
       if (mask.current) mask.current.style.display = "none";
       if (overlay.current) overlay.current.style.opacity = "1";
       if (under.current) under.current.style.display = "none";
-      document.body.dataset.nav = "dark";
-      return () => { delete document.body.dataset.nav; };
+      claimDarkNav("hero", true);
+      return () => claimDarkNav("hero", false);
     }
     fit();
     window.addEventListener("resize", fit);
@@ -51,12 +51,12 @@ export default function Hero() {
         if (under.current) under.current.style.opacity = String(1 - clamp(p / 0.15));
         if (overlay.current) overlay.current.style.opacity = String(clamp((p - 0.76) / 0.12));
         const dark = p > 0.25 && r.bottom > 80;
-        if (dark) document.body.dataset.nav = "dark"; else delete document.body.dataset.nav;
+        claimDarkNav("hero", dark);
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", fit); delete document.body.dataset.nav; };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", fit); claimDarkNav("hero", false); };
   }, []);
 
   return (
