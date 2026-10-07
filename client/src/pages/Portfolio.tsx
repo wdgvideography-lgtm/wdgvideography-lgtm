@@ -1,220 +1,144 @@
 /**
- * Portfolio Page — WDG Videography
- * Videos hosted in /public/portfolio/
+ * Portfolio — every film, reel, live site and app in one place.
+ * Videos are the real client reels in /public/portfolio/.
  */
-
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { PageHero, Statement, AppsRail, words } from "@/components/editorial";
+import Websites from "@/components/home/Websites";
+import CTA from "@/components/home/CTA";
+import { useReveal, playVideo, pauseVideo } from "@/hooks/useReveal";
 
-type Category = "all" | "brand" | "social" | "event";
+type Category = "all" | "farm" | "food" | "venue";
 
-interface PortfolioItem {
-  id: string;
-  src: string;
-  poster: string;
-  title: string;
-  client: string;
-  category: Category;
-  aspect: "landscape" | "portrait";
-}
+interface Item { id: string; src: string; poster: string; title: string; client: string; category: Category; portrait: boolean }
 
-const items: PortfolioItem[] = [
-  { id: "v1",  src: "/portfolio/showreel-1.mp4",  poster: "/portfolio/poster-1.jpg",  title: "Brand Showreel", client: "WDG Videography", category: "brand",  aspect: "portrait" },
-  { id: "v2",  src: "/portfolio/showreel-2.mp4",  poster: "/portfolio/poster-2.jpg",  title: "Brand Film",     client: "WDG Videography", category: "brand",  aspect: "portrait" },
-  { id: "v3",  src: "/portfolio/showreel-3.mp4",  poster: "/portfolio/poster-3.jpg",  title: "Social Reel",    client: "WDG Videography", category: "social", aspect: "portrait" },
-  { id: "v4",  src: "/portfolio/showreel-4.mp4",  poster: "/portfolio/poster-4.jpg",  title: "Event Film",     client: "WDG Videography", category: "event",  aspect: "landscape" },
-  { id: "v5",  src: "/portfolio/showreel-5.mp4",  poster: "/portfolio/poster-5.jpg",  title: "Brand Film",     client: "WDG Videography", category: "brand",  aspect: "portrait" },
-  { id: "v6",  src: "/portfolio/showreel-6.mp4",  poster: "/portfolio/poster-6.jpg",  title: "Social Reel",    client: "WDG Videography", category: "social", aspect: "portrait" },
-  { id: "v7",  src: "/portfolio/showreel-7.mp4",  poster: "/portfolio/poster-7.jpg",  title: "Brand Film",     client: "WDG Videography", category: "brand",  aspect: "portrait" },
-  { id: "v8",  src: "/portfolio/showreel-8.mp4",  poster: "/portfolio/poster-8.jpg",  title: "Social Reel",    client: "WDG Videography", category: "social", aspect: "portrait" },
-  { id: "v9",  src: "/portfolio/showreel-9.mp4",  poster: "/portfolio/poster-9.jpg",  title: "Event Film",     client: "WDG Videography", category: "event",  aspect: "landscape" },
-  { id: "v10", src: "/portfolio/showreel-10.mp4", poster: "/portfolio/poster-10.jpg", title: "Brand Showreel", client: "WDG Videography", category: "brand",  aspect: "portrait" },
-  { id: "v11", src: "/portfolio/showreel-11.mp4", poster: "/portfolio/poster-11.jpg", title: "Social Reel",    client: "WDG Videography", category: "social", aspect: "portrait" },
+const ITEMS: Item[] = [
+  { id: "v4",  src: "/portfolio/showreel-4.mp4",  poster: "/portfolio/poster-4.jpg",  title: "Harvest at sunset", client: "Farm film",      category: "farm",  portrait: false },
+  { id: "v3",  src: "/portfolio/showreel-3.mp4",  poster: "/portfolio/poster-3.jpg",  title: "The Longhorn",      client: "Restaurant",     category: "venue", portrait: true },
+  { id: "v5",  src: "/portfolio/showreel-5.mp4",  poster: "/portfolio/poster-5.jpg",  title: "Teddington’s",      client: "Butchery",       category: "food",  portrait: true },
+  { id: "v9",  src: "/portfolio/showreel-9.mp4",  poster: "/portfolio/poster-9.jpg",  title: "Bringing it in",    client: "Farm film",      category: "farm",  portrait: false },
+  { id: "v2",  src: "/portfolio/showreel-2.mp4",  poster: "/portfolio/poster-2.jpg",  title: "Pasture from above",client: "Drone",          category: "farm",  portrait: true },
+  { id: "v7",  src: "/portfolio/showreel-7.mp4",  poster: "/portfolio/poster-7.jpg",  title: "Bar & grill",       client: "The Longhorn",   category: "venue", portrait: true },
+  { id: "v10", src: "/portfolio/showreel-10.mp4", poster: "/portfolio/poster-10.jpg", title: "Charcuterie",       client: "Teddington’s",   category: "food",  portrait: true },
+  { id: "v8",  src: "/portfolio/showreel-8.mp4",  poster: "/portfolio/poster-8.jpg",  title: "The herd",          client: "Farm film",      category: "farm",  portrait: true },
+  { id: "v6",  src: "/portfolio/showreel-6.mp4",  poster: "/portfolio/poster-6.jpg",  title: "Header, close",     client: "Harvest reel",   category: "farm",  portrait: true },
+  { id: "v1",  src: "/portfolio/showreel-1.mp4",  poster: "/portfolio/poster-1.jpg",  title: "Dairy",             client: "Farm reel",      category: "farm",  portrait: true },
+  { id: "v11", src: "/portfolio/showreel-11.mp4", poster: "/portfolio/poster-11.jpg", title: "Behind the counter",client: "Teddington’s",   category: "food",  portrait: true },
 ];
 
-// ── Video Card — no labels, clean ─────────────────────────────────────────────
-function VideoCard({ item, onClick }: { item: PortfolioItem; onClick: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [hovered, setHovered] = useState(false);
+const FILTERS: { key: Category; label: string }[] = [
+  { key: "all", label: "Everything" },
+  { key: "farm", label: "Farm & land" },
+  { key: "food", label: "Food & drink" },
+  { key: "venue", label: "Venues" },
+];
 
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (hovered) {
-      v.currentTime = 0;
-      v.play().catch(() => {});
-    } else {
-      v.pause();
-      v.currentTime = 0;
-    }
-  }, [hovered]);
-
+function Card({ item, onOpen, i }: { item: Item; onOpen: () => void; i: number }) {
+  const v = useRef<HTMLVideoElement>(null);
   return (
-    <motion.div
-      className="relative group cursor-pointer overflow-hidden rounded-lg bg-zinc-900"
-      style={{ aspectRatio: item.aspect === "portrait" ? "9/16" : "16/9" }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onClick={onClick}
-    >
-      <video
-        ref={videoRef}
-        src={item.src}
-        poster={item.poster}
-        muted
-        loop
-        playsInline
-        preload="none"
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-    </motion.div>
+    <button type="button" onClick={onOpen}
+      className={`rv group relative text-left overflow-hidden rounded-2xl bg-[#111] text-white w-full ${item.portrait ? "aspect-[9/16]" : "aspect-[16/9] col-span-2"}`}
+      style={{ transitionDelay: `${(i % 3) * 80}ms` }}
+      onMouseEnter={() => { if (v.current) { v.current.currentTime = 0; playVideo(v.current); } }}
+      onMouseLeave={() => pauseVideo(v.current)}
+      aria-label={`Play ${item.title} for ${item.client}`}>
+      <img src={item.poster} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" loading="lazy" />
+      <video ref={v} src={item.src} muted loop playsInline preload="none" aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-3" style={{ background: "linear-gradient(transparent, rgba(0,0,0,.72))" }}>
+        <span className="font-display text-[clamp(22px,1.8vw,30px)] leading-none">{item.title}</span>
+        <span className="mono-tag opacity-70 shrink-0">{item.client.toUpperCase()}</span>
+      </div>
+      <span className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur grid place-items-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.5v9l7-4.5z" /></svg>
+      </span>
+    </button>
   );
 }
 
-// ── Lightbox ──────────────────────────────────────────────────────────────────
-function Lightbox({ item, onClose }: { item: PortfolioItem; onClose: () => void }) {
+function Lightbox({ item, onClose }: { item: Item; onClose: () => void }) {
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", k);
+    const prev = document.body.style.overflow; document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", k); document.body.style.overflow = prev; };
   }, [onClose]);
-
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        onClick={onClose}
-      >
-        <motion.div
-          className="relative max-w-4xl w-full"
-          style={{ aspectRatio: item.aspect === "portrait" ? "9/16" : "16/9", maxHeight: "90vh" }}
-          initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-          onClick={e => e.stopPropagation()}
-        >
-          <video
-            src={item.src}
-            poster={item.poster}
-            controls
-            autoPlay
-            muted
-            playsInline
-            className="w-full h-full object-contain rounded-lg"
-          />
-          <button
-            onClick={onClose}
-            className="absolute -top-10 right-0 text-white/60 hover:text-white text-sm font-body transition-colors"
-          >
-            ✕ Close
-          </button>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-
-// ── Empty State ───────────────────────────────────────────────────────────────
-function PortfolioEmpty() {
-  return (
-    <div className="flex flex-col items-center justify-center py-32 text-center">
-      <p className="text-muted-foreground font-body text-lg">No videos in this category yet.</p>
+    <div className="fixed inset-0 z-[100] bg-black/92 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10" onClick={onClose} role="dialog" aria-modal="true" aria-label={item.title}>
+      <button type="button" onClick={onClose} className="absolute top-6 right-6 text-white/70 hover:text-white mono-tag">CLOSE ✕</button>
+      <div className="relative" onClick={(e) => e.stopPropagation()}>
+        <video src={item.src} poster={item.poster} controls autoPlay playsInline
+          className={`rounded-2xl bg-black ${item.portrait ? "h-[85svh] w-auto" : "w-[min(92vw,1280px)]"}`} />
+        <div className="flex items-baseline justify-between gap-4 mt-4 text-white">
+          <span className="font-display text-2xl">{item.title}</span>
+          <span className="mono-tag opacity-70">{item.client.toUpperCase()}</span>
+        </div>
+      </div>
     </div>
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
-export default function Portfolio() {
-  const [activeCategory, setActiveCategory] = useState<Category>("all");
-  const [lightboxItem, setLightboxItem] = useState<PortfolioItem | null>(null);
-
-  const categories: { key: Category; label: string }[] = [
-    { key: "all",    label: "All" },
-    { key: "brand",  label: "Brand" },
-    { key: "social", label: "Social" },
-    { key: "event",  label: "Event" },
-  ];
-
-  const filtered = activeCategory === "all" ? items : items.filter(i => i.category === activeCategory);
-  const isEmpty = filtered.length === 0;
-
+function Grid() {
+  const [filter, setFilter] = useState<Category>("all");
+  const [open, setOpen] = useState<Item | null>(null);
+  const ref = useReveal<HTMLElement>(0.05);
+  const shown = ITEMS.filter((it) => filter === "all" || it.category === filter);
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen bg-background text-foreground">
-        <SEO
-          title="Video Portfolio — Brand Films, Reels & Event Videos"
-          description="Browse WDG Videography's portfolio of cinematic brand films, social media reels, product videos and event coverage, filmed across Cheltenham, Gloucestershire and England."
-        />
-        <Navbar />
-
-        {/* Header */}
-        <section className="pt-32 pb-12 text-center">
-          <motion.span
-            className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          >
-            Our Work
-          </motion.span>
-          <motion.h1
-            className="font-display text-5xl md:text-6xl font-bold text-foreground mb-6"
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.08 }}
-          >
-            Portfolio
-          </motion.h1>
-
-          {/* Filter tabs */}
-          <motion.div
-            className="flex justify-center gap-2 mt-8"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
-          >
-            {categories.map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => setActiveCategory(key)}
-                className={`px-5 py-2 text-sm font-body font-medium rounded-sm border transition-all duration-300 ${
-                  activeCategory === key
-                    ? "bg-gold text-background border-gold"
-                    : "border-border/40 text-muted-foreground hover:text-foreground hover:border-border"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </motion.div>
-        </section>
-
-        {/* Grid or Empty State */}
-        {isEmpty ? (
-          <PortfolioEmpty />
-        ) : (
-          <section className="max-w-7xl mx-auto px-4 pb-24">
-            <motion.div
-              className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3"
-              layout
-            >
-              {filtered.map(item => (
-                <div key={item.id} className="break-inside-avoid">
-                  <VideoCard item={item} onClick={() => setLightboxItem(item)} />
-                </div>
-              ))}
-            </motion.div>
-          </section>
-        )}
-
-        <Footer />
+    <section ref={ref} id="films" className="px-5 sm:px-8 lg:px-14 pb-[10vh]" style={{ scrollMarginTop: 80 }}>
+      <div className="rv flex flex-wrap items-end justify-between gap-6 mb-10">
+        <h2 className="display text-[clamp(38px,5vw,84px)]">Films and <i>reels</i>.</h2>
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter work">
+          {FILTERS.map((f) => (
+            <button key={f.key} type="button" role="tab" aria-selected={filter === f.key} onClick={() => setFilter(f.key)}
+              className={`pill ${filter === f.key ? "" : "ghost"}`}>{f.label}</button>
+          ))}
+        </div>
       </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" key={filter}>
+        {shown.map((it, i) => <Card key={it.id} item={it} i={i} onOpen={() => setOpen(it)} />)}
+      </div>
+      {open && <Lightbox item={open} onClose={() => setOpen(null)} />}
+    </section>
+  );
+}
 
-      {lightboxItem && (
-        <Lightbox item={lightboxItem} onClose={() => setLightboxItem(null)} />
-      )}
-    </ErrorBoundary>
+export default function Portfolio() {
+  return (
+    <>
+      <SEO
+        title="Video Portfolio — Brand Films, Reels & Event Video"
+        description="Watch brand films, social reels and venue videos by WDG Videography, plus the live websites and apps we've built for businesses across Gloucestershire."
+        keywords="video portfolio Cheltenham, brand film examples, social media reels, restaurant video, farm video, videographer showreel Gloucestershire"
+        canonicalUrl="https://www.wdgvideography.com/portfolio"
+      />
+      <div className="relative min-h-screen bg-background" style={{ overflowX: "clip" }}>
+        <ErrorBoundary silent><Navbar /></ErrorBoundary>
+        <main>
+          <PageHero
+            eyebrow="Work"
+            title={<>The work, <i>unedited</i>.</>}
+            lead="Real films for real businesses: farms, butchers, restaurants and bars across Gloucestershire. Hover to preview, click to watch."
+            video="/media/club-one.mp4" poster="/media/club-one.jpg"
+            primary={{ label: "Start a project", href: "/contact" }}
+            secondary={{ label: "Films", href: "#films" }}
+            compact
+          />
+          <ErrorBoundary silent>
+            <Statement eyebrow="01 — Everything here is live" words={words("No stock footage, no mock-ups. Every clip was shot by us, every site is {online right now}, every app is in daily use.")} />
+          </ErrorBoundary>
+          <ErrorBoundary silent><Grid /></ErrorBoundary>
+          <ErrorBoundary silent><Websites /></ErrorBoundary>
+          <ErrorBoundary silent>
+            <AppsRail title={<>And the <i>software</i> behind the scenes.</>} intro="Dashboards and operations tools we designed and built, screenshotted from the live apps." cta={{ label: "About the apps →", href: "/app-development" }} />
+          </ErrorBoundary>
+          <ErrorBoundary silent><CTA /></ErrorBoundary>
+        </main>
+        <ErrorBoundary silent><Footer /></ErrorBoundary>
+      </div>
+    </>
   );
 }

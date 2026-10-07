@@ -4,19 +4,20 @@
  */
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 const ENQUIRY_ENDPOINT = "https://assistant-36b1ac32.base44.app/functions/wdgSiteEnquiry";
 import { useSearch } from "wouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { useReveal } from "@/hooks/useReveal";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const serviceOptions = [
   { value: "consultation", label: "Book a Consultation" },
   { value: "product-photography", label: "Product Photography (From £25/image)" },
-  { value: "product-videography", label: "Product Videography (From £100)" },
+  { value: "product-videography", label: "Product Videography (From £50)" },
   { value: "social-media", label: "Social Media Management" },
   { value: "website-design", label: "Website Design" },
   { value: "app-development", label: "App Development" },
@@ -114,189 +115,116 @@ export default function Contact() {
 
   const isPending = submitting;
 
+  const ref = useReveal<HTMLElement>(0.05);
+  const field = (name: keyof typeof formData, label: string, props: Record<string, unknown> = {}) => (
+    <label className="block">
+      <span className="mono-tag text-muted-foreground">{label.toUpperCase()}</span>
+      <input name={name} value={formData[name]} onChange={handleChange} className="field mt-1" {...props} />
+    </label>
+  );
+
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
+    <div className="relative min-h-screen bg-background" style={{ overflowX: "clip" }}>
       <SEO
         title="Contact Us — Book a Consultation"
         description="Get in touch with WDG Videography for cinematic video production, brand videos, social media content, website design, and digital marketing services in Cheltenham, Gloucestershire. Free consultation available."
         keywords="contact WDG Videography, book videographer Cheltenham, video production enquiry, marketing consultation Gloucestershire, brand video quote"
         canonicalUrl="https://www.wdgvideography.com/contact"
       />
-      <Navbar />
+      <ErrorBoundary silent><Navbar /></ErrorBoundary>
 
-      <section className="pt-32 pb-24 lg:pb-32">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-12"
-            >
-              <span className="inline-block text-xs font-body text-gold tracking-[0.3em] uppercase mb-4">
-                Get In Touch
-              </span>
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-                Contact Us
-              </h1>
-              <p className="text-muted-foreground font-body text-lg max-w-xl mx-auto leading-relaxed">
-                Ready to bring your vision to life? Fill out the form below and we'll get back to you within 24 hours.
-              </p>
-            </motion.div>
+      <main ref={ref} className="px-5 sm:px-8 lg:px-14 pt-36 lg:pt-44 pb-[12vh]">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-[5vw]">
+          {/* left: the invitation */}
+          <div className="lg:col-span-6">
+            <span className="rise mono-tag text-gold" style={{ animationDelay: ".05s" }}>CONTACT</span>
+            <h1 className="rise display text-[clamp(52px,8.4vw,140px)] mt-5 text-balance" style={{ animationDelay: ".15s" }}>Tell us what you're <i>making</i>.</h1>
+            <p className="rise text-lg text-muted-foreground max-w-md mt-8 leading-relaxed" style={{ animationDelay: ".3s" }}>
+              A few lines about your business and what you need is plenty. We'll reply personally, usually with a couple of questions and a rough price.
+            </p>
 
-            {!submitted ? (
-              <motion.form
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                onSubmit={handleSubmit}
-                noValidate
-                className="space-y-6"
-              >
-            <input type="text" name="company_website" value={honeypot}
-              onChange={(e) => setHoneypot(e.target.value)}
-              className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-body text-muted-foreground mb-2">
-                      First Name <span className="text-gold">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                      disabled={isPending}
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
-                      placeholder="Your first name"
-                    />
+            <dl className="rise mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-8" style={{ animationDelay: ".4s" }}>
+              <div className="hairline pt-5">
+                <dt className="mono-tag text-muted-foreground">EMAIL</dt>
+                <dd className="mt-2"><a href="mailto:will@wdgvideography.com" className="font-display text-[clamp(22px,2vw,30px)] hover:text-gold transition-colors break-all">will@wdgvideography.com</a></dd>
+              </div>
+              <div className="hairline pt-5">
+                <dt className="mono-tag text-muted-foreground">PHONE</dt>
+                <dd className="mt-2"><a href="tel:+447584065559" className="font-display text-[clamp(22px,2vw,30px)] hover:text-gold transition-colors">07584 065559</a></dd>
+              </div>
+              <div className="hairline pt-5">
+                <dt className="mono-tag text-muted-foreground">STUDIO</dt>
+                <dd className="mt-2 font-display text-[clamp(22px,2vw,30px)] leading-tight">Cheltenham, Gloucestershire</dd>
+              </div>
+              <div className="hairline pt-5">
+                <dt className="mono-tag text-muted-foreground">WE TRAVEL</dt>
+                <dd className="mt-2 font-display text-[clamp(22px,2vw,30px)] leading-tight">Cotswolds, Worcestershire and across England</dd>
+              </div>
+            </dl>
+
+            <ol className="rise mt-14 space-y-5" style={{ animationDelay: ".5s" }}>
+              {[
+                ["01", "You send the form.", "Or call, if that's quicker."],
+                ["02", "We talk it through.", "A short call to understand the business, the audience and what success looks like."],
+                ["03", "You get a plan and a price.", "Fixed, in writing, with what's included and what happens on the day."],
+              ].map(([n, t, d]) => (
+                <li key={n} className="grid grid-cols-[48px_1fr] gap-4 items-baseline">
+                  <span className="mono-tag text-gold">{n}</span>
+                  <div><p className="font-semibold text-lg">{t}</p><p className="text-muted-foreground text-sm mt-0.5">{d}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* right: the form */}
+          <div className="lg:col-span-6 rise" style={{ animationDelay: ".3s" }}>
+            <div className="lg:sticky lg:top-28 rounded-3xl bg-card border border-border p-7 sm:p-10 shadow-[0_40px_80px_-50px_rgba(0,0,0,.35)]">
+              {submitted ? (
+                <div className="py-10 text-center">
+                  <span className="mono-tag text-gold">SENT</span>
+                  <h2 className="display text-[clamp(32px,4vw,56px)] mt-4">Thanks, we've <i>got it</i>.</h2>
+                  <p className="text-muted-foreground mt-5 max-w-sm mx-auto">We'll come back to you personally. If it's urgent, call 07584 065559.</p>
+                  <a href="/portfolio" className="pill mt-8">See the work while you wait</a>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate className="space-y-7">
+                  <input type="text" name="company_website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+                  <div className="grid sm:grid-cols-2 gap-7">
+                    {field("firstName", "First name *", { type: "text", autoComplete: "given-name", required: true, placeholder: "Will" })}
+                    {field("lastName", "Last name", { type: "text", autoComplete: "family-name", placeholder: "Smith" })}
                   </div>
-                  <div>
-                    <label className="block text-sm font-body text-muted-foreground mb-2">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      disabled={isPending}
-                      className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
-                      placeholder="Your last name"
-                    />
+                  <div className="grid sm:grid-cols-2 gap-7">
+                    {field("email", "Email *", { type: "email", autoComplete: "email", required: true, placeholder: "you@business.co.uk" })}
+                    {field("phone", "Phone", { type: "tel", autoComplete: "tel", placeholder: "07…" })}
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-body text-muted-foreground mb-2">
-                    Email Address <span className="text-gold">*</span>
+                  <label className="block relative">
+                    <span className="mono-tag text-muted-foreground">WHAT DO YOU NEED? *</span>
+                    <select name="service" value={formData.service} onChange={handleChange} required className="field mt-1 pr-8">
+                      <option value="" disabled>Choose one</option>
+                      {serviceOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                    </select>
+                    <span aria-hidden="true" className="absolute right-0 bottom-4 text-muted-foreground">↓</span>
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={isPending}
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-body text-muted-foreground mb-2">
-                    Phone Number
+                  <label className="block">
+                    <span className="mono-tag text-muted-foreground">TELL US ABOUT IT *</span>
+                    <textarea name="message" value={formData.message} onChange={handleChange} rows={4} required minLength={10} className="field mt-1 resize-none"
+                      placeholder="The business, the audience, any dates you're working to…" />
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    disabled={isPending}
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 disabled:opacity-50"
-                    placeholder="+44 7xxx xxxxxx"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-body text-muted-foreground mb-2">
-                    Service <span className="text-gold">*</span>
-                  </label>
-                  <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    required
-                    disabled={isPending}
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors disabled:opacity-50"
-                  >
-                    <option value="">Select a service...</option>
-                    {serviceOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-body text-muted-foreground mb-2">
-                    Message <span className="text-gold">*</span>
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    disabled={isPending}
-                    className="w-full px-4 py-3 bg-card/50 border border-border/50 rounded-sm text-foreground font-body text-sm focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted-foreground/50 resize-none disabled:opacity-50"
-                    placeholder="Tell us about your project..."
-                  />
-                </div>
-
-                {error && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-sm text-destructive font-body"
-                  >
-                    {error}
-                  </motion.p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isPending}
-                  className="w-full py-4 bg-gold text-primary-foreground font-body font-semibold text-sm tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {isPending ? "Sending..." : "Send Message"}
-                </button>
-              </motion.form>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-center py-20"
-              >
-                <div className="w-16 h-16 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h2 className="font-display text-3xl font-bold text-foreground mb-4">Message Sent!</h2>
-                <p className="text-muted-foreground font-body leading-relaxed max-w-md mx-auto">
-                  Thanks for reaching out. We'll be in touch within 24 hours to discuss your project.
-                </p>
-              </motion.div>
-            )}
+                  {error && <p role="alert" className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{error}</p>}
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                    <button type="submit" disabled={isPending} className="pill gold disabled:opacity-60 disabled:cursor-wait">
+                      {isPending ? "Sending…" : "Send enquiry →"}
+                    </button>
+                    <span className="text-xs text-muted-foreground max-w-[220px]">No mailing lists. We only use this to reply to you.</span>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
-      </section>
+      </main>
 
-      <Footer />
+      <ErrorBoundary silent><Footer /></ErrorBoundary>
     </div>
   );
 }

@@ -39,12 +39,12 @@ export const servicePages: ServicePageData[] = [
     benefits: [
       { title: "Cinematic quality", text: "Cinema cameras, lighting and professional colour grading in DaVinci Resolve." },
       { title: "Built for social", text: "Vertical reels cut from every shoot, ready to post." },
-      { title: "Aerial footage", text: "CAA-registered drone pilot for sweeping aerial shots of your site or venue." },
+      { title: "Aerial footage", text: "Drone shots of your site, land or venue, flown by us as part of the shoot rather than hired in." },
     ],
     faqs: [
       { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. Most businesses choose Business Growth at £650." },
       { q: "Which areas do you cover?", a: "We're based in Cheltenham and regularly film across Gloucestershire, Worcestershire, the Cotswolds and the rest of England." },
-      { q: "How long does editing take?", a: "Most projects are delivered within 7–14 days of the shoot, depending on revisions." },
+      { q: "How does the edit work?", a: "You get a first cut to review, then the revisions included in your package. We agree a delivery date with you before the shoot so it fits your launch or campaign." },
     ],
   },
   {
@@ -70,7 +70,7 @@ export const servicePages: ServicePageData[] = [
     benefits: [
       { title: "Marketplace ready", text: "Images sized and lit to meet Amazon, Etsy and Shopify requirements." },
       { title: "Consistent look", text: "Matching lighting and colour across your whole range." },
-      { title: "Fast turnaround", text: "Most orders edited and delivered within a week." },
+      { title: "Ready to list", text: "Edited, colour-matched and exported to the exact sizes your marketplace or site needs." },
     ],
     faqs: [
       { q: "How much is product photography?", a: "Prices start at £25 per image, with packs of 5 images from £100, 10 from £175 and 20 from £300." },
@@ -137,7 +137,7 @@ export const servicePages: ServicePageData[] = [
     faqs: [
       { q: "How much does a website cost?", a: "Websites range from £1,000 to £7,000 depending on the number of pages, features and content needed." },
       { q: "Will my website show up on Google?", a: "Every site is built with technical SEO, structured data and a sitemap, and we can help set up Google Search Console and your Business Profile." },
-      { q: "How long does a website take?", a: "Most business websites go live in 2–4 weeks." },
+      { q: "How long does a website take?", a: "It depends on the size of the site and how quickly content comes together. We agree a launch date with you at the start and build to it." },
     ],
   },
   {

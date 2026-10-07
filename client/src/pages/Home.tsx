@@ -12,7 +12,7 @@ import WorkShowcase from "@/components/home/WorkShowcase";
 import Websites from "@/components/home/Websites";
 import PhoneFan from "@/components/home/PhoneFan";
 import ColourGrade from "@/components/home/ColourGrade";
-import Services from "@/components/home/Services";
+import Services, { Prices } from "@/components/home/Services";
 import { Marquee, Apps } from "@/components/home/Closing";
 import Journey from "@/components/home/Journey";
 import CTA from "@/components/home/CTA";
@@ -37,6 +37,7 @@ export default function Home() {
           <ErrorBoundary silent><Marquee /></ErrorBoundary>
           <ErrorBoundary silent><ColourGrade /></ErrorBoundary>
           <ErrorBoundary silent><Services /></ErrorBoundary>
+          <ErrorBoundary silent><Prices /></ErrorBoundary>
           <ErrorBoundary silent><Apps /></ErrorBoundary>
           <ErrorBoundary silent><Journey /></ErrorBoundary>
           <ErrorBoundary silent><CTA /></ErrorBoundary>

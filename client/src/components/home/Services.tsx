@@ -1,5 +1,6 @@
 /** Services — three ways we help, then the full price list. */
 import { useReveal } from "@/hooks/useReveal";
+import { PriceMenu, type PriceRow } from "@/components/editorial";
 
 const WAYS = [
   { file: "butchery", n: "01", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
@@ -7,7 +8,7 @@ const WAYS = [
   { file: "", img: "/sites/longhorn-desktop.webp", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software. Five live client sites and counting.", href: "/website-design" },
 ];
 
-const TIERS = [
+export const TIERS: PriceRow[] = [
   { name: "Basic Service", price: "£450", href: "/video-production", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
   { name: "Business Growth", price: "£650", popular: true, href: "/video-production", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15–30 second reels", "Up to 1 revision per reel"] },
   { name: "Bespoke Project", price: "£1,200", href: "/video-production", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3–5 min cinematic video", "Up to 4 revisions on main video", "8× 15–30 sec reels with 1 revision each"] },
@@ -44,27 +45,12 @@ export default function Services() {
         ))}
       </div>
 
-      {/* price list */}
-      <div className="rv mt-[14vh] flex flex-wrap items-end justify-between gap-6 mb-10">
-        <h2 className="display text-[clamp(36px,4.6vw,72px)]">Packages and <i>prices</i>.</h2>
-        <p className="text-muted-foreground max-w-sm">Fixed prices, no hidden extras. Every video package includes vertical reels for your socials.</p>
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {TIERS.map((t) => (
-          <a key={t.name} href={t.href}
-            className={`rv relative block rounded-2xl p-7 border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,.35)] ${t.popular ? "bg-foreground text-background border-foreground" : "bg-card border-border"}`}>
-            {t.popular && <span className="absolute top-5 right-5 mono-tag text-gold">MOST POPULAR</span>}
-            <h3 className="text-lg font-semibold">{t.name}</h3>
-            <p className={`font-display text-[40px] leading-none mt-3 mb-6 ${t.popular ? "text-gold" : ""}`}>{t.price}</p>
-            <ul className={`space-y-2 text-[15px] ${t.popular ? "text-background/80" : "text-muted-foreground"}`}>
-              {t.features.map((f) => (
-                <li key={f} className="flex gap-2.5"><span className="text-gold mt-[2px]">✓</span>{f}</li>
-              ))}
-            </ul>
-            <span className={`inline-block mt-7 text-sm font-medium border-b ${t.popular ? "border-background/50" : "border-foreground/40"}`}>Full details</span>
-          </a>
-        ))}
-      </div>
     </section>
+  );
+}
+
+export function Prices() {
+  return (
+    <PriceMenu id="prices" title={<>Packages and <i>prices</i>.</>} intro="Fixed prices, no hidden extras. Every video package includes vertical reels for your socials." rows={TIERS} cta="Full details" />
   );
 }
