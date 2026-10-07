@@ -14,7 +14,7 @@ import PhoneFan from "@/components/home/PhoneFan";
 import ColourGrade from "@/components/home/ColourGrade";
 import Services from "@/components/home/Services";
 import { Marquee, Apps } from "@/components/home/Closing";
-import Process from "@/components/home/Process";
+import Journey from "@/components/home/Journey";
 import CTA from "@/components/home/CTA";
 
 export default function Home() {
@@ -38,7 +38,7 @@ export default function Home() {
           <ErrorBoundary silent><ColourGrade /></ErrorBoundary>
           <ErrorBoundary silent><Services /></ErrorBoundary>
           <ErrorBoundary silent><Apps /></ErrorBoundary>
-          <ErrorBoundary silent><Process /></ErrorBoundary>
+          <ErrorBoundary silent><Journey /></ErrorBoundary>
           <ErrorBoundary silent><CTA /></ErrorBoundary>
         </main>
         <ErrorBoundary silent><Footer /></ErrorBoundary>

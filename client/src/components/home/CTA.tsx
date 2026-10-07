@@ -66,7 +66,7 @@ export default function CTA() {
           </defs>
           <rect width={W} height={H} fill={INK} mask="url(#cta-knockout)" />
         </svg>
-        <h2 className="sr-only">Let’s make something good.</h2>
+        <h2 className="sr-only">Let’s make something unforgettable.</h2>
       </div>
 
       <div className="lg:col-span-4 flex flex-col gap-8 lg:pb-4">
