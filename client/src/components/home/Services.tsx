@@ -4,7 +4,7 @@ import { useReveal } from "@/hooks/useReveal";
 const WAYS = [
   { file: "butchery", n: "01", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
   { file: "salami", n: "02", title: "Social media reels", text: "Vertical edits, captions and a posting plan that keeps you visible.", href: "/social-media-marketing" },
-  { file: "", img: "/portfolio/site-agriculture.jpg", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software built around your films.", href: "/website-design" },
+  { file: "", img: "/sites/longhorn-desktop.webp", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software. Five live client sites and counting.", href: "/website-design" },
 ];
 
 const TIERS = [
@@ -32,7 +32,7 @@ export default function Services() {
               <video src={`/media/${w.file}.mp4`} poster={`/media/${w.file}.jpg`} muted loop playsInline preload="none"
                 onMouseEnter={(e) => e.currentTarget.play().catch(() => {})} onMouseLeave={(e) => e.currentTarget.pause()} aria-hidden="true" />
             ) : (
-              <img src={w.img} alt="" loading="lazy" />
+              <img src={w.img} alt="" loading="lazy" style={{ objectPosition: "top" }} />
             )}
             <span className="absolute top-5 left-5 text-[13px] font-semibold">{w.n}</span>
             <div className="absolute inset-x-0 bottom-0 p-6" style={{ background: "linear-gradient(transparent, rgba(0,0,0,.75))" }}>

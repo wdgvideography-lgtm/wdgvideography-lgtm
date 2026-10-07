@@ -10,7 +10,7 @@ import { useLocation } from "wouter";
 const navLinks = [
   { label: "Work", href: "/#showreel" },
   { label: "Services", href: "/#services" },
-  { label: "Websites", href: "/website-design" },
+  { label: "Websites", href: "/#websites" },
   { label: "Apps", href: "/app-development" },
   { label: "About", href: "/#about" },
 ];

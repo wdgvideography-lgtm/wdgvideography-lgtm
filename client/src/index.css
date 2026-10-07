@@ -210,3 +210,9 @@
 @keyframes scene-in { from { opacity: 0; transform: translateY(18px); } }
 @keyframes cut-flash { 0% { opacity: .35; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } * { animation-duration: .01ms !important; } }
+
+/* Websites: full-page screenshot drifts up inside its browser frame while the panel is in view */
+.site-scroll { transform: translateY(0); }
+.in .site-scroll { animation: siteScroll 16s ease-in-out 0.6s infinite alternate; }
+@keyframes siteScroll { 0%, 6% { transform: translateY(0); } 94%, 100% { transform: translateY(calc(-100% + 62.5cqw)); } }
+@media (prefers-reduced-motion: reduce) { .in .site-scroll { animation: none; } }

@@ -8,12 +8,12 @@ import { clamp, claimDarkNav } from "@/hooks/useReveal";
 type Project = { file: string; title: string; client: string; type: string; portrait?: boolean };
 
 const PROJECTS: Project[] = [
+  { file: "tractor-wide", title: "Harvest", client: "Gloucestershire farm", type: "Drone & ground film" },
   { file: "butchery", title: "Teddington’s", client: "Farm shop & butchery", type: "Brand film", portrait: true },
+  { file: "amc-truck", title: "AMC Transport", client: "Haulage & drainage", type: "Aerial promo" },
   { file: "dining", title: "The Longhorn", client: "Restaurant", type: "Venue reel", portrait: true },
-  { file: "harvest-wide", title: "Harvest", client: "Gloucestershire farm", type: "Drone & ground film" },
-  { file: "cattle", title: "Pasture", client: "Livestock", type: "Aerial", portrait: true },
-  { file: "bar", title: "Bar & grill", client: "Hospitality", type: "Social reel", portrait: true },
-  { file: "tractor-wide", title: "Field work", client: "Agricultural contractor", type: "Promo film" },
+  { file: "tack-shop", title: "Tack shop", client: "Equestrian retail", type: "Brand film" },
+  { file: "club-one", title: "Club One", client: "Nightclub", type: "Venue film" },
 ];
 const N = PROJECTS.length;
 

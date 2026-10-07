@@ -9,6 +9,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import Hero from "@/components/home/Hero";
 import Intro from "@/components/home/Intro";
 import WorkShowcase from "@/components/home/WorkShowcase";
+import Websites from "@/components/home/Websites";
 import PhoneFan from "@/components/home/PhoneFan";
 import ColourGrade from "@/components/home/ColourGrade";
 import Services from "@/components/home/Services";
@@ -29,6 +30,7 @@ export default function Home() {
           <ErrorBoundary silent><Hero /></ErrorBoundary>
           <ErrorBoundary silent><Intro /></ErrorBoundary>
           <ErrorBoundary silent><WorkShowcase /></ErrorBoundary>
+        <ErrorBoundary silent><Websites /></ErrorBoundary>
           <ErrorBoundary silent><PhoneFan /></ErrorBoundary>
           <ErrorBoundary silent><Marquee /></ErrorBoundary>
           <ErrorBoundary silent><ColourGrade /></ErrorBoundary>
