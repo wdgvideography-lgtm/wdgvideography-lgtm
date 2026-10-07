@@ -72,8 +72,8 @@ export default function ColourGrade() {
         onPointerMove={(e) => { if (dragging.current || e.pointerType === "mouse") setAt(e.clientX); }}
         role="img" aria-label="Before and after colour grading comparison of harvest footage"
       >
-        <video src="/media/harvest-wide.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "saturate(.35) contrast(.72) brightness(1.12) sepia(.08)" }} />
-        <video ref={graded} src="/media/harvest-wide.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ clipPath: "inset(0 0 0 50%)", filter: "saturate(1.25) contrast(1.12) brightness(.96)" }} />
+        <video src="/media/harvest-grade-before.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "saturate(.35) contrast(.72) brightness(1.12) sepia(.08)" }} />
+        <video ref={graded} src="/media/harvest-grade-after.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ clipPath: "inset(0 0 0 50%)", filter: "saturate(1.25) contrast(1.12) brightness(.96)" }} />
         <div ref={hand} className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-white">
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42px] h-[42px] rounded-full bg-white text-[#111] grid place-items-center text-lg">⟷</span>
         </div>

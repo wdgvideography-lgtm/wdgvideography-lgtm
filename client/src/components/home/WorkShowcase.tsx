@@ -8,7 +8,7 @@ import { clamp, claimDarkNav, playVideo, pauseVideo } from "@/hooks/useReveal";
 type Project = { file: string; title: string; client: string; type: string; portrait?: boolean };
 
 const PROJECTS: Project[] = [
-  { file: "tractor-wide", title: "Harvest", client: "Gloucestershire farm", type: "Drone & ground film" },
+  { file: "harvest-sunset", title: "Harvest", client: "Gloucestershire farm", type: "Drone & ground film" },
   { file: "butchery", title: "Teddington’s", client: "Farm shop & butchery", type: "Brand film", portrait: true },
   { file: "amc-truck", title: "AMC Transport", client: "Haulage & drainage", type: "Aerial promo" },
   { file: "dining", title: "The Longhorn", client: "Restaurant", type: "Venue reel", portrait: true },
