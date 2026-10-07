@@ -22,6 +22,7 @@ export default function WorkShowcase() {
   const cards = useRef<(HTMLDivElement | null)[]>([]);
   const dims = useRef<(HTMLDivElement | null)[]>([]);
   const vids = useRef<(HTMLVideoElement | null)[]>([]);
+  const canvases = useRef<(HTMLCanvasElement | null)[]>([]);
   const titles = useRef<(HTMLDivElement | null)[]>([]);
   const bar = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -61,6 +62,12 @@ export default function WorkShowcase() {
           if (!v) return;
           const on = near && Math.abs(i - f) < 0.75;
           if (on) playVideo(v); else pauseVideo(v);
+          // Draw the frame onto the card's canvas: sidesteps browsers that refuse to repaint <video> inside transformed cards.
+          const c = canvases.current[i];
+          if (on && c && v.readyState >= 2 && v.videoWidth) {
+            if (c.width !== v.videoWidth) { c.width = v.videoWidth; c.height = v.videoHeight; }
+            c.getContext("2d")?.drawImage(v, 0, 0, c.width, c.height);
+          }
         });
         if (bar.current) bar.current.style.transform = `scaleX(${p})`;
       }
@@ -106,8 +113,10 @@ export default function WorkShowcase() {
                 transform: "translate(-50%,-50%)",
                 opacity: i === 0 ? 1 : 0.18,
               }}>
-              <video ref={(el) => { vids.current[i] = el; }} src={`/media/${p.file}.mp4`} poster={`/media/${p.file}.jpg`}
-                muted loop playsInline preload={i < 2 ? "auto" : "metadata"} className="absolute inset-0 w-full h-full object-cover" aria-hidden="true" />
+              <canvas ref={(el) => { canvases.current[i] = el; }} width={p.portrait ? 540 : 1600} height={p.portrait ? 960 : 900}
+                className="absolute inset-0 w-full h-full" style={{ background: `#000 url(/media/${p.file}.jpg) center / cover` }} aria-hidden="true" />
+              <video ref={(el) => { vids.current[i] = el; }} src={`/media/${p.file}.mp4`}
+                muted loop playsInline preload={i < 2 ? "auto" : "metadata"} className="absolute w-px h-px opacity-0 pointer-events-none" aria-hidden="true" />
               <div ref={(el) => { dims.current[i] = el; }} className="absolute inset-0 bg-black pointer-events-none" style={{ opacity: i === 0 ? 0 : 0.55 }} />
               <span className="absolute top-3.5 left-4 mono-tag text-white/80">{String(i + 1).padStart(2, "0")}</span>
             </div>
