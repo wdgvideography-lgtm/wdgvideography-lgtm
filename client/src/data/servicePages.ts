@@ -59,8 +59,8 @@ export const servicePages: ServicePageData[] = [
       "product photography Cheltenham, e-commerce product photos, Amazon product photography UK, packshot photography Gloucestershire, lifestyle product photography",
     intro:
       "Clean packshots and styled lifestyle images that make your products look their best on your website, Amazon, Etsy and social media. Every image is studio-lit and professionally retouched.",
-    image: "/assets/product-perfume.png",
-    imageAlt: "Studio product photograph of a perfume bottle by WDG Videography",
+    image: "/reference/perfume-dark.webp",
+    imageAlt: "Reference image: dark perfume bottle lit from behind (Pexels)",
     priceFrom: "£25/image",
     packages: [
       { name: "Starter", price: "£100", features: ["5 edited product images", "White or styled background", "Web-optimised files"] },
@@ -90,8 +90,8 @@ export const servicePages: ServicePageData[] = [
       "product videography UK, product video Cheltenham, e-commerce product video, social media product reels, 360 product video, product advert video",
     intro:
       "Short, scroll-stopping product videos for your website, paid ads and social channels. From quick reels to full hero videos with social cutdowns.",
-    image: "/assets/product-watch.png",
-    imageAlt: "Product videography of a luxury watch",
+    image: "/reference/earbuds.webp",
+    imageAlt: "Reference image: wireless earbuds floating on black (Pexels)",
     priceFrom: "£50",
     packages: [
       { name: "Quick-cut Reel", price: "From £50", features: ["Short punchy edit", "Vertical format for social"] },
