@@ -4,8 +4,8 @@
  */
 
 import { useState, useEffect, useRef } from "react";
-const ENQUIRY_ENDPOINT = "https://assistant-36b1ac32.base44.app/functions/wdgSiteEnquiry";
 import { useSearch } from "wouter";
+import { sendEnquiry } from "@/lib/enquiry";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -82,24 +82,19 @@ export default function Contact() {
     }
 
     setSubmitting(true);
-    fetch(ENQUIRY_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        firstName: formData.firstName.trim(),
-        lastName: (formData.lastName || "").trim(),
-        email: formData.email.trim(),
-        phone: (formData.phone || "").trim(),
-        service: formData.service,
-        message: formData.message.trim(),
-        source: "contact",
-        honeypot,
-      }),
+    sendEnquiry({
+      firstName: formData.firstName.trim(),
+      lastName: (formData.lastName || "").trim(),
+      email: formData.email.trim(),
+      phone: (formData.phone || "").trim(),
+      service: formData.service,
+      message: formData.message.trim(),
+      source: "contact",
+      honeypot,
     })
-      .then(async (res) => {
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || data?.success !== true) {
-          setError(data?.error || "Something went wrong. Please try again.");
+      .then((data) => {
+        if (!data.success) {
+          setError(data.error || "Something went wrong. Please try again.");
           return;
         }
         setSubmitted(true);

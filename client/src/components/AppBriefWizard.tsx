@@ -4,8 +4,8 @@
  */
 
 import { useState } from "react";
+import { sendEnquiry } from "@/lib/enquiry";
 import { motion, AnimatePresence } from "framer-motion";
-const ENQUIRY_ENDPOINT = "https://assistant-36b1ac32.base44.app/functions/wdgSiteEnquiry";
 
 const APP_TYPES = [
   { value: "process", label: "Business Process App", desc: "Rotas, stock, jobs, finance — replacing spreadsheets" },
@@ -122,23 +122,18 @@ export default function AppBriefWizard() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch(ENQUIRY_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: user.firstName.trim(),
-          lastName: user.lastName.trim(),
-          email: user.email.trim(),
-          phone: user.phone.trim(),
-          service: "app-development",
-          message,
-          source: "app-brief",
-          honeypot,
-        }),
+      const data = await sendEnquiry({
+        firstName: user.firstName.trim(),
+        lastName: user.lastName.trim(),
+        email: user.email.trim(),
+        phone: user.phone.trim(),
+        service: "app-development",
+        message,
+        source: "app-brief",
+        honeypot,
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.success !== true) {
-        setError(data?.error || "Something went wrong. Please try again.");
+      if (!data.success) {
+        setError(data.error || "Something went wrong. Please try again.");
         return;
       }
       setStep(4);
