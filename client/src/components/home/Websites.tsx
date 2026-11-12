@@ -112,7 +112,7 @@ export default function Websites() {
         {SITES.map((s, i) => <Panel key={s.key} s={s} i={i} />)}
       </div>
       <div className="max-w-[1500px] mx-auto mt-14 flex flex-wrap items-center justify-between gap-5">
-        <p className="font-display text-[clamp(22px,2.4vw,34px)] leading-tight">Want one? Websites from £1,000, designed and built around your business.</p>
+        <p className="font-display text-[clamp(22px,2.4vw,34px)] leading-tight">Want one? Websites from £800, designed and built around your business.</p>
         <a href="/website-design" className="pill gold">See website packages →</a>
       </div>
     </section>

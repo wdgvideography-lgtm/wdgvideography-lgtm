@@ -116,16 +116,16 @@ export const servicePages: ServicePageData[] = [
     h1: "Website Design in Cheltenham & Gloucestershire",
     seoTitle: "Website Design Cheltenham — Fast, SEO-Optimised Business Websites",
     seoDescription:
-      "Custom, mobile-friendly, SEO-optimised websites for local businesses in Cheltenham and Gloucestershire, with professional photography and video built in. From £1,000.",
+      "Custom, mobile-friendly, SEO-optimised websites for local businesses in Cheltenham and Gloucestershire, with professional photography and video built in. From £800.",
     keywords:
       "website design Cheltenham, web designer Gloucestershire, small business website, SEO website design, restaurant website design, local business web design",
     intro:
       "Fast, custom-designed websites that rank on Google and turn visitors into enquiries. Because we're filmmakers too, your site launches with professional photos and video rather than stock images.",
     image: "/assets/site-amc.jpg",
     imageAlt: "AMC Transport Solutions website designed by WDG Videography",
-    priceFrom: "£1,000",
+    priceFrom: "£800",
     packages: [
-      { name: "Business Website", price: "From £1,000", features: ["Custom design for your brand", "Mobile-responsive & fast-loading", "SEO set-up and sitemap", "Contact forms"] },
+      { name: "Business Website", price: "From £800", features: ["Custom design for your brand", "Mobile-responsive & fast-loading", "SEO set-up and sitemap", "Contact forms"] },
       { name: "Growth Website", price: "From £3,000", features: ["Multiple service and location pages", "Photography and video included", "Google Business Profile set-up"] },
       { name: "Bespoke Platform", price: "Up to £7,000", features: ["Booking, ordering or client portals", "Integrations and automation", "Ongoing support available"] },
     ],
@@ -135,7 +135,7 @@ export const servicePages: ServicePageData[] = [
       { title: "Proven work", text: "Sites for The Longhorn Bar & Grill, AMC Transport Solutions and WDG Agriculture." },
     ],
     faqs: [
-      { q: "How much does a website cost?", a: "Websites range from £1,000 to £7,000 depending on the number of pages, features and content needed." },
+      { q: "How much does a website cost?", a: "Websites range from £800 to £7,000 depending on the number of pages, features and content needed." },
       { q: "Will my website show up on Google?", a: "Every site is built with technical SEO, structured data and a sitemap, and we can help set up Google Search Console and your Business Profile." },
       { q: "How long does a website take?", a: "It depends on the size of the site and how quickly content comes together. We agree a launch date with you at the start and build to it." },
     ],
