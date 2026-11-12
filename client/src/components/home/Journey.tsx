@@ -15,12 +15,12 @@ const STEPS = [
 const N = STEPS.length;
 
 const BOARD = [
-  { img: "/media/harvest-wide.jpg", note: "1A · Drone: harvest fields, establishing shot" },
-  { img: "/media/herd.jpg", note: "1B · The herd at the fence, handheld" },
-  { img: "/media/feed.jpg", note: "1C · Close-up: cattle feeding" },
-  { img: "/media/butchery.jpg", note: "2A · Farm shop sign and entrance" },
-  { img: "/media/mince.jpg", note: "2B · Butchery: mince and cuts, detail" },
-  { img: "/media/dining.jpg", note: "3A · Slow push through the restaurant" },
+  { img: "/media/harvest-wide.jpg", note: "1A · Drone: harvest fields, establishing shot", alt: "Aerial drone shot of harvest fields on a Gloucestershire farm" },
+  { img: "/media/herd.jpg", note: "1B · The herd at the fence, handheld", alt: "A herd of cattle at a field fence, filmed handheld" },
+  { img: "/media/feed.jpg", note: "1C · Close-up: cattle feeding", alt: "Close-up of cattle feeding on a Cotswold farm" },
+  { img: "/media/butchery.jpg", note: "2A · Farm shop sign and entrance", alt: "The entrance and sign of a farm shop and butchery" },
+  { img: "/media/mince.jpg", note: "2B · Butchery: mince and cuts, detail", alt: "Detail shot of fresh mince and cuts on a butchery counter" },
+  { img: "/media/dining.jpg", note: "3A · Slow push through the restaurant", alt: "Interior of a restaurant dining room set for service" },
 ];
 
 function Brief() {
@@ -46,7 +46,7 @@ function Storyboard() {
       <div className="grid grid-cols-3 gap-3">
         {BOARD.map((b) => (
           <figure key={b.note} className="m-0">
-            <div className="aspect-video overflow-hidden rounded-md bg-black"><img src={b.img} alt="" className="w-full h-full object-cover" loading="lazy" /></div>
+            <div className="aspect-video overflow-hidden rounded-md bg-black"><img src={b.img} alt={b.alt} className="w-full h-full object-cover" loading="lazy" /></div>
             <figcaption className="text-[11px] sm:text-[12px] text-black/70 mt-1.5 leading-snug">{b.note}</figcaption>
           </figure>
         ))}
