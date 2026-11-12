@@ -52,7 +52,7 @@ export const appRouter = router({
           "basic-service": "Basic Service (From £450)",
           "business-growth": "Business Growth Service (From £650)",
           "bespoke-project": "Bespoke Project (From £1,200)",
-          "product-photography": "Product Photography (From £25/image)",
+          "product-photography": "Product Photography (From £15/image)",
           "product-videography": "Product Videography (From £100)",
           "app-development": "Custom App Development",
         };

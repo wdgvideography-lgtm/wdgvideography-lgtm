@@ -52,20 +52,20 @@ export const servicePages: ServicePageData[] = [
     serviceId: "product-photography",
     eyebrow: "Product Photography",
     h1: "Product Photography for E-commerce & Brands",
-    seoTitle: "Product Photography Cheltenham — From £25 per Image",
+    seoTitle: "Product Photography Cheltenham — From £15 per Image",
     seoDescription:
-      "Studio-lit, professionally edited product photography for e-commerce, Amazon and social media. From £25 per image, with photo and video bundles. Based in Cheltenham, Gloucestershire.",
+      "Studio-lit, professionally edited product photography for e-commerce, Amazon and social media. From £15 per image, with photo and video bundles. Based in Cheltenham, Gloucestershire.",
     keywords:
       "product photography Cheltenham, e-commerce product photos, Amazon product photography UK, packshot photography Gloucestershire, lifestyle product photography",
     intro:
       "Clean packshots and styled lifestyle images that make your products look their best on your website, Amazon, Etsy and social media. Every image is studio-lit and professionally retouched.",
     image: "/reference/perfume-dark.webp",
     imageAlt: "Reference image: dark perfume bottle lit from behind (Pexels)",
-    priceFrom: "£25/image",
+    priceFrom: "£15/image",
     packages: [
-      { name: "Starter", price: "£100", features: ["5 edited product images", "White or styled background", "Web-optimised files"] },
-      { name: "Standard", price: "£175", features: ["10 edited product images", "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
-      { name: "Catalogue", price: "£300", features: ["20 edited product images", "Multiple angles per product", "Photo + video bundles available"] },
+      { name: "Starter", price: "£60", features: ["5 edited product images", "White or styled background", "Web-optimised files"] },
+      { name: "Standard", price: "£110", features: ["10 edited product images", "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
+      { name: "Catalogue", price: "£200", features: ["20 edited product images", "Multiple angles per product", "Photo + video bundles available"] },
     ],
     benefits: [
       { title: "Marketplace ready", text: "Images sized and lit to meet Amazon, Etsy and Shopify requirements." },
@@ -73,7 +73,7 @@ export const servicePages: ServicePageData[] = [
       { title: "Ready to list", text: "Edited, colour-matched and exported to the exact sizes your marketplace or site needs." },
     ],
     faqs: [
-      { q: "How much is product photography?", a: "Prices start at £25 per image, with packs of 5 images from £100, 10 from £175 and 20 from £300." },
+      { q: "How much is product photography?", a: "Prices start at £15 per image, with packs of 5 images from £60, 10 from £110 and 20 from £200." },
       { q: "Can I post my products to you?", a: "Yes. Get in touch and we'll arrange delivery and return of your products." },
       { q: "Do you offer product video too?", a: "Yes — we offer photography and video bundles, including 360° turntable shots." },
     ],

@@ -13,7 +13,7 @@ export const TIERS: PriceRow[] = [
   { name: "Business Growth", price: "£650", popular: true, href: "/video-production", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15–30 second reels", "Up to 1 revision per reel"] },
   { name: "Bespoke Project", price: "£1,200", href: "/video-production", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3–5 min cinematic video", "Up to 4 revisions on main video", "8× 15–30 sec reels with 1 revision each"] },
   { name: "Website Design", price: "£1,000 – £7,000", href: "/website-design", features: ["Custom-designed for your brand", "Mobile-responsive and fast-loading", "SEO-optimised from the ground up", "Conversion-focused layouts", "Price depends on each project"] },
-  { name: "Product Photography", price: "From £25/image", href: "/product-photography", features: ["Studio-lit, professionally edited", "5 images from £100", "10 images from £175", "20 images from £300", "Photography + video bundles available"] },
+  { name: "Product Photography", price: "From £15/image", href: "/product-photography", features: ["Studio-lit, professionally edited", "5 images from £60", "10 images from £110", "20 images from £200", "Photography + video bundles available"] },
   { name: "Product Videography", price: "From £50", href: "/product-videography", features: ["Quick-cut reel from £50", "15-sec social reel from £100", "60-sec hero video from £350", "Hero video + social cutdowns from £500", "360° turntable option available"] },
 ];
 

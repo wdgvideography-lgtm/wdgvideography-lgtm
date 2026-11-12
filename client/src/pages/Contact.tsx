@@ -16,7 +16,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const serviceOptions = [
   { value: "consultation", label: "Book a Consultation" },
-  { value: "product-photography", label: "Product Photography (From £25/image)" },
+  { value: "product-photography", label: "Product Photography (From £15/image)" },
   { value: "product-videography", label: "Product Videography (From £50)" },
   { value: "social-media", label: "Social Media Management" },
   { value: "website-design", label: "Website Design" },
