@@ -1,3 +1,6 @@
+// Relative import: scripts/prerender-meta.mjs loads this file through tsx, which does not know the "@" alias.
+import { gbp, perUnit } from "../lib/pricing";
+
 export interface ServicePageData {
   slug: string;
   serviceId: string;
@@ -65,9 +68,10 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Reference image: dark perfume bottle lit from behind (Pexels)",
     priceFrom: "£15/image",
     packages: [
-      { name: "Starter", price: "£60", features: ["5 edited product images", "White or styled background", "Web-optimised files"] },
-      { name: "Standard", price: "£110", features: ["10 edited product images", "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
-      { name: "Catalogue", price: "£200", features: ["20 edited product images", "Multiple angles per product", "Photo + video bundles available"] },
+      // Dearest first (the first price seen is the yardstick), each with what an image really works out at.
+      { name: "Catalogue", price: gbp(200), features: ["20 edited product images", `Works out at ${perUnit(200, 20)} an image`, "Multiple angles per product", "Photo + video bundles available"] },
+      { name: "Standard", price: gbp(110), features: ["10 edited product images", `Works out at ${perUnit(110, 10)} an image`, "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
+      { name: "Starter", price: gbp(60), features: ["5 edited product images", `Works out at ${perUnit(60, 5)} an image`, "White or styled background", "Web-optimised files"] },
     ],
     benefits: [
       { title: "Marketplace ready", text: "Images sized and lit to meet Amazon, Etsy and Shopify requirements." },
@@ -96,15 +100,16 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Reference image: wireless earbuds floating on black (Pexels)",
     priceFrom: "£50",
     packages: [
-      { name: "Quick-cut Reel", price: "From £50", features: ["Short punchy edit", "Vertical format for social"] },
-      { name: "Social Reel", price: "From £100", features: ["15 second social reel", "Music and on-screen text"] },
-      { name: "Hero Video", price: "From £350", features: ["60 second hero video", "Ideal for websites and ads"] },
+      // Dearest first, so the quick reels are judged against the full hero package rather than the other way round.
       { name: "Hero + Cutdowns", price: "From £500", features: ["60 second hero video", "Social cutdowns in all formats", "360° turntable option"] },
+      { name: "Hero Video", price: "From £350", features: ["60 second hero video", "Ideal for websites and ads"] },
+      { name: "Social Reel", price: "From £100", features: ["15 second social reel", "Music and on-screen text"] },
+      { name: "Quick-cut Reel", price: "From £50", features: ["Short punchy edit", "Vertical format for social"] },
     ],
     benefits: [
       { title: "Made for ads", text: "Formats for Meta, TikTok, YouTube and Amazon listings." },
       { title: "Studio quality", text: "Controlled lighting and motion for a premium finish." },
-      { title: "Bundle and save", text: "Combine with product photography in one session." },
+      { title: "Photos in the same session", text: "Combine with product photography in one session, so your images and videos match." },
     ],
     faqs: [
       { q: "What formats do I get?", a: "We deliver in vertical, square and landscape so videos fit every platform." },
@@ -160,9 +165,9 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Social media content creation by WDG Videography",
     priceFrom: "Custom",
     packages: [
-      { name: "Content Creation", price: "Quote", features: ["Monthly filming day", "Edited reels and photos", "Captions and hashtags"] },
-      { name: "Full Management", price: "Quote", features: ["Content strategy and calendar", "Posting and community management", "Monthly analytics report"] },
-      { name: "Brand Building", price: "Quote", features: ["Brand strategy and positioning", "Visual identity", "Launch campaigns"] },
+      { name: "Content Creation", serviceId: "content-creation", price: "Quote", features: ["Monthly filming day", "Edited reels and photos", "Captions and hashtags"] },
+      { name: "Full Management", serviceId: "social-media", price: "Quote", features: ["Content strategy and calendar", "Posting and community management", "Monthly analytics report"] },
+      { name: "Brand Building", serviceId: "brand-building", price: "Quote", features: ["Brand strategy and positioning", "Visual identity", "Launch campaigns"] },
     ],
     benefits: [
       { title: "Filmmaker quality", text: "Content that stands out from phone-shot posts." },

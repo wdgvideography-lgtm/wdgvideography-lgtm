@@ -1,11 +1,12 @@
 /** Services — three ways we help, then the full price list. */
 import { useReveal } from "@/hooks/useReveal";
 import { PriceMenu, type PriceRow } from "@/components/editorial";
+import { perUnit } from "@/lib/pricing";
 
 const WAYS = [
   { file: "butchery", n: "01", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
   { file: "salami", n: "02", title: "Social media reels", text: "Vertical edits, captions and a posting plan that keeps you visible.", href: "/social-media-marketing" },
-  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software. Five live client sites and counting.", href: "/website-design" },
+  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software, with five live sites you can click through.", href: "/website-design" },
 ];
 
 export const TIERS: PriceRow[] = [
@@ -13,8 +14,8 @@ export const TIERS: PriceRow[] = [
   { name: "Business Growth", price: "£650", recommended: true, href: "/video-production", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15–30 second reels", "Up to 1 revision per reel"] },
   { name: "Basic Service", price: "£450", href: "/video-production", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
   { name: "Website Design", price: "£800 – £7,000", href: "/website-design", features: ["Custom-designed for your brand", "Mobile-responsive and fast-loading", "SEO-optimised from the ground up", "Conversion-focused layouts", "Price depends on each project"] },
-  { name: "Product Photography", price: "From £15/image", href: "/product-photography", features: ["Studio-lit, professionally edited", "5 images from £60", "10 images from £110", "20 images from £200", "Photography + video bundles available"] },
-  { name: "Product Videography", price: "From £50", href: "/product-videography", features: ["Quick-cut reel from £50", "15-sec social reel from £100", "60-sec hero video from £350", "Hero video + social cutdowns from £500", "360° turntable option available"] },
+  { name: "Product Photography", price: "From £15/image", href: "/product-photography", features: ["Studio-lit, professionally edited", `20 images from £200 (${perUnit(200, 20)} each)`, `10 images from £110 (${perUnit(110, 10)} each)`, `5 images from £60 (${perUnit(60, 5)} each)`, "Photography + video bundles available"] },
+  { name: "Product Videography", price: "From £50", href: "/product-videography", features: ["Hero video + social cutdowns from £500", "60-sec hero video from £350", "15-sec social reel from £100", "Quick-cut reel from £50", "360° turntable option available"] },
 ];
 
 export default function Services() {
