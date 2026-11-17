@@ -8,6 +8,9 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import { installPremiumMotion } from "@/lib/premiumMotion";
+
+installPremiumMotion({ contentSelector: "main" });
 
 const queryClient = new QueryClient();
 
