@@ -11,7 +11,8 @@ export interface ServicePageData {
   imageAlt: string;
   priceFrom: string;
   /** Shown dearest first where it helps (the first price seen is the yardstick for the rest). */
-  packages: { name: string; price: string; features: string[]; recommended?: boolean }[];
+  // serviceId (optional) picks that exact package on the contact form; otherwise the page's own serviceId is used.
+  packages: { name: string; price: string; features: string[]; recommended?: boolean; serviceId?: string }[];
   benefits: { title: string; text: string }[];
   faqs: { q: string; a: string }[];
 }
@@ -33,9 +34,9 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "WDG Videography cinema camera filming a brand video",
     priceFrom: "£450",
     packages: [
-      { name: "Basic Service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
-      { name: "Business Growth", price: "£650", recommended: true, features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
-      { name: "Bespoke Project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
+      { name: "Bespoke Project", serviceId: "bespoke-project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
+      { name: "Business Growth", serviceId: "business-growth", price: "£650", recommended: true, features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
+      { name: "Basic Service", serviceId: "basic-service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
     ],
     benefits: [
       { title: "Cinematic quality", text: "Cinema cameras, lighting and professional colour grading in DaVinci Resolve." },

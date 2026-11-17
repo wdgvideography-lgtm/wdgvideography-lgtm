@@ -14,19 +14,42 @@ import { useReveal } from "@/hooks/useReveal";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const serviceOptions = [
-  { value: "consultation", label: "Book a Consultation" },
-  { value: "product-photography", label: "Product Photography (From £15/image)" },
-  { value: "product-videography", label: "Product Videography (From £50)" },
-  { value: "social-media", label: "Social Media Management" },
-  { value: "website-design", label: "Website Design" },
-  { value: "app-development", label: "App Development" },
-  { value: "content-creation", label: "Content Creation" },
-  { value: "brand-building", label: "Brand Building" },
-  { value: "basic-service", label: "Basic Service Video (From £450)" },
-  { value: "business-growth", label: "Business Growth Video (From £650)" },
-  { value: "bespoke-project", label: "Bespoke Project (From £1,200)" },
+// Grouped, dearest first within each group (anchoring), with the package we'd steer most people to marked.
+// Values must stay in step with the server's list in server/routers.ts.
+const serviceGroups: { label: string; options: { value: string; label: string }[] }[] = [
+  {
+    label: "Video packages",
+    options: [
+      { value: "bespoke-project", label: "Bespoke Project (From £1,200)" },
+      { value: "business-growth", label: "Business Growth (From £650) · Recommended" },
+      { value: "basic-service", label: "Basic Service (From £450)" },
+    ],
+  },
+  {
+    label: "Websites and apps",
+    options: [
+      { value: "app-development", label: "App Development" },
+      { value: "website-design", label: "Website Design (£800 – £7,000)" },
+    ],
+  },
+  {
+    label: "Products",
+    options: [
+      { value: "product-videography", label: "Product Videography (From £50)" },
+      { value: "product-photography", label: "Product Photography (From £15/image)" },
+    ],
+  },
+  {
+    label: "Marketing",
+    options: [
+      { value: "social-media", label: "Social Media Management" },
+      { value: "content-creation", label: "Content Creation" },
+      { value: "brand-building", label: "Brand Building" },
+    ],
+  },
+  { label: "Not sure yet", options: [{ value: "consultation", label: "Not sure yet: book a consultation" }] },
 ];
+const serviceValues = new Set(serviceGroups.flatMap((g) => g.options.map((o) => o.value)));
 
 export default function Contact() {
   const searchString = useSearch();
@@ -44,7 +67,8 @@ export default function Contact() {
   useEffect(() => {
     const params = new URLSearchParams(searchString);
     const service = params.get("service");
-    if (service) {
+    // Smart default from the page they came from; anything we don't recognise is ignored.
+    if (service && serviceValues.has(service)) {
       setFormData((prev) => ({ ...prev, service }));
     }
   }, [searchString]);
@@ -177,7 +201,7 @@ export default function Contact() {
               {submitted ? (
                 <div className="py-10 text-center">
                   <span className="mono-tag text-gold">SENT</span>
-                  <h2 className="display text-[clamp(32px,4vw,56px)] mt-4">Thanks, we've <i>got it</i>.</h2>
+                  <h2 className="display text-[clamp(32px,4vw,56px)] mt-4">Thanks{formData.firstName.trim() ? `, ${formData.firstName.trim().split(/\s+/)[0]}` : ""}. We've <i>got it</i>.</h2>
                   <p className="text-muted-foreground mt-5 max-w-sm mx-auto">We'll come back to you personally. If it's urgent, call 07584 065559.</p>
                   <a href="/portfolio" className="pill mt-8">See the work while you wait</a>
                 </div>
@@ -196,7 +220,11 @@ export default function Contact() {
                     <span className="mono-tag text-muted-foreground">WHAT DO YOU NEED? *</span>
                     <select name="service" value={formData.service} onChange={handleChange} required className="field mt-1 pr-8">
                       <option value="" disabled>Choose one</option>
-                      {serviceOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                      {serviceGroups.map((g) => (
+                        <optgroup key={g.label} label={g.label}>
+                          {g.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                        </optgroup>
+                      ))}
                     </select>
                     <span aria-hidden="true" className="absolute right-0 bottom-4 text-muted-foreground">↓</span>
                   </label>
