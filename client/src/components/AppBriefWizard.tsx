@@ -1,6 +1,10 @@
 /**
  * App Development Onboarding Wizard — Noir Cinema Design
  * Multi-step project brief that submits through the existing contact pipeline.
+ *
+ * Order matters: people shape their own brief first (what, features, timeline) and only give contact
+ * details at the end, once they've made something worth sending (IKEA / commitment effect). The last
+ * step shows their brief back to them so the ask sits next to the work they've done.
  */
 
 import { useState } from "react";
@@ -42,7 +46,9 @@ const BUDGETS = [
   { value: "unsure", label: "Not sure — guide me" },
 ];
 
-const STEP_TITLES = ["About You", "Your Project", "Features", "Timeline & Budget"];
+const STEP_TITLES = ["Your Project", "Features", "Timeline & Budget", "About You"];
+const LAST_STEP = STEP_TITLES.length - 1;
+const DONE = STEP_TITLES.length;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -93,20 +99,27 @@ export default function AppBriefWizard() {
 
   const next = () => {
     setError("");
-    if (step === 0) {
+    if (step === 0 && !appType) return setError("Please choose what you need, or pick 'Not Sure Yet'.");
+    if (step === LAST_STEP) {
       if (!user.firstName.trim()) return setError("Please enter your first name.");
       if (!EMAIL_RE.test(user.email.trim())) return setError("Please enter a valid email address.");
+      return submit();
     }
-    if (step === 1 && !appType) return setError("Please choose what you need — or pick 'Not Sure Yet'.");
-    if (step === 2) return setStep(3);
-    if (step === 3) return submit();
     setStep((s) => s + 1);
   };
 
+  const typeLabel = APP_TYPES.find((t) => t.value === appType)?.label || appType;
+  const timelineLabel = TIMELINES.find((t) => t.value === timeline)?.label || timeline;
+  const budgetLabel = BUDGETS.find((b) => b.value === budget)?.label || budget;
+  // What they've built so far, shown back to them before the contact step and on the thank-you screen.
+  const recap = [
+    typeLabel,
+    features.length ? `${features.length} ${features.length === 1 ? "feature" : "features"}` : "",
+    timelineLabel,
+    budgetLabel,
+  ].filter(Boolean);
+
   const submit = async () => {
-    const typeLabel = APP_TYPES.find((t) => t.value === appType)?.label || appType;
-    const timelineLabel = TIMELINES.find((t) => t.value === timeline)?.label || timeline;
-    const budgetLabel = BUDGETS.find((b) => b.value === budget)?.label || budget;
     const message = [
       "APP DEVELOPMENT PROJECT BRIEF (onboarding wizard)",
       "",
@@ -136,16 +149,16 @@ export default function AppBriefWizard() {
         setError(data.error || "Something went wrong. Please try again.");
         return;
       }
-      setStep(4);
+      setStep(DONE);
     } catch {
-      setError("Network error — please check your connection and try again.");
+      setError("Sorry, that didn't send. Your brief is still here, so please check your connection and try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
   // Success screen
-  if (step === 4) {
+  if (step === DONE) {
     return (
       <div className="rounded-sm border border-gold/40 bg-gradient-to-b from-gold/10 to-transparent p-8 lg:p-14 text-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
@@ -156,10 +169,13 @@ export default function AppBriefWizard() {
           </div>
           <h3 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">Brief Received</h3>
           <p className="text-muted-foreground font-body leading-relaxed max-w-md mx-auto">
-            Thanks {user.firstName} — your project brief is with us. We'll review it and come back
-            within 24 hours with initial thoughts, questions and a suggested scope. No jargon, no
-            hard sell — just a genuine look at what your app could be.
+            Thanks {user.firstName.trim().split(/\s+/)[0]}, your project brief is with us. Will reads every one
+            personally and will come back with initial thoughts, questions and a suggested scope. No jargon,
+            no hard sell, just a genuine look at what your app could be.
           </p>
+          <p className="mt-6 text-xs font-body uppercase tracking-wider text-gold">{recap.join(" · ")}</p>
+          <p className="text-sm text-muted-foreground font-body mt-6">If it's urgent, call <a href="tel:+447584065559" className="underline">07584 065559</a>.</p>
+          <a href="#builds" className="inline-block mt-6 text-sm font-body font-medium border-b border-gold text-foreground hover:text-gold transition-colors">See the apps we've built while you wait</a>
         </motion.div>
       </div>
     );
@@ -187,23 +203,25 @@ export default function AppBriefWizard() {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
-          {step === 0 && (
+          {step === LAST_STEP && (
             <div className="space-y-4">
-              <h3 className="font-display text-2xl font-bold text-foreground mb-1">Let's start with you</h3>
-              <p className="text-sm text-muted-foreground font-body mb-6">So we know who we're building for.</p>
+              <h3 className="font-display text-2xl font-bold text-foreground mb-1">Last step: where should we send ideas?</h3>
+              <p className="text-sm text-muted-foreground font-body mb-2">Your brief is ready:</p>
+              <p className="text-xs font-body uppercase tracking-wider text-gold mb-6">{recap.join(" · ")}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input className={inputCls} placeholder="First name *" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
-                <input className={inputCls} placeholder="Last name" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
-                <input className={inputCls} placeholder="Email address *" type="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-                <input className={inputCls} placeholder="Phone (optional)" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
+                <input className={inputCls} placeholder="First name *" autoComplete="given-name" value={user.firstName} onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
+                <input className={inputCls} placeholder="Last name" autoComplete="family-name" value={user.lastName} onChange={(e) => setUser({ ...user, lastName: e.target.value })} />
+                <input className={inputCls} placeholder="Email address *" type="email" autoComplete="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                <input className={inputCls} placeholder="Phone (optional)" type="tel" autoComplete="tel" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
                             <input type="text" name="company_website" value={honeypot}
                 onChange={(e) => setHoneypot(e.target.value)}
                 className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
               </div>
+              <p className="text-xs text-muted-foreground font-body">No mailing lists. We only use this to reply to you. See our <a href="/privacy" className="underline">privacy policy</a>.</p>
             </div>
           )}
 
-          {step === 1 && (
+          {step === 0 && (
             <div>
               <h3 className="font-display text-2xl font-bold text-foreground mb-1">What do you need built?</h3>
               <p className="text-sm text-muted-foreground font-body mb-6">Pick the closest fit — we'll refine it together.</p>
@@ -215,7 +233,7 @@ export default function AppBriefWizard() {
             </div>
           )}
 
-          {step === 2 && (
+          {step === 1 && (
             <div>
               <h3 className="font-display text-2xl font-bold text-foreground mb-1">What should it do?</h3>
               <p className="text-sm text-muted-foreground font-body mb-6">Select everything that applies — skip anything you're not sure about.</p>
@@ -227,7 +245,7 @@ export default function AppBriefWizard() {
             </div>
           )}
 
-          {step === 3 && (
+          {step === 2 && (
             <div className="space-y-6">
               <div>
                 <h3 className="font-display text-2xl font-bold text-foreground mb-1">Timeline & budget</h3>
@@ -280,7 +298,7 @@ export default function AppBriefWizard() {
           disabled={submitting}
           className="px-8 py-3 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] disabled:opacity-60"
         >
-          {step === 3 ? (submitting ? "Sending…" : "Submit Project Brief") : "Continue →"}
+          {step === LAST_STEP ? (submitting ? "Sending…" : "Send my brief →") : "Continue →"}
         </button>
       </div>
     </div>
