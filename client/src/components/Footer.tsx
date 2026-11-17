@@ -81,7 +81,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-wrap justify-between gap-3 mono-tag text-white/45">
-          <span>© 2026 WDG VIDEOGRAPHY. ALL RIGHTS RESERVED.</span>
+          <span>© 2026 WDG VIDEOGRAPHY. ALL RIGHTS RESERVED. · <a href="/privacy" className="hover:text-gold transition-colors">PRIVACY POLICY</a></span>
           <span>FILM · SOCIAL · WEB · APPS</span>
         </div>
       </div>

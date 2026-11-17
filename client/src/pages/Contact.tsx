@@ -210,7 +210,7 @@ export default function Contact() {
                     <button type="submit" disabled={isPending} className="pill gold disabled:opacity-60 disabled:cursor-wait">
                       {isPending ? "Sending…" : "Send enquiry →"}
                     </button>
-                    <span className="text-xs text-muted-foreground max-w-[220px]">No mailing lists. We only use this to reply to you.</span>
+                    <span className="text-xs text-muted-foreground max-w-[220px]">No mailing lists. We only use this to reply to you — see our <a href="/privacy" className="underline">privacy policy</a>.</span>
                   </div>
                 </form>
               )}
