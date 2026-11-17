@@ -167,7 +167,7 @@ export default function ServicePage({ slug }: { slug: string }) {
 
         <ErrorBoundary silent>
           <PriceMenu id="prices" title={<>Packages and <i>prices</i>.</>} intro="Fixed prices, agreed before we start. Pick the one that fits, or ask and we'll put something together."
-            rows={page.packages.map((p, i) => ({ ...p, href: `/contact?service=${page.serviceId}`, popular: slug === "video-production" && i === 1 }))} />
+            rows={page.packages.map((p) => ({ ...p, href: `/contact?service=${page.serviceId}` }))} />
         </ErrorBoundary>
 
         <ErrorBoundary silent>
