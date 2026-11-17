@@ -90,7 +90,7 @@ export const appRouter = router({
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message:
-              "Your message could not be delivered right now. Please email us directly at wdg.videography@gmail.com or call +44 7584 065559.",
+              "Your message could not be delivered right now. Please email us directly at will@wdgvideography.com or call +44 7584 065559.",
           });
         }
 
