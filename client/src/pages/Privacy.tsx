@@ -33,6 +33,7 @@ export default function Privacy() {
         <ul>
           <li><strong>When you send an enquiry:</strong> your name, email address, phone number (if you give it), the service you're interested in and your message.</li>
           <li><strong>When you become a client:</strong> the contact and billing details needed to quote, deliver the work and invoice you, plus the files and footage you share with us or that we film for you.</li>
+          <li><strong>When you use our price checker:</strong> your answers, any notes you add and the contact details you give. If you send it, it becomes an enquiry like any other. Until then your answers are kept only in your own browser (for up to 30 days) so you don't lose them; nothing is sent to us until you press send.</li>
           <li><strong>When you visit the site:</strong> our hosting provider keeps short-lived technical logs (such as IP address and browser type) to keep the site secure. We don't use advertising or analytics cookies on this website.</li>
         </ul>
 

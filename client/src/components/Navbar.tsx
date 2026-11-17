@@ -76,8 +76,8 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="/contact" className={`pill hidden sm:inline-flex ${onDark ? "!bg-white !text-foreground hover:!bg-gold" : ""}`}>
-              Start a project
+            <a href="/get-a-quote" className={`pill hidden sm:inline-flex ${onDark ? "!bg-white !text-foreground hover:!bg-gold" : ""}`}>
+              Get a price
             </a>
             <button
               type="button"
@@ -115,7 +115,7 @@ export default function Navbar() {
               </a>
             ))}
           </nav>
-          <a href="/contact" className="pill gold justify-center">Start a project</a>
+          <a href="/get-a-quote" className="pill gold justify-center">Get a price</a>
           <p className="mono-tag mt-8 text-white/50">CHELTENHAM · GLOUCESTERSHIRE</p>
         </div>
       </div>

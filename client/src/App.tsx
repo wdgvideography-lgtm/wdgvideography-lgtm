@@ -11,6 +11,7 @@ import Privacy from "./pages/Privacy";
 import Portfolio from "./pages/Portfolio";
 import AppDevelopment from "./pages/AppDevelopment";
 import ServicePage from "./pages/ServicePage";
+import GetAQuote from "./pages/GetAQuote";
 import { servicePages } from "./data/servicePages";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/contact"} component={Contact} />
+      <Route path={"/get-a-quote"} component={GetAQuote} />
       <Route path={"/privacy"} component={Privacy} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/app-development"} component={AppDevelopment} />

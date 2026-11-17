@@ -57,6 +57,11 @@ const routes = {
     desc: "Get in touch with WDG Videography for cinematic video production, brand videos, social media content, website design, and digital marketing services in Cheltenham, Gloucestershire. Free consultation available.",
     body: wrap(`<h1>Contact WDG Videography</h1>${NAV}`),
   },
+  "get-a-quote": {
+    title: "Get an Instant Price — Video, Websites & Apps | WDG Videography",
+    desc: "Answer a few quick questions and see what your video, website, app or social media would cost straight away. Cheltenham, Gloucestershire. No sign-up.",
+    body: wrap(`<h1>Get an instant price</h1><p>Answer a few quick questions and see a guide price straight away. Or call 07584 065559.</p>${NAV}`),
+  },
   privacy: {
     title: "Privacy Policy | WDG Videography",
     desc: "How WDG Videography collects, uses and looks after your personal information.",

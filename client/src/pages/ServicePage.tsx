@@ -107,6 +107,12 @@ const TREATMENTS: Record<string, Treatment> = {
   },
 };
 
+// Which question set on /get-a-quote each service page opens at.
+const QUOTE_FLOW: Record<string, string> = {
+  "video-production": "video", "product-photography": "product", "product-videography": "product",
+  "website-design": "website", "social-media-marketing": "social",
+};
+
 export default function ServicePage({ slug }: { slug: string }) {
   const page = servicePages.find((p) => p.slug === slug);
   if (!page) return <NotFound />;
@@ -156,7 +162,7 @@ export default function ServicePage({ slug }: { slug: string }) {
           lead={page.intro}
           video={t?.video} poster={t?.poster} image={t?.image ?? page.image} imageAlt={page.imageAlt} imagePosition={t?.imagePosition}
           from={page.priceFrom !== "Custom" ? page.priceFrom : undefined}
-          primary={{ label: "Start a project", href: `/contact?service=${page.serviceId}` }}
+          primary={{ label: "Get an instant price", href: `/get-a-quote#${QUOTE_FLOW[page.slug] ?? ""}` }}
           secondary={{ label: "See prices", href: "#prices" }}
         />
         {/* The visible H1 is the headline; this keeps the long-tail phrase for search without a second heading on screen. */}
