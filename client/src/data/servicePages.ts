@@ -10,7 +10,8 @@ export interface ServicePageData {
   image: string;
   imageAlt: string;
   priceFrom: string;
-  packages: { name: string; price: string; features: string[] }[];
+  /** Shown dearest first where it helps (the first price seen is the yardstick for the rest). */
+  packages: { name: string; price: string; features: string[]; recommended?: boolean }[];
   benefits: { title: string; text: string }[];
   faqs: { q: string; a: string }[];
 }
@@ -33,7 +34,7 @@ export const servicePages: ServicePageData[] = [
     priceFrom: "£450",
     packages: [
       { name: "Basic Service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
-      { name: "Business Growth", price: "£650", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
+      { name: "Business Growth", price: "£650", recommended: true, features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
       { name: "Bespoke Project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
     ],
     benefits: [
@@ -42,7 +43,7 @@ export const servicePages: ServicePageData[] = [
       { title: "Aerial footage", text: "Drone shots of your site, land or venue, flown by us as part of the shoot rather than hired in." },
     ],
     faqs: [
-      { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. Most businesses choose Business Growth at £650." },
+      { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. For most businesses we recommend Business Growth at £650." },
       { q: "Which areas do you cover?", a: "We're based in Cheltenham and regularly film across Gloucestershire, Worcestershire, the Cotswolds and the rest of England." },
       { q: "How does the edit work?", a: "You get a first cut to review, then the revisions included in your package. We agree a delivery date with you before the shoot so it fits your launch or campaign." },
     ],
@@ -125,9 +126,11 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "AMC Transport Solutions website designed by WDG Videography",
     priceFrom: "£800",
     packages: [
-      { name: "Business Website", price: "From £800", features: ["Custom design for your brand", "Mobile-responsive & fast-loading", "SEO set-up and sitemap", "Contact forms"] },
-      { name: "Growth Website", price: "From £3,000", features: ["Multiple service and location pages", "Photography and video included", "Google Business Profile set-up"] },
+      // Dearest first, so the £800 and £3,000 sites are judged against the full platform, not the other
+      // way round. Growth is our recommendation: it's where our own photos and video come in.
       { name: "Bespoke Platform", price: "Up to £7,000", features: ["Booking, ordering or client portals", "Integrations and automation", "Ongoing support available"] },
+      { name: "Growth Website", price: "From £3,000", recommended: true, features: ["Multiple service and location pages", "Photography and video included", "Google Business Profile set-up"] },
+      { name: "Business Website", price: "From £800", features: ["Custom design for your brand", "Mobile-responsive & fast-loading", "SEO set-up and sitemap", "Contact forms"] },
     ],
     benefits: [
       { title: "SEO from day one", text: "Structured data, fast load times and local keywords built in." },
