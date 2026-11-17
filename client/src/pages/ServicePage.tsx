@@ -167,7 +167,7 @@ export default function ServicePage({ slug }: { slug: string }) {
 
         <ErrorBoundary silent>
           <PriceMenu id="prices" title={<>Packages and <i>prices</i>.</>} intro="Fixed prices, agreed before we start. Pick the one that fits, or ask and we'll put something together."
-            rows={page.packages.map((p) => ({ ...p, href: `/contact?service=${page.serviceId}` }))} />
+            rows={page.packages.map(({ serviceId, ...p }) => ({ ...p, href: `/contact?service=${serviceId ?? page.serviceId}` }))} />
         </ErrorBoundary>
 
         <ErrorBoundary silent>
@@ -186,7 +186,7 @@ export default function ServicePage({ slug }: { slug: string }) {
           </div>
         </section>
 
-        <ErrorBoundary silent><CTA /></ErrorBoundary>
+        <ErrorBoundary silent><CTA service={page.serviceId} /></ErrorBoundary>
       </main>
       <ErrorBoundary silent><Footer /></ErrorBoundary>
     </div>

@@ -1,3 +1,6 @@
+// Relative import: scripts/prerender-meta.mjs loads this file through tsx, which does not know the "@" alias.
+import { gbp, perUnit } from "../lib/pricing";
+
 export interface ServicePageData {
   slug: string;
   serviceId: string;
@@ -11,7 +14,8 @@ export interface ServicePageData {
   imageAlt: string;
   priceFrom: string;
   /** Shown dearest first where it helps (the first price seen is the yardstick for the rest). */
-  packages: { name: string; price: string; features: string[]; recommended?: boolean }[];
+  // serviceId (optional) picks that exact package on the contact form; otherwise the page's own serviceId is used.
+  packages: { name: string; price: string; features: string[]; recommended?: boolean; serviceId?: string }[];
   benefits: { title: string; text: string }[];
   faqs: { q: string; a: string }[];
 }
@@ -33,9 +37,9 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "WDG Videography cinema camera filming a brand video",
     priceFrom: "£450",
     packages: [
-      { name: "Basic Service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
-      { name: "Business Growth", price: "£650", recommended: true, features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
-      { name: "Bespoke Project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
+      { name: "Bespoke Project", serviceId: "bespoke-project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
+      { name: "Business Growth", serviceId: "business-growth", price: "£650", recommended: true, features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
+      { name: "Basic Service", serviceId: "basic-service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
     ],
     benefits: [
       { title: "Cinematic quality", text: "Cinema cameras, lighting and professional colour grading in DaVinci Resolve." },
@@ -64,9 +68,10 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Reference image: dark perfume bottle lit from behind (Pexels)",
     priceFrom: "£15/image",
     packages: [
-      { name: "Starter", price: "£60", features: ["5 edited product images", "White or styled background", "Web-optimised files"] },
-      { name: "Standard", price: "£110", features: ["10 edited product images", "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
-      { name: "Catalogue", price: "£200", features: ["20 edited product images", "Multiple angles per product", "Photo + video bundles available"] },
+      // Dearest first (the first price seen is the yardstick), each with what an image really works out at.
+      { name: "Catalogue", price: gbp(200), features: ["20 edited product images", `Works out at ${perUnit(200, 20)} an image`, "Multiple angles per product", "Photo + video bundles available"] },
+      { name: "Standard", price: gbp(110), features: ["10 edited product images", `Works out at ${perUnit(110, 10)} an image`, "Mix of packshot and lifestyle", "Marketplace-ready sizes"] },
+      { name: "Starter", price: gbp(60), features: ["5 edited product images", `Works out at ${perUnit(60, 5)} an image`, "White or styled background", "Web-optimised files"] },
     ],
     benefits: [
       { title: "Marketplace ready", text: "Images sized and lit to meet Amazon, Etsy and Shopify requirements." },
@@ -95,15 +100,16 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Reference image: wireless earbuds floating on black (Pexels)",
     priceFrom: "£50",
     packages: [
-      { name: "Quick-cut Reel", price: "From £50", features: ["Short punchy edit", "Vertical format for social"] },
-      { name: "Social Reel", price: "From £100", features: ["15 second social reel", "Music and on-screen text"] },
-      { name: "Hero Video", price: "From £350", features: ["60 second hero video", "Ideal for websites and ads"] },
+      // Dearest first, so the quick reels are judged against the full hero package rather than the other way round.
       { name: "Hero + Cutdowns", price: "From £500", features: ["60 second hero video", "Social cutdowns in all formats", "360° turntable option"] },
+      { name: "Hero Video", price: "From £350", features: ["60 second hero video", "Ideal for websites and ads"] },
+      { name: "Social Reel", price: "From £100", features: ["15 second social reel", "Music and on-screen text"] },
+      { name: "Quick-cut Reel", price: "From £50", features: ["Short punchy edit", "Vertical format for social"] },
     ],
     benefits: [
       { title: "Made for ads", text: "Formats for Meta, TikTok, YouTube and Amazon listings." },
       { title: "Studio quality", text: "Controlled lighting and motion for a premium finish." },
-      { title: "Bundle and save", text: "Combine with product photography in one session." },
+      { title: "Photos in the same session", text: "Combine with product photography in one session, so your images and videos match." },
     ],
     faqs: [
       { q: "What formats do I get?", a: "We deliver in vertical, square and landscape so videos fit every platform." },
@@ -159,9 +165,9 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "Social media content creation by WDG Videography",
     priceFrom: "Custom",
     packages: [
-      { name: "Content Creation", price: "Quote", features: ["Monthly filming day", "Edited reels and photos", "Captions and hashtags"] },
-      { name: "Full Management", price: "Quote", features: ["Content strategy and calendar", "Posting and community management", "Monthly analytics report"] },
-      { name: "Brand Building", price: "Quote", features: ["Brand strategy and positioning", "Visual identity", "Launch campaigns"] },
+      { name: "Content Creation", serviceId: "content-creation", price: "Quote", features: ["Monthly filming day", "Edited reels and photos", "Captions and hashtags"] },
+      { name: "Full Management", serviceId: "social-media", price: "Quote", features: ["Content strategy and calendar", "Posting and community management", "Monthly analytics report"] },
+      { name: "Brand Building", serviceId: "brand-building", price: "Quote", features: ["Brand strategy and positioning", "Visual identity", "Launch campaigns"] },
     ],
     benefits: [
       { title: "Filmmaker quality", text: "Content that stands out from phone-shot posts." },

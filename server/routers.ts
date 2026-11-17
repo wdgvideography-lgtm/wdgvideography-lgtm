@@ -53,7 +53,7 @@ export const appRouter = router({
           "business-growth": "Business Growth Service (From £650)",
           "bespoke-project": "Bespoke Project (From £1,200)",
           "product-photography": "Product Photography (From £15/image)",
-          "product-videography": "Product Videography (From £100)",
+          "product-videography": "Product Videography (From £50)",
           "app-development": "Custom App Development",
         };
 
@@ -90,7 +90,7 @@ export const appRouter = router({
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message:
-              "Your message could not be delivered right now. Please email us directly at wdg.videography@gmail.com or call +44 7584 065559.",
+              "Your message could not be delivered right now. Please email us directly at will@wdgvideography.com or call +44 7584 065559.",
           });
         }
 

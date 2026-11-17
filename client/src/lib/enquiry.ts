@@ -15,7 +15,11 @@ export type EnquiryPayload = {
   honeypot: string;
 };
 
-async function post(url: string, body: unknown): Promise<{ ok: boolean; error?: string }> {
+// One plain, friendly message for every failure. We never pass on what the endpoints say, because
+// that can be a raw technical error (stack traces, config names) that visitors shouldn't see.
+export const ENQUIRY_FAILED = "Sorry, that didn't send. Your message is still here, so please try again, or call 07584 065559.";
+
+async function post(url: string, body: unknown): Promise<{ ok: boolean }> {
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -23,15 +27,17 @@ async function post(url: string, body: unknown): Promise<{ ok: boolean; error?: 
       body: JSON.stringify(body),
     });
     const data = await res.json().catch(() => ({}));
-    return res.ok && data?.success === true ? { ok: true } : { ok: false, error: data?.error };
+    if (res.ok && data?.success === true) return { ok: true };
+    console.warn("[enquiry] endpoint did not accept the enquiry", url, res.status, data?.error);
+    return { ok: false };
   } catch {
     return { ok: false };
   }
 }
 
-export async function sendEnquiry(p: EnquiryPayload): Promise<{ success: boolean; error?: string }> {
+export async function sendEnquiry(p: EnquiryPayload): Promise<{ success: true } | { success: false; error: string }> {
   const page = typeof window !== "undefined" ? window.location.pathname : "";
   const [bm, email] = await Promise.all([post(BM_ENDPOINT, { ...p, page }), post(EMAIL_ENDPOINT, p)]);
   if (bm.ok || email.ok) return { success: true };
-  return { success: false, error: bm.error || email.error || "Something went wrong. Please try again, or call 07584 065559." };
+  return { success: false, error: ENQUIRY_FAILED };
 }

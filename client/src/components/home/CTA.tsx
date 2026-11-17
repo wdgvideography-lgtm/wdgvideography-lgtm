@@ -12,7 +12,8 @@ const W = Math.max(...CTA_LINES.map((l) => l.w)) + PAD * 2;
 const H = CTA_CAP + LH * (CTA_LINES.length - 1) + 0.32 * CTA_UPM + PAD;
 const INK = "oklch(0.15 0.01 60)";
 
-export default function CTA() {
+/** `service` pre-selects that service on the contact form (smart default from the page they're on). */
+export default function CTA({ service }: { service?: string } = {}) {
   const section = useRef<HTMLElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
@@ -78,8 +79,8 @@ export default function CTA() {
           </div>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href="/contact" className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
-          <a href="/#showreel" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Watch the reel again</a>
+          <a href={service ? `/contact?service=${encodeURIComponent(service)}` : "/contact"} className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
+          <a href="/#showreel" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Watch the reel</a>
         </div>
       </div>
       </div>
