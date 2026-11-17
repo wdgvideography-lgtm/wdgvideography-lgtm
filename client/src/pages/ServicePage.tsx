@@ -186,7 +186,7 @@ export default function ServicePage({ slug }: { slug: string }) {
           </div>
         </section>
 
-        <ErrorBoundary silent><CTA /></ErrorBoundary>
+        <ErrorBoundary silent><CTA service={page.serviceId} /></ErrorBoundary>
       </main>
       <ErrorBoundary silent><Footer /></ErrorBoundary>
     </div>

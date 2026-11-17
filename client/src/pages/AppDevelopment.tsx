@@ -33,7 +33,7 @@ const BUILDS: Build[] = [
   },
   {
     n: "02", name: "Longhorn Operations", sector: "Hospitality · live in production",
-    desc: "The restaurant management platform running a real Cheltenham bar and grill every day. Staff rostering, booking forecasts, stock takes, Z-reports and financial performance from one dashboard.",
+    desc: "The restaurant management platform running a real Gloucestershire bar and grill every day. Staff rostering, booking forecasts, stock takes, Z-reports and financial performance from one dashboard.",
     bullets: ["Rota builder with staff logins and shift confirmation", "Bookings with deposits, pre-orders and automated confirmations", "Stock takes, Z-reports and live financial reporting", "Staff app for shifts, requests and documents"],
     live: { href: "https://longhorn-ops.com", label: "Open Longhorn Ops" },
     shots: [{ src: "/app-screens/longhorn-login.jpg", alt: "Longhorn Operations manager and staff portals" }, { src: "/app-screens/longhorn-customer.jpg", alt: "Longhorn customer-facing home page" }],
@@ -182,7 +182,7 @@ export default function AppDevelopment() {
             ]} />
           </ErrorBoundary>
           <ErrorBoundary silent><Brief /></ErrorBoundary>
-          <ErrorBoundary silent><CTA /></ErrorBoundary>
+          <ErrorBoundary silent><CTA service="app-development" /></ErrorBoundary>
         </main>
         <ErrorBoundary silent><Footer /></ErrorBoundary>
       </div>
