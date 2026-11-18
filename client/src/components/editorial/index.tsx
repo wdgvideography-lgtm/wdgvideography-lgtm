@@ -171,7 +171,7 @@ export function PriceMenu({ title, intro, rows, id, cta = "Enquire" }: { title: 
           <div className="md:contents">
             <div>
               <h3 className="text-[22px] md:text-[26px] font-semibold tracking-[-.02em] leading-tight">{r.name}</h3>
-              {r.popular && <span className="mono-tag text-gold mt-1 inline-block">MOST POPULAR</span>}
+              {r.popular && <span className="mono-tag text-gold mt-1 inline-block">RECOMMENDED</span>}
               {r.note && <span className="mono-tag text-muted-foreground mt-1 block">{r.note}</span>}
             </div>
             <p className="text-[15px] leading-relaxed text-muted-foreground group-hover:text-background/75 transition-colors mt-2 md:mt-0 col-span-2 md:col-span-1">

@@ -20,6 +20,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => { setOpen(false); }, [location]);
 
@@ -34,6 +35,24 @@ export default function Navbar() {
     mo.observe(body, { attributes: true, attributeFilter: ["data-nav"] });
     window.addEventListener("scroll", read, { passive: true });
     return () => { mo.disconnect(); window.removeEventListener("scroll", read); };
+  }, []);
+
+  // Hide while scrolling down, show again on scroll up (premium-website-motion). Never while the menu is open.
+  useEffect(() => {
+    let lastY = window.scrollY, ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY, dy = y - lastY;
+        if (y < 160) setHidden(false);
+        else if (dy > 6) setHidden(true);
+        else if (dy < -6) setHidden(false);
+        lastY = y; ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -52,7 +71,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${onDark ? "text-white" : "text-foreground"} ${
+        className={`site-header fixed top-0 left-0 right-0 z-50 ${hidden && !open ? "is-hidden" : ""} ${onDark ? "text-white" : "text-foreground"} ${
           scrolled && !onDark ? "bg-background/85 backdrop-blur-md border-b border-border" : ""
         }`}
       >

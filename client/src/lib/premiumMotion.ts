@@ -111,6 +111,24 @@ function installIntro({ name, logo, background = '#0B0E14', color = '#fff', only
   setTimeout(leave, reduce ? 500 : 1300 + name.length * 35);
 }
 
+// Magnetic main button: any [data-pm-magnet] leans ~30% towards the pointer (mouse/trackpad only).
+// Delegated on document, so it keeps working after route changes and re-renders.
+function installMagnet() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  let current = null;
+  const reset = () => { if (current) { current.classList.remove('pm-pulling'); current.style.translate = ''; current = null; } };
+  document.addEventListener('pointermove', (e) => {
+    const el = e.target instanceof Element ? e.target.closest('[data-pm-magnet]') : null;
+    if (el !== current) reset();
+    if (!el) return;
+    current = el;
+    const r = el.getBoundingClientRect();
+    el.classList.add('pm-pulling');
+    el.style.translate = `${((e.clientX - r.left - r.width / 2) * 0.3).toFixed(1)}px ${((e.clientY - r.top - r.height / 2) * 0.3).toFixed(1)}px`;
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', reset);
+}
+
 export function installPremiumMotion(options = {}) {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   if (window.__pmInstalled) return; window.__pmInstalled = true;
@@ -118,6 +136,7 @@ export function installPremiumMotion(options = {}) {
   const reduce = prefersReduced();
   const start = () => {
     installPress();
+    if (!reduce) installMagnet();
     installRouteMotion(options.contentSelector || 'main', reduce);
     if (options.intro) installIntro(options.intro);
   };

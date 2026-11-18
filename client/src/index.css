@@ -233,3 +233,39 @@
 .field::placeholder { color: color-mix(in srgb, var(--muted-foreground) 70%, transparent); }
 select.field { appearance: none; -webkit-appearance: none; }
 @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
+
+/* ── Website motion recipes (premium-website-motion skill, Nov 2026) ── */
+
+/* Page-to-page: links are full page loads, so native cross-document view transitions apply
+   (Chrome/Edge 126+, Safari 18.2+; other browsers just load normally) */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 260ms cubic-bezier(0.23, 1, 0.32, 1) both vt-out; }
+::view-transition-new(root) { animation: 360ms cubic-bezier(0.23, 1, 0.32, 1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; translate: 0 10px; } }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+
+/* Button fill: colour rises from the bottom on hover (mouse/trackpad only). Skips ghost pills and
+   pills whose colours are overridden inline with !bg- utilities, so text never lands on the same colour. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .pill:not(.ghost):not([class*="!bg-"]) { position: relative; isolation: isolate; overflow: hidden; transition: background .3s, color .45s, transform .3s; }
+  .pill:not(.ghost):not([class*="!bg-"])::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--color-gold); clip-path: inset(100% 0 0 0); transition: clip-path .45s cubic-bezier(0.23, 1, 0.32, 1); }
+  .pill.gold:not([class*="!bg-"])::before { background: var(--foreground); }
+  .pill:not(.ghost):not([class*="!bg-"]):not(:disabled):hover::before { clip-path: inset(0); }
+  .pill:not(.ghost):not(.gold):not([class*="!bg-"]):hover { background: var(--foreground); }
+  .pill.gold:not([class*="!bg-"]):hover { background: var(--color-gold); }
+}
+
+/* Magnetic main button (one per page: data-pm-magnet) */
+[data-pm-magnet], .pill[data-pm-magnet]:not(.ghost):not([class*="!bg-"]) { transition: translate .3s cubic-bezier(0.23, 1, 0.32, 1), background .3s, color .45s, transform .3s; }
+[data-pm-magnet].pm-pulling, .pill[data-pm-magnet].pm-pulling:not(.ghost):not([class*="!bg-"]) { transition: background .3s, color .45s, transform .3s; }
+
+/* Marquee pause (WCAG 2.2.2): the visible button sets data-paused on the wrapper */
+.mq-wrap[data-paused="true"] .mq-row { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .mq-row { animation: none !important; } }
+
+/* Header hides while scrolling down, comes back on scroll up; keyboard focus always brings it back */
+.site-header { transition: color .5s, background-color .5s, transform .45s cubic-bezier(0.23, 1, 0.32, 1); }
+.site-header.is-hidden { transform: translateY(-100%); }
+.site-header:focus-within { transform: none; }
+@media (prefers-reduced-motion: reduce) { .site-header.is-hidden { transform: none; } }
