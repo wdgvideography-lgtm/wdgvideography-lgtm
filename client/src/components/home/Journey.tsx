@@ -10,7 +10,7 @@ const STEPS = [
   { n: "01", t: "It starts with a conversation", d: "Tell us what you do and who you want to reach. We come back with a plan and a fixed price, so you know exactly what you're getting before anything is filmed." },
   { n: "02", t: "Then we plan every shot", d: "A storyboard and shot list built from your business: the hero moments, the people, the details. You see it and approve it before the shoot." },
   { n: "03", t: "The shoot day runs to a schedule", d: "A call sheet with times, locations and kit. We work around your trade, keep disruption minimal and leave with everything on the list." },
-  { n: "04", t: "You get everything, ready to use", d: "A graded brand film, reels cut for each platform, stills and website-ready files, all named, organised and delivered online." },
+  { n: "04", t: "You get everything, ready to use", d: "A graded brand film and reels cut for each platform, all named, organised and delivered online." },
 ];
 const N = STEPS.length;
 
@@ -18,9 +18,9 @@ const BOARD = [
   { img: "/media/harvest-wide.jpg", note: "1A · Drone: harvest fields, establishing shot", alt: "Aerial drone shot of harvest fields on a Gloucestershire farm" },
   { img: "/media/herd.jpg", note: "1B · The herd at the fence, handheld", alt: "A herd of cattle at a field fence, filmed handheld" },
   { img: "/media/feed.jpg", note: "1C · Close-up: cattle feeding", alt: "Close-up of cattle feeding on a Cotswold farm" },
+  { img: "/media/combine.jpg", note: "1D · Combine header, close-up", alt: "Close-up of a combine harvester header cutting wheat" },
   { img: "/media/butchery.jpg", note: "2A · Farm shop sign and entrance", alt: "The entrance and sign of a farm shop and butchery" },
   { img: "/media/mince.jpg", note: "2B · Butchery: mince and cuts, detail", alt: "Detail shot of fresh mince and cuts on a butchery counter" },
-  { img: "/media/dining.jpg", note: "3A · Slow push through the restaurant", alt: "Interior of a restaurant dining room set for service" },
 ];
 
 function Brief() {
@@ -31,7 +31,7 @@ function Brief() {
         <p className="text-black/85">Hi Will. We run a farm shop, butchery and restaurant near Tewkesbury, with our own herd. We want people to see the whole story: the fields, the counter, the plate. Instagram mostly, but the website needs it too.</p>
       </div>
       <div className="rounded-2xl bg-[#1b1a18] text-white/90 p-4 sm:p-5 max-w-[88%] ml-auto mt-4">
-        <p>Love this. Half a day: the fields and herd at first light for the drone, then the shop and butchery mid-morning, and the restaurant as it's set for lunch.</p>
+        <p>Love this. Half a day in two places: the fields and herd at first light for the drone, then the shop and butchery mid-morning.</p>
         <p className="mt-3">You’d get a 2-minute brand film for the site and five vertical reels for Instagram, graded to match. <span className="text-gold">Fixed price £650</span>, no surprises.</p>
       </div>
       <div className="flex items-center gap-2 mt-5 text-[12px] text-black/50"><span className="w-2 h-2 rounded-full bg-[#28c840]" />Fixed price agreed · shoot booked</div>
@@ -58,12 +58,11 @@ function Storyboard() {
 
 function CallSheet() {
   const rows = [
-    ["06:40", "Fields", "Drone: harvest, the herd, approach to the farm"],
+    ["07:00", "Farm", "Drone: harvest, the herd, approach to the farm"],
     ["08:00", "Farm", "Herd at the fence, feeding, handheld + gimbal"],
-    ["09:30", "Shop", "Sign and entrance, counter, mince and cuts, 50mm"],
-    ["10:30", "Shop", "Owner interview, two angles, lav mic"],
-    ["11:30", "Restaurant", "The room set for lunch, plates, slow pushes"],
-    ["12:30", "Wrap", "Backup cards on site, drive home"],
+    ["09:00", "Shop", "Sign and entrance, counter, mince and cuts, 50mm"],
+    ["10:00", "Shop", "Owner interview, two angles, lav mic"],
+    ["11:00", "Wrap", "Backup cards on site, drive home"],
   ];
   return (
     <div className="p-6 sm:p-8">
@@ -93,9 +92,7 @@ function Delivery() {
     ["Reel_02_Herd.mp4", "9:16 · 22s"],
     ["Reel_03_Butchery.mp4", "9:16 · 27s"],
     ["Reel_04_Owner.mp4", "9:16 · 15s"],
-    ["Reel_05_Restaurant.mp4", "9:16 · 19s"],
-    ["Website_Hero_Loop.mp4", "1080p · 8s · silent"],
-    ["Stills/ (24 images)", "web + print sizes"],
+    ["Reel_05_Counter.mp4", "9:16 · 19s"],
   ];
   return (
     <div className="p-6 sm:p-8">
@@ -103,12 +100,12 @@ function Delivery() {
       <ul className="divide-y divide-black/10">
         {files.map(([f, m]) => (
           <li key={f} className="flex items-center justify-between gap-4 py-2.5 text-[13px] sm:text-[14px]">
-            <span className="flex items-center gap-3 min-w-0"><span className="w-7 h-7 rounded-md bg-gold/20 text-gold grid place-items-center text-[11px] font-mono shrink-0">{f.endsWith("/ (24 images)") ? "IMG" : "MP4"}</span><span className="font-mono text-black/80 truncate">{f}</span></span>
+            <span className="flex items-center gap-3 min-w-0"><span className="w-7 h-7 rounded-md bg-gold/20 text-gold grid place-items-center text-[11px] font-mono shrink-0">MP4</span><span className="font-mono text-black/80 truncate">{f}</span></span>
             <span className="text-black/50 whitespace-nowrap">{m}</span>
           </li>
         ))}
       </ul>
-      <div className="flex items-center justify-between mt-5 text-[12px] text-black/55"><span>Private review link · download anything, any time</span><span className="font-mono">8 items</span></div>
+      <div className="flex items-center justify-between mt-5 text-[12px] text-black/55"><span>Private review link · download anything, any time</span><span className="font-mono">{files.length} items</span></div>
     </div>
   );
 }
@@ -163,7 +160,7 @@ export default function Journey() {
       <div className="sticky top-0 h-[100svh] overflow-hidden px-5 sm:px-8 lg:px-14 pt-[84px] pb-6 lg:pb-10 flex flex-col">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-4 lg:mb-6">
           <h2 className="font-display text-[clamp(34px,4.6vw,76px)] leading-[.95]">A project, <i className="text-gold">start to finish</i>.</h2>
-          <span className="eyebrow">What you actually receive</span>
+          <span className="eyebrow">An example Business Growth project</span>
         </div>
         <div className="relative h-px bg-border mb-5 lg:mb-8"><div ref={rail} className="absolute inset-0 bg-gold origin-left" style={{ transform: "scaleX(0)" }} /></div>
 

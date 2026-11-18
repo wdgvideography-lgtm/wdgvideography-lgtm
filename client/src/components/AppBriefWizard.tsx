@@ -184,6 +184,7 @@ export default function AppBriefWizard() {
   return (
     <div className="rounded-sm border border-border/40 bg-card/40 p-6 lg:p-10">
       {/* Progress */}
+      <p className="mb-2 text-[11px] font-body uppercase tracking-wider text-muted-foreground">Step {step + 1} of {STEP_TITLES.length}</p>
       <div className="flex items-center gap-2 mb-8">
         {STEP_TITLES.map((t, i) => (
           <div key={t} className="flex-1">
@@ -204,7 +205,8 @@ export default function AppBriefWizard() {
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
           {step === LAST_STEP && (
-            <div className="space-y-4">
+            // Enter in any contact field sends the brief, as it would in a normal form.
+            <div className="space-y-4" onKeyDown={(e) => { if (e.key === "Enter" && !submitting && (e.target as HTMLElement).tagName === "INPUT") { e.preventDefault(); next(); } }}>
               <h3 className="font-display text-2xl font-bold text-foreground mb-1">Last step: where should we send ideas?</h3>
               <p className="text-sm text-muted-foreground font-body mb-2">Your brief is ready:</p>
               <p className="text-xs font-body uppercase tracking-wider text-gold mb-6">{recap.join(" · ")}</p>
@@ -281,7 +283,7 @@ export default function AppBriefWizard() {
         </motion.div>
       </AnimatePresence>
 
-      {error && <p className="mt-4 text-sm text-red-400 font-body">{error}</p>}
+      {error && <p role="alert" className="mt-4 text-sm text-red-700 font-body">{error}</p>}
 
       <div className="flex items-center justify-between mt-8 pt-6 border-t border-border/30">
         <button
@@ -298,7 +300,7 @@ export default function AppBriefWizard() {
           disabled={submitting}
           className="px-8 py-3 bg-gold text-primary-foreground font-body font-semibold text-xs tracking-wider uppercase rounded-sm hover:bg-gold-light transition-all duration-300 hover:shadow-[0_0_30px_oklch(0.78_0.12_75/0.4)] disabled:opacity-60"
         >
-          {step === LAST_STEP ? (submitting ? "Sending…" : "Send my brief →") : "Continue →"}
+          {step === LAST_STEP ? (submitting ? "Sending…" : "Send my brief →") : step === LAST_STEP - 1 ? "Continue to last step →" : "Continue →"}
         </button>
       </div>
     </div>

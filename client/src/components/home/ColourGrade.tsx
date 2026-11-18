@@ -1,4 +1,9 @@
-/** ColourGrade — drag between the flat camera file and the finished grade. */
+/**
+ * ColourGrade — drag to see what a grade does to a shot.
+ * Honesty note: this is a simulation. Both sides play the same graded clip; the "flat" look is a CSS
+ * filter, not the camera's log file. Label it as such until Will supplies a real log + Resolve export
+ * of the same shot (then point each <video> at its own file and drop both filters).
+ */
 import { useEffect, useRef } from "react";
 import { clamp, useReveal, playVideo, pauseVideo } from "@/hooks/useReveal";
 
@@ -51,7 +56,7 @@ export default function ColourGrade() {
       <div className="rv">
         <span className="eyebrow">02 · Colour</span>
         <h2 className="display text-[clamp(40px,5vw,84px)] mt-3.5">Graded by hand in <i>DaVinci Resolve</i>.</h2>
-        <p className="text-muted-foreground my-6 max-w-[420px]">Every frame is colour-corrected and graded so your brand looks consistent on every screen. Drag the frame to compare the flat camera file with the finished grade.</p>
+        <p className="text-muted-foreground my-6 max-w-[420px]">Every frame is colour-corrected and graded so your brand looks consistent on every screen. Drag across the frame to see how much a grade changes the same shot.</p>
         <div className="flex gap-5 mono-tag text-muted-foreground">
           {["LIFT", "GAMMA", "GAIN"].map((n, j) => (
             <div key={n} className="w-[84px] text-center">
@@ -70,15 +75,16 @@ export default function ColourGrade() {
         style={{ touchAction: "pan-y" }}
         onPointerDown={(e) => { dragging.current = true; setAt(e.clientX); }}
         onPointerMove={(e) => { if (dragging.current || e.pointerType === "mouse") setAt(e.clientX); }}
-        role="img" aria-label="Before and after colour grading comparison of harvest footage"
+        role="img" aria-label="Simulated comparison of harvest footage with a flat look and a finished grade"
       >
-        <video src="/media/harvest-grade-before.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "saturate(.35) contrast(.72) brightness(1.12) sepia(.08)" }} />
+        <video src="/media/harvest-grade-after.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "saturate(.35) contrast(.72) brightness(1.12) sepia(.08)" }} />
         <video ref={graded} src="/media/harvest-grade-after.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" style={{ clipPath: "inset(0 0 0 50%)", filter: "saturate(1.25) contrast(1.12) brightness(.96)" }} />
         <div ref={hand} className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-white">
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42px] h-[42px] rounded-full bg-white text-[#111] grid place-items-center text-lg">⟷</span>
         </div>
-        <span className="absolute bottom-3 left-3 mono-tag text-white bg-black/60 rounded px-2 py-1">CAMERA LOG</span>
-        <span className="absolute bottom-3 right-3 mono-tag text-white bg-black/60 rounded px-2 py-1">FINAL GRADE</span>
+        <span className="absolute bottom-3 left-3 mono-tag text-white bg-black/60 rounded px-2 py-1">FLAT</span>
+        <span className="absolute top-3 left-3 mono-tag text-white/85 bg-black/50 rounded px-2 py-1">SIMULATED IN THE BROWSER</span>
+        <span className="absolute bottom-3 right-3 mono-tag text-white bg-black/60 rounded px-2 py-1">GRADED</span>
       </div>
     </section>
   );

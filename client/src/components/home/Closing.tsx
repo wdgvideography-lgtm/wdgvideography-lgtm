@@ -33,7 +33,7 @@ export function Apps() {
   return (
     <AppsRail
       title={<>We don’t just film businesses.<br />We build their <i>software</i>.</>}
-      intro="Farm dashboards, restaurant operations and authorisation tools, all live and in daily use. If your business runs on spreadsheets and WhatsApp, we can fix that too."
+      intro="Farm dashboards, restaurant operations and authorisation tools, all live today. If your business runs on spreadsheets and WhatsApp, we can fix that too."
       cta={{ label: "See the apps →", href: "/app-development" }}
     />
   );

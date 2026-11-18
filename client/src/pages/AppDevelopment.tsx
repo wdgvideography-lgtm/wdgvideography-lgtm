@@ -153,13 +153,13 @@ export default function AppDevelopment() {
           <PageHero
             eyebrow="App Development"
             title={<>Software that runs the <i>business</i>.</>}
-            lead="Farm management, restaurant operations and instant authorisation tools. Every app here was designed, built and shipped by us, and every one is live and in use today."
+            lead="Farm management, restaurant operations and instant authorisation tools. Every app here was designed and built by us, and the three flagship builds below are live: open them and click around."
             image="/app-screens/farmdash-home.jpg" imageAlt="WDG Farm Dash home screen" imagePosition="top"
             primary={{ label: "Brief us", href: "#app-brief" }}
             secondary={{ label: "See the apps", href: "#builds" }}
           />
           <ErrorBoundary silent>
-            <Statement eyebrow="01 — Why we build" words={words("If your business runs on spreadsheets, WhatsApp threads and memory, you already know the pain. We replace all of it with {one app that looks like you}, usually for a fraction of what a software house would charge.")} />
+            <Statement eyebrow="01 — Why we build" words={words("If your business runs on spreadsheets, WhatsApp threads and memory, you already know the pain. We replace all of it with {one app that looks like you}, at a fixed price agreed before anything is built.")} />
           </ErrorBoundary>
           <ErrorBoundary silent>
             <AppsRail id="farm-dash" eyebrow="Flagship · WDG Farm Dash" title={<>One dashboard for the <i>whole farm</i>.</>} intro="Six screens from the live platform, left to right as a farm owner would see them." screens={FARM} cta={{ label: "Open Farm Dash ↗", href: "https://wdg-farm-dash.base44.app" }} />
@@ -168,14 +168,14 @@ export default function AppDevelopment() {
           <ErrorBoundary silent><More /></ErrorBoundary>
           <ErrorBoundary silent>
             <Pillars eyebrow="How we work" title={<>Why it <i>ships</i>.</>} items={[
-              { title: "We use what we build", text: "Our own farm, restaurant and survey tools run on this software, so it gets fixed the moment it annoys us." },
+              { title: "We use what we build", text: "The restaurant and survey tools we use every day run on this software, so it gets fixed the moment it annoys us." },
               { title: "Design and build in one room", text: "The same studio that shoots your films designs your app, so the brand carries straight through." },
               { title: "Scoped before it's priced", text: "You get a written scope of what it does, what it replaces and what it costs before anything is built." },
             ]} />
           </ErrorBoundary>
           <ErrorBoundary silent>
             <FAQ items={[
-              { q: "What does an app cost?", a: "It depends entirely on what it has to do. After the brief we send a written scope with a fixed price, and most builds come in well under what a traditional software house would quote." },
+              { q: "What does an app cost?", a: "It depends entirely on what it has to do. After the brief we send a written scope with a fixed price, so you know the full cost before anything is built." },
               { q: "Can it connect to what we already use?", a: "Usually, yes. We've connected to booking systems, payment providers, mapping data and accounting tools. Tell us what you use in the brief." },
               { q: "Who owns it?", a: "You do. We build it, host it if you want us to, and hand over the code and accounts if you ever want to take it elsewhere." },
               { q: "Do you support it afterwards?", a: "Yes. We offer monthly support and hosting so the app keeps working as your business changes." },

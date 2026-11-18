@@ -52,6 +52,7 @@ export default function Services() {
 
 export function Prices() {
   return (
-    <PriceMenu id="prices" title={<>Packages and <i>prices</i>.</>} intro="Fixed prices, no hidden extras. Every video package includes vertical reels for your socials." rows={TIERS} cta="Full details" />
+    <PriceMenu id="prices" title={<>Packages and <i>prices</i>.</>} intro="Fixed prices, no hidden extras. Every video package includes vertical reels for your socials." rows={TIERS} cta="Full details"
+      footer={<>Not sure which fits? <a href="/contact?service=consultation" className="text-foreground font-medium border-b border-foreground/40 hover:text-gold hover:border-gold transition-colors">Tell us about the business and we'll suggest one →</a></>} />
   );
 }

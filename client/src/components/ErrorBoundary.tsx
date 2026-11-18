@@ -38,8 +38,9 @@ class ErrorBoundary extends Component<Props, State> {
             <AlertTriangle size={48} className="text-destructive mb-6 flex-shrink-0" />
             <h2 className="text-xl font-display text-foreground mb-3">Something went wrong</h2>
             <p className="text-sm text-muted-foreground font-body mb-6 leading-relaxed">
-              We had a small hiccup. Try reloading the page — if it keeps
-              happening, get in touch at will@wdgvideography.com
+              We had a small hiccup. Try reloading the page. If it keeps happening, call{" "}
+              <a href="tel:+447584065559" className="underline">07584 065559</a> or email{" "}
+              <a href="mailto:will@wdgvideography.com" className="underline">will@wdgvideography.com</a> and we'll help straight away.
             </p>
             <button
               onClick={() => window.location.reload()}
@@ -50,8 +51,9 @@ class ErrorBoundary extends Component<Props, State> {
               )}
             >
               <RotateCcw size={16} />
-              Reload Page
+              Reload page
             </button>
+            <a href="/" className="mt-4 text-sm text-muted-foreground underline">Go to the home page</a>
           </div>
         </div>
       );

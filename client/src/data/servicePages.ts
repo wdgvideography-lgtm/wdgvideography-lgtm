@@ -48,8 +48,8 @@ export const servicePages: ServicePageData[] = [
     ],
     faqs: [
       { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. For most businesses we recommend Business Growth at £650." },
-      { q: "Which areas do you cover?", a: "We're based in Cheltenham and regularly film across Gloucestershire, Worcestershire, the Cotswolds and the rest of England." },
-      { q: "How does the edit work?", a: "You get a first cut to review, then the revisions included in your package. We agree a delivery date with you before the shoot so it fits your launch or campaign." },
+      { q: "Which areas do you cover?", a: "We're based in Cheltenham and film across Gloucestershire, Worcestershire and the Cotswolds, and we travel across England." },
+      { q: "How does the edit work?", a: "You get a first cut to review, then the revisions included in your package: up to 4 on Bespoke, 2 on Business Growth and 1 on Basic. We agree a delivery date with you before the shoot so it fits your launch or campaign." },
     ],
   },
   {
@@ -141,7 +141,7 @@ export const servicePages: ServicePageData[] = [
     benefits: [
       { title: "SEO from day one", text: "Structured data, fast load times and local keywords built in." },
       { title: "Real visuals", text: "We shoot your photos and video, so your site looks like your business." },
-      { title: "Proven work", text: "Sites for The Longhorn Bar & Grill, AMC Transport Solutions and WDG Agriculture." },
+      { title: "Proven work", text: "Live sites for The Longhorn Bar & Grill, AMC Transport Solutions and VC Estate Planning, plus our own WDG Agriculture." },
     ],
     faqs: [
       { q: "How much does a website cost?", a: "Websites range from £800 to £7,000 depending on the number of pages, features and content needed." },

@@ -2,7 +2,7 @@
 
 const quickLinks = [
   { label: "Work", href: "/portfolio" },
-  { label: "Services & prices", href: "/#services" },
+  { label: "Services & prices", href: "/#prices" },
   { label: "About", href: "/#about" },
   { label: "Contact", href: "/contact" },
   { label: "App Development", href: "/app-development" },

@@ -156,7 +156,7 @@ export function words(s: string): StatementWord[] {
 // we only claim popularity if sales figures prove it.
 export interface PriceRow { name: string; price: string; features: string[]; href?: string; recommended?: boolean; note?: string }
 
-export function PriceMenu({ title, intro, rows, id, cta = "Enquire" }: { title: ReactNode; intro?: string; rows: PriceRow[]; id?: string; cta?: string }) {
+export function PriceMenu({ title, intro, rows, id, cta = "Enquire", footer }: { title: ReactNode; intro?: string; rows: PriceRow[]; id?: string; cta?: string; footer?: ReactNode }) {
   const ref = useReveal<HTMLElement>(0.05);
   return (
     <section ref={ref} id={id} className="px-5 sm:px-8 lg:px-14 py-[12vh]" style={{ scrollMarginTop: 80 }}>
@@ -184,10 +184,12 @@ export function PriceMenu({ title, intro, rows, id, cta = "Enquire" }: { title: 
           </div>
           <div className="flex items-baseline gap-5 col-span-2 md:col-span-1 justify-between md:justify-end">
             <span className="font-display text-[34px] md:text-[44px] leading-none whitespace-nowrap group-hover:text-gold transition-colors">{r.price}</span>
-            <span className="text-sm font-medium opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">{cta} →</span>
+            {/* Always shown on touch screens (no hover there); revealed on hover from md up. */}
+            <span className="text-sm font-medium md:opacity-0 md:-translate-x-2 md:group-hover:opacity-100 md:group-hover:translate-x-0 transition-all duration-300">{cta} →</span>
           </div>
         </a>
       ))}
+      {footer && <div className="rv mt-8 text-[15px] text-muted-foreground">{footer}</div>}
     </section>
   );
 }

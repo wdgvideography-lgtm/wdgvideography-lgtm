@@ -127,10 +127,7 @@ export default function ServicePage({ slug }: { slug: string }) {
         provider: { "@type": "LocalBusiness", name: "WDG Videography", url: BASE, telephone: "+447584065559" },
         offers: page.packages.map((p) => ({ "@type": "Offer", name: p.name, description: p.features.join(", ") })),
       },
-      {
-        "@type": "FAQPage",
-        mainEntity: page.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-      },
+      // FAQPage is emitted once, by scripts/prerender-meta.mjs, so crawlers don't see it twice.
       {
         "@type": "BreadcrumbList",
         itemListElement: [

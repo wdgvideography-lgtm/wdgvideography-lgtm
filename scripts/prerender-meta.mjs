@@ -43,9 +43,9 @@ const faqLd = (p) => `<script type="application/ld+json">${JSON.stringify({
 
 const routes = {
   portfolio: {
-    title: "Video Portfolio — Brand Films, Reels & Event Videos | WDG Videography",
-    desc: "Browse WDG Videography's portfolio of cinematic brand films, social media reels, product videos and event coverage, filmed across Cheltenham, Gloucestershire and England.",
-    body: wrap(`<h1>WDG Videography portfolio</h1><p>Brand films, social media reels, product videos and event coverage filmed across Cheltenham, Gloucestershire and England.</p>${NAV}`),
+    title: "Video Portfolio — Brand Films, Reels & Drone Footage | WDG Videography",
+    desc: "Browse WDG Videography's portfolio of cinematic brand films, social media reels and drone footage for farms, food businesses and venues across Gloucestershire.",
+    body: wrap(`<h1>WDG Videography portfolio</h1><p>Brand films, social media reels and drone footage for farms, food businesses and venues across Gloucestershire, plus the live websites and apps we've built.</p>${NAV}`),
   },
   "app-development": {
     title: "App Development & Custom Software | AI Business Apps | WDG Videography",

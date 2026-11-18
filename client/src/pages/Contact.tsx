@@ -49,6 +49,12 @@ const serviceGroups: { label: string; options: { value: string; label: string }[
   },
   { label: "Not sure yet", options: [{ value: "consultation", label: "Not sure yet: book a consultation" }] },
 ];
+// What happens after an enquiry. Shown beside the form, and again on the success screen with step 01 ticked.
+const NEXT_STEPS: [string, string, string][] = [
+  ["01", "You send the form.", "Or call, if that's quicker."],
+  ["02", "We talk it through.", "A short call to understand the business, the audience and what success looks like."],
+  ["03", "You get a plan and a price.", "Fixed, in writing, with what's included and what happens on the day."],
+];
 const serviceValues = new Set(serviceGroups.flatMap((g) => g.options.map((o) => o.value)));
 
 export default function Contact() {
@@ -83,10 +89,7 @@ export default function Contact() {
     e.preventDefault();
     setError("");
 
-    // Debounce: prevent double-submits within 3 seconds
-    const now = Date.now();
-    if (now - lastSubmitRef.current < 3000) return;
-    lastSubmitRef.current = now;
+    if (submitting) return;
 
     if (!formData.firstName.trim()) {
       setError("Please enter your first name.");
@@ -105,6 +108,12 @@ export default function Contact() {
       return;
     }
 
+    // Debounce double-submits, but only once the form is valid: a fix-and-resend straight after a
+    // validation message must go through, not be silently dropped.
+    const now = Date.now();
+    if (now - lastSubmitRef.current < 3000) return;
+    lastSubmitRef.current = now;
+
     setSubmitting(true);
     sendEnquiry({
       firstName: formData.firstName.trim(),
@@ -118,13 +127,14 @@ export default function Contact() {
     })
       .then((data) => {
         if (!data.success) {
+          lastSubmitRef.current = 0; // let them retry straight away
           setError(data.error || "Something went wrong. Please try again.");
           return;
         }
         setSubmitted(true);
         setError("");
       })
-      .catch(() => setError("Network error — please check your connection and try again."))
+      .catch(() => { lastSubmitRef.current = 0; setError("Network error: please check your connection and try again."); })
       .finally(() => setSubmitting(false));
   };
 
@@ -159,8 +169,10 @@ export default function Contact() {
             <span className="rise mono-tag text-gold" style={{ animationDelay: ".05s" }}>CONTACT</span>
             <h1 className="rise display text-[clamp(52px,8.4vw,140px)] mt-5 text-balance" style={{ animationDelay: ".15s" }}>Tell us what you're <i>making</i>.</h1>
             <p className="rise text-lg text-muted-foreground max-w-md mt-8 leading-relaxed" style={{ animationDelay: ".3s" }}>
-              A few lines about your business and what you need is plenty. We'll reply personally, usually with a couple of questions and a rough price.
+              A few lines about your business and what you need is plenty. We'll reply personally, usually with a couple of questions, then a fixed price in writing.
             </p>
+            {/* On phones the form stacks below the contact details, so give a one-tap route to it. */}
+            <a href="#enquiry-form" className="rise lg:hidden inline-block mt-6 font-medium border-b border-foreground/40" style={{ animationDelay: ".35s" }}>Jump to the form ↓</a>
 
             <dl className="rise mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-8" style={{ animationDelay: ".4s" }}>
               <div className="hairline pt-5">
@@ -182,11 +194,7 @@ export default function Contact() {
             </dl>
 
             <ol className="rise mt-14 space-y-5" style={{ animationDelay: ".5s" }}>
-              {[
-                ["01", "You send the form.", "Or call, if that's quicker."],
-                ["02", "We talk it through.", "A short call to understand the business, the audience and what success looks like."],
-                ["03", "You get a plan and a price.", "Fixed, in writing, with what's included and what happens on the day."],
-              ].map(([n, t, d]) => (
+              {NEXT_STEPS.map(([n, t, d]) => (
                 <li key={n} className="grid grid-cols-[48px_1fr] gap-4 items-baseline">
                   <span className="mono-tag text-gold">{n}</span>
                   <div><p className="font-semibold text-lg">{t}</p><p className="text-muted-foreground text-sm mt-0.5">{d}</p></div>
@@ -196,20 +204,28 @@ export default function Contact() {
           </div>
 
           {/* right: the form */}
-          <div className="lg:col-span-6 rise" style={{ animationDelay: ".3s" }}>
+          <div id="enquiry-form" className="lg:col-span-6 rise" style={{ animationDelay: ".3s", scrollMarginTop: 96 }}>
             <div className="lg:sticky lg:top-28 rounded-3xl bg-card border border-border p-7 sm:p-10 shadow-[0_40px_80px_-50px_rgba(0,0,0,.35)]">
               {submitted ? (
                 <div className="py-10 text-center">
                   <span className="mono-tag text-gold">SENT</span>
                   <h2 className="display text-[clamp(32px,4vw,56px)] mt-4">Thanks{formData.firstName.trim() ? `, ${formData.firstName.trim().split(/\s+/)[0]}` : ""}. We've <i>got it</i>.</h2>
                   <p className="text-muted-foreground mt-5 max-w-sm mx-auto">We'll come back to you personally. If it's urgent, call 07584 065559.</p>
+                  <ol className="mt-8 space-y-3 text-left max-w-xs mx-auto">
+                    {NEXT_STEPS.map(([n, t], i) => (
+                      <li key={n} className="flex items-baseline gap-3">
+                        <span className={`mono-tag ${i === 0 ? "text-gold" : "text-muted-foreground"}`}>{i === 0 ? "✓" : n}</span>
+                        <span className={i === 0 ? "text-muted-foreground" : "font-medium"}>{i === 0 ? "You sent the form." : t}</span>
+                      </li>
+                    ))}
+                  </ol>
                   <a href="/portfolio" className="pill mt-8">See the work while you wait</a>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} noValidate className="space-y-7">
                   <input type="text" name="company_website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
                   <div className="grid sm:grid-cols-2 gap-7">
-                    {field("firstName", "First name *", { type: "text", autoComplete: "given-name", required: true, placeholder: "Will" })}
+                    {field("firstName", "First name *", { type: "text", autoComplete: "given-name", required: true, placeholder: "Sam" })}
                     {field("lastName", "Last name", { type: "text", autoComplete: "family-name", placeholder: "Smith" })}
                   </div>
                   <div className="grid sm:grid-cols-2 gap-7">

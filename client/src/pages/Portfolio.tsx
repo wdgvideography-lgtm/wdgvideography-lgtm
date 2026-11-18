@@ -77,6 +77,8 @@ function Lightbox({ item, onClose }: { item: Item; onClose: () => void }) {
           <span className="font-display text-2xl">{item.title}</span>
           <span className="mono-tag opacity-70">{item.client.toUpperCase()}</span>
         </div>
+        {/* The peak moment: they've just watched a full film, so give them the next step right here. */}
+        <a href="/contact?service=business-growth" className="pill gold mt-5">Want one like this? Get a price →</a>
       </div>
     </div>
   );
@@ -110,7 +112,7 @@ export default function Portfolio() {
   return (
     <>
       <SEO
-        title="Video Portfolio — Brand Films, Reels & Event Video"
+        title="Video Portfolio — Brand Films, Reels & Drone Footage"
         description="Watch brand films, social reels and venue videos by WDG Videography, plus the live websites and apps we've built for businesses across Gloucestershire."
         keywords="video portfolio Cheltenham, brand film examples, social media reels, restaurant video, farm video, videographer showreel Gloucestershire"
         canonicalUrl="https://www.wdgvideography.com/portfolio"
@@ -120,7 +122,7 @@ export default function Portfolio() {
         <main>
           <PageHero
             eyebrow="Work"
-            title={<>The work, <i>unedited</i>.</>}
+            title={<>The work, <i>in full</i>.</>}
             lead="Real films for real businesses: farms, butchers, restaurants and bars across Gloucestershire. Hover to preview, click to watch."
             video="/media/club-one.mp4" poster="/media/club-one.jpg"
             primary={{ label: "Start a project", href: "/contact" }}
@@ -128,7 +130,7 @@ export default function Portfolio() {
             compact
           />
           <ErrorBoundary silent>
-            <Statement eyebrow="01 — Everything here is live" words={words("No stock footage, no mock-ups. Every clip was shot by us, every site is {online right now}, every app is in daily use.")} />
+            <Statement eyebrow="01 — Everything here is live" words={words("No stock footage, no mock-ups. Every clip was shot by us, every site is {online right now}, every app shown is live.")} />
           </ErrorBoundary>
           <ErrorBoundary silent><Grid /></ErrorBoundary>
           <ErrorBoundary silent><Websites /></ErrorBoundary>

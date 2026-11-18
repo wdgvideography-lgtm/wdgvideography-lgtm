@@ -50,7 +50,7 @@ export default function PhoneFan() {
       <div className="sticky top-0 h-[100svh] grid place-items-center overflow-hidden">
         <div className="absolute top-[9vh] w-full text-center px-5">
           <h2 className="font-display text-[clamp(36px,4.6vw,72px)] leading-none">Made for the <i className="text-gold">feed</i>.</h2>
-          <p className="text-muted-foreground mt-3 max-w-md mx-auto">Every shoot comes with vertical reels cut for Instagram, TikTok and Facebook, so one day of filming gives you weeks of content.</p>
+          <p className="text-muted-foreground mt-3 max-w-md mx-auto">Every video package comes with vertical reels cut for Instagram, TikTok and Facebook, so one shoot gives you weeks of content.</p>
         </div>
         <div className="relative mt-[14vh]" style={{ width: "min(230px, 44vw, calc((100svh - 260px) * .47))", aspectRatio: "9/19" }}>
           {REELS.map((label, i) => (

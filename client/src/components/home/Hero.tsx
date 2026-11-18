@@ -32,7 +32,7 @@ export default function Hero() {
     const reduced = prefersReducedMotion();
     if (reduced) {
       if (mask.current) mask.current.style.display = "none";
-      if (overlay.current) overlay.current.style.opacity = "1";
+      if (overlay.current) { overlay.current.style.opacity = "1"; overlay.current.inert = false; overlay.current.style.pointerEvents = "auto"; }
       if (under.current) under.current.style.display = "none";
       claimDarkNav("hero", true);
       return () => claimDarkNav("hero", false);
@@ -51,7 +51,13 @@ export default function Hero() {
         if (word.current) word.current.setAttribute("transform", `translate(${w / 2} ${h / 2}) scale(${base * (1 + z * 38)})`);
         if (mask.current) mask.current.style.opacity = String(1 - clamp((p - 0.62) / 0.12));
         if (under.current) under.current.style.opacity = String(1 - clamp(p / 0.15));
-        if (overlay.current) overlay.current.style.opacity = String(clamp((p - 0.76) / 0.12));
+        if (overlay.current) {
+          const o = overlay.current;
+          o.style.opacity = String(clamp((p - 0.76) / 0.12));
+          // Until the overlay has faded in, its links must not catch taps or keyboard focus.
+          const shown = p > 0.8;
+          if (o.inert === shown) { o.inert = !shown; o.style.pointerEvents = shown ? "auto" : "none"; }
+        }
         const dark = p > 0.25 && r.bottom > 80;
         claimDarkNav("hero", dark);
       }
@@ -100,7 +106,8 @@ export default function Hero() {
 
         <div
           ref={overlay}
-          className="absolute inset-0 flex flex-col justify-end px-5 sm:px-8 lg:px-14 pb-[10vh] text-white opacity-0"
+          inert
+          className="absolute inset-0 flex flex-col justify-end px-5 sm:px-8 lg:px-14 pb-[10vh] text-white opacity-0 pointer-events-none"
           style={{ background: "linear-gradient(transparent 40%, rgba(0,0,0,.65))" }}
         >
           <p className="eyebrow !text-white/70 mb-4">WDG Videography · Cheltenham</p>

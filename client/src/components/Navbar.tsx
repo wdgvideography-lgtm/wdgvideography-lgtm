@@ -10,6 +10,7 @@ import { useLocation } from "wouter";
 const navLinks = [
   { label: "Work", href: "/#showreel" },
   { label: "Services", href: "/#services" },
+  { label: "Prices", href: "/#prices" },
   { label: "Websites", href: "/#websites" },
   { label: "Apps", href: "/app-development" },
   { label: "About", href: "/#about" },
@@ -76,7 +77,8 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="/contact" className={`pill hidden sm:inline-flex ${onDark ? "!bg-white !text-foreground hover:!bg-gold" : ""}`}>
+            {/* Always visible: on phones it's the only enquiry route in view until the hero has scrolled through. */}
+            <a href="/contact" className={`pill !px-4 !py-2 !text-[13px] sm:!px-[22px] sm:!py-[13px] sm:!text-[15px] ${onDark ? "!bg-white !text-foreground hover:!bg-gold" : ""}`}>
               Start a project
             </a>
             <button
@@ -101,6 +103,7 @@ export default function Navbar() {
         className={`fixed inset-0 z-40 bg-ink text-white transition-opacity duration-500 lg:hidden ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         style={{ background: "oklch(0.17 0.01 60)" }}
         aria-hidden={!open}
+        inert={!open}
       >
         <div className="h-full flex flex-col justify-end px-6 pb-10 pt-24">
           <nav aria-label="Mobile" className="flex flex-col gap-2 mb-10">

@@ -20,7 +20,7 @@ const SITE_NAME = "WDG Videography";
 const BASE_URL = "https://www.wdgvideography.com";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/assets/og-image.jpg`;
 const DEFAULT_DESCRIPTION =
-  "WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, and full-scale digital marketing. Based in Cheltenham, Gloucestershire.";
+  "Cinematic brand films, social reels, websites and custom apps from Cheltenham, Gloucestershire. Video packages from £450, websites from £800.";
 
 export default function SEO({
   title,

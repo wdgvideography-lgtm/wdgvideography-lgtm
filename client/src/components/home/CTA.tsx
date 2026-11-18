@@ -79,7 +79,7 @@ export default function CTA({ service }: { service?: string } = {}) {
           </div>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href={service ? `/contact?service=${encodeURIComponent(service)}` : "/contact"} className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
+          <a href={`/contact?service=${encodeURIComponent(service ?? "consultation")}`} className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
           <a href="/#showreel" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Watch the reel</a>
         </div>
       </div>

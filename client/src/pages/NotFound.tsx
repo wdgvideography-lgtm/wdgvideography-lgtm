@@ -34,7 +34,7 @@ export default function NotFound() {
             </h2>
 
             <p className="text-muted-foreground font-body leading-relaxed mb-10">
-              The page you're looking for doesn't exist or has been moved. Here's where most people are heading:
+              The page you're looking for doesn't exist or has been moved. Here are good places to start:
             </p>
 
             <ul className="flex flex-col items-center gap-3 mb-10">

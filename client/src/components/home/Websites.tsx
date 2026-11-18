@@ -26,8 +26,8 @@ const SITES: Site[] = [
   },
   {
     key: "mise", name: "Mise Team", url: "https://www.miseteam.com/", domain: "miseteam.com",
-    sector: "Restaurant management software",
-    blurb: "Marketing site and web app for a hospitality SaaS: rotas, bookings, kitchen and HACCP in one place, with sign-up, pricing and a 30-day trial flow.",
+    sector: "Restaurant software · our own product",
+    blurb: "Our own restaurant software: marketing site and web app with rotas, bookings, kitchen and HACCP in one place, plus sign-up, pricing and a 30-day trial flow.",
     did: ["Product design", "Web app", "Marketing site", "Hosting"],
     tone: { bg: "oklch(0.15 0.01 60)", fg: "#f3eee4", sub: "rgba(243,238,228,.65)", chip: "rgba(255,255,255,.1)" },
   },
@@ -105,7 +105,7 @@ export default function Websites() {
           </h2>
         </div>
         <p className="lg:col-span-4 text-[17px] text-muted-foreground max-w-[40ch] lg:justify-self-end">
-          Not mock-ups. These are real sites we designed, built and host for businesses across Gloucestershire and beyond. Click through to any of them.
+          Not mock-ups. These are real sites we designed, built and host, for clients across Gloucestershire and beyond and for our own businesses. Click through to any of them.
         </p>
       </div>
       <div className="max-w-[1500px] mx-auto flex flex-col gap-6">
