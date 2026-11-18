@@ -105,12 +105,15 @@ export default function Navbar() {
         aria-hidden={!open}
         inert={!open}
       >
-        <div className="h-full flex flex-col justify-end px-6 pb-10 pt-24">
+        {/* Scrolls on short phones so the top links are never cut off; min-h keeps them bottom-aligned otherwise. */}
+        <div className="h-full overflow-y-auto overscroll-contain">
+        <div className="min-h-full flex flex-col justify-end px-6 pb-10 pt-24">
           <nav aria-label="Mobile" className="flex flex-col gap-2 mb-10">
             {[...navLinks, { label: "Contact", href: "/contact" }].map((l, i) => (
               <a
                 key={l.href}
                 href={l.href}
+                onClick={() => setOpen(false)}
                 className="font-display text-[44px] leading-[1.05] transition-all"
                 style={{ transitionDelay: `${i * 50}ms`, transform: open ? "none" : "translateY(14px)", opacity: open ? 1 : 0 }}
               >
@@ -118,8 +121,9 @@ export default function Navbar() {
               </a>
             ))}
           </nav>
-          <a href="/contact" className="pill gold justify-center">Start a project</a>
+          <a href="/contact" onClick={() => setOpen(false)} className="pill gold justify-center">Start a project</a>
           <p className="mono-tag mt-8 text-white/50">CHELTENHAM · GLOUCESTERSHIRE</p>
+        </div>
         </div>
       </div>
     </>
