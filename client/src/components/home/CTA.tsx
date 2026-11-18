@@ -78,7 +78,7 @@ export default function CTA() {
           </div>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href="/contact" className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
+          <a href="/contact" data-pm-magnet className="pill gold !text-[16px] !px-7 !py-4">Book a consultation →</a>
           <a href="/#showreel" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Watch the reel again</a>
         </div>
       </div>

@@ -32,9 +32,9 @@ export const servicePages: ServicePageData[] = [
     imageAlt: "WDG Videography cinema camera filming a brand video",
     priceFrom: "£450",
     packages: [
-      { name: "Basic Service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
-      { name: "Business Growth", price: "£650", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
       { name: "Bespoke Project", price: "£1,200", features: ["8 hour shoot in up to 3 locations", "Pre-production storyboarding meeting", "1× 3-5 min cinematic video", "Up to 4 revisions on main video", "8× 15-30 sec reels with 1 revision each"] },
+      { name: "Business Growth", price: "£650", features: ["4 hour shoot in up to 2 locations", "1× 2 min brand video", "Up to 2 revisions on brand video", "5× 15-30 second reels", "Up to 1 revision per reel"] },
+      { name: "Basic Service", price: "£450", features: ["2 hour single location shoot", "10 miles of free travel", "1× 60 second video with 1 revision", "4× 15 second reels"] },
     ],
     benefits: [
       { title: "Cinematic quality", text: "Cinema cameras, lighting and professional colour grading in DaVinci Resolve." },
@@ -42,7 +42,7 @@ export const servicePages: ServicePageData[] = [
       { title: "Aerial footage", text: "Drone shots of your site, land or venue, flown by us as part of the shoot rather than hired in." },
     ],
     faqs: [
-      { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. Most businesses choose Business Growth at £650." },
+      { q: "How much does a business video cost?", a: "Our video packages start at £450 for a 2 hour shoot with a 60 second video and four reels. For most businesses we recommend Business Growth at £650: a 2 minute brand video plus five reels." },
       { q: "Which areas do you cover?", a: "We're based in Cheltenham and regularly film across Gloucestershire, Worcestershire, the Cotswolds and the rest of England." },
       { q: "How does the edit work?", a: "You get a first cut to review, then the revisions included in your package. We agree a delivery date with you before the shoot so it fits your launch or campaign." },
     ],

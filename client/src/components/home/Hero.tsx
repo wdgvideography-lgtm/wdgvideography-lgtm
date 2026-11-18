@@ -111,6 +111,7 @@ export default function Hero() {
             <a href="/portfolio" className="pill !bg-white !text-foreground hover:!bg-gold">Watch the work</a>
             <a href="/contact" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Start a project</a>
           </div>
+          <p className="mono-tag text-white/70 mt-5">FIXED PRICES · REELS IN EVERY VIDEO PACKAGE · NO VAT TO ADD</p>
         </div>
       </div>
     </section>
