@@ -17,7 +17,7 @@ export default function GetAQuote() {
     if (window.WDGQuote) { window.WDGQuote.boot(); return; }
     if (document.getElementById("wdg-quote-script")) return;
     const s = document.createElement("script");
-    s.id = "wdg-quote-script"; s.src = "/quote-widget.js?v=20261118"; s.defer = true;
+    s.id = "wdg-quote-script"; s.src = "/quote-widget.js?v=20261118b"; s.defer = true;
     document.body.appendChild(s);
   }, []);
 
