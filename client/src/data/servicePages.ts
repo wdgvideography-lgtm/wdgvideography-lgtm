@@ -20,12 +20,12 @@ export const servicePages: ServicePageData[] = [
     slug: "video-production",
     serviceId: "business-growth",
     eyebrow: "Video Production",
-    h1: "Video Production in Cheltenham & Gloucestershire",
-    seoTitle: "Video Production Cheltenham — Brand Films & Business Videos",
+    h1: "Videographer & Video Production in Cheltenham & Gloucestershire",
+    seoTitle: "Videographer Cheltenham — Video Production from £450",
     seoDescription:
-      "Cinematic brand films, promotional videos and social reels for businesses in Cheltenham, Gloucester and across Gloucestershire. Packages from £450 with reels included.",
+      "Cheltenham videographer for businesses: brand films, promotional videos, drone footage and social reels across Gloucestershire. Packages from £450 with reels included.",
     keywords:
-      "video production Cheltenham, videographer Gloucestershire, brand film, corporate video Gloucester, promotional video, business video production",
+      "videographer Cheltenham, video production Cheltenham, videographer Gloucestershire, brand film, corporate video Gloucester, promotional video, business video production",
     intro:
       "We plan, film and edit cinematic videos that show what your business does and why people should choose you. Every package includes short-form reels cut for Instagram, TikTok and Facebook, so one shoot gives you weeks of content.",
     image: "/assets/hero-bg.webp",
