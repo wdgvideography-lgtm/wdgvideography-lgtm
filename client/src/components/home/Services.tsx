@@ -1,11 +1,12 @@
-/** Services — three ways we help, then the full price list. */
+/** Services — the four things we do for a business (one studio for all of it), then the full price list. */
 import { useReveal } from "@/hooks/useReveal";
 import { PriceMenu, type PriceRow } from "@/components/editorial";
 
 const WAYS = [
-  { file: "butchery", n: "01", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
-  { file: "salami", n: "02", title: "Social media reels", text: "Vertical edits, captions and a posting plan that keeps you visible.", href: "/social-media-marketing" },
-  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "03", title: "Websites & apps", text: "Fast, search-ready sites and custom software. Five live client sites and counting.", href: "/website-design" },
+  { file: "", img: "/app-screens/farmdash-dashboard.jpg", imgAlt: "WDG Farm Dash, a farm management system designed and built by WDG", n: "01", title: "Systems to run your business", text: "Bookings, staff, stock and records in one app built around how you work. From £1,500.", href: "/app-development" },
+  { file: "butchery", n: "02", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
+  { file: "salami", n: "03", title: "Photos & social media", text: "Product photos from £15 an image, plus reels and a posting plan that keeps you visible.", href: "/social-media-marketing" },
+  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "04", title: "Websites", text: "Fast, search-ready sites from £800, filled with our own photos and video. Live for The Longhorn, AMC Transport and VC Estate Planning.", href: "/website-design" },
 ];
 
 export const TIERS: PriceRow[] = [
@@ -22,11 +23,11 @@ export default function Services() {
   return (
     <section ref={ref} id="services" className="px-5 sm:px-8 lg:px-14 pt-[16vh] pb-[10vh]" style={{ scrollMarginTop: 80 }}>
       <div className="rv flex flex-wrap items-end justify-between gap-6 mb-[8vh]">
-        <h2 className="display text-[clamp(44px,6vw,100px)]">Three ways we<br />help you <i>grow</i>.</h2>
-        <p className="text-muted-foreground max-w-sm">Film, social and web from one studio, so everything matches and nothing gets lost between suppliers.</p>
+        <h2 className="display text-[clamp(44px,6vw,100px)]">Everything your<br />business <i>needs</i>.</h2>
+        <p className="text-muted-foreground max-w-sm">No juggling a developer, a photographer, a videographer and a web designer. One studio that knows your business, so everything matches and nothing gets lost between suppliers. The Longhorn Bar &amp; Grill runs on our staff and booking system, our films and our website.</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {WAYS.map((w) => (
           <a key={w.n} href={w.href} className="rv card-media aspect-[3/4] text-white block group">
             {w.file ? (
@@ -35,8 +36,9 @@ export default function Services() {
             ) : (
               <img src={w.img} alt={w.imgAlt ?? ""} loading="lazy" style={{ objectPosition: "top" }} />
             )}
-            <span className="absolute top-5 left-5 text-[13px] font-semibold">{w.n}</span>
-            <div className="absolute inset-x-0 bottom-0 p-6" style={{ background: "linear-gradient(transparent, rgba(0,0,0,.75))" }}>
+            <span className="absolute top-5 left-5 text-[13px] font-semibold rounded-full bg-black/45 px-2 py-0.5">{w.n}</span>
+            {/* Screenshots are bright, so they get a deeper shade behind the words than the darker films do. */}
+            <div className="absolute inset-x-0 bottom-0 p-6 pt-16" style={{ background: w.file ? "linear-gradient(transparent, rgba(0,0,0,.75))" : "linear-gradient(transparent, rgba(0,0,0,.82) 28%, rgba(0,0,0,.92))" }}>
               <h3 className="font-display text-[30px] leading-[1.05]">{w.title}</h3>
               <p className="text-sm opacity-85 mt-1.5">{w.text}</p>
               <span className="inline-block mt-4 text-sm font-medium border-b border-white/60 group-hover:border-gold group-hover:text-gold transition-colors">Learn more</span>

@@ -3,9 +3,9 @@ import { useEffect, useRef } from "react";
 import { clamp, prefersReducedMotion } from "@/hooks/useReveal";
 
 const WORDS: Array<string | { i: string }> =
-  "We’re a Cheltenham studio that films farms, restaurants and local brands, then builds the".split(" ").map((w) => w);
-WORDS.push({ i: "websites and socials" });
-WORDS.push(..."that put those films in front of the right people.".split(" "));
+  "One Cheltenham studio for the lot: the system that runs your business, the photos and films that sell it, and the".split(" ").map((w) => w);
+WORDS.push({ i: "website and socials" });
+WORDS.push(..."that bring the customers in.".split(" "));
 
 export default function Intro() {
   const p = useRef<HTMLParagraphElement>(null);

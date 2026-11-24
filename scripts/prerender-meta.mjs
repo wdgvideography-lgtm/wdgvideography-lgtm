@@ -23,8 +23,8 @@ const RELATED = `<section><h2>Also from WDG</h2><ul>
 <li><a href="https://www.miseteam.com">Mise Team</a> — restaurant management software built by WDG</li>
 <li><a href="https://wdg-farm-dash.com">WDG Farm Dash</a> — farm management app from WDG Agriculture</li></ul></section>`;
 
-const SUMMARY = `<h1>WDG Videography — cinematic video, photography, websites and apps in Cheltenham</h1>
-<p>WDG Videography makes brand films, product photography and product videos, builds websites and custom business apps, and runs social media and marketing for businesses in Cheltenham, Gloucestershire and across England.</p>${NAV}`;
+const SUMMARY = `<h1>WDG Videography — one Cheltenham studio for business systems, video, photography and websites</h1>
+<p>One studio for everything your business needs: custom systems to run it, video and photography for your social media and website, and the website itself. No juggling a developer, a photographer, a videographer and a web designer. WDG Videography works with businesses in Cheltenham, Gloucestershire and across England.</p>${NAV}`;
 
 const wrap = (inner) => `<div id="root"><main>${inner}${CONTACT}${RELATED}</main></div>`;
 
