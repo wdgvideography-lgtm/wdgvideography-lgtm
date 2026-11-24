@@ -33,7 +33,7 @@ export default function SEO({
 }: SEOProps) {
   const fullTitle = title
     ? `${title} | ${SITE_NAME}`
-    : `${SITE_NAME} | Cinematic Video Production & Marketing in Cheltenham`;
+    : `${SITE_NAME} | Business Systems, Video, Photography & Websites in Cheltenham`;
 
   const canonical = canonicalUrl || BASE_URL;
 

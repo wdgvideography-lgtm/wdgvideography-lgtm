@@ -21,8 +21,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Cinematic Video Production & Marketing in Cheltenham"
-        description="WDG Videography offers high-end cinematic video production, brand videos, social media content, website design, custom app development, and full-scale digital marketing. Based in Cheltenham, Gloucestershire."
+        title="Business Systems, Video, Photography & Websites in Cheltenham — One Studio"
+        description="One Cheltenham studio for everything your business needs: custom systems to run it, video and photography for your socials, and the website that brings customers in. Websites from £800, films from £450."
         keywords="videography Cheltenham, app development Cheltenham, video production Gloucestershire, cinematic video production, brand videos, social media content creation, corporate video, promotional video, marketing agency Cheltenham, website design Cheltenham, digital marketing Gloucestershire, WDG Videography"
         canonicalUrl="https://www.wdgvideography.com/"
       />

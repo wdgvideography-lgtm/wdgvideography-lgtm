@@ -85,12 +85,12 @@ export default function Hero() {
             </defs>
             <rect ref={(el) => { rects.current[1] = el; }} width="1000" height="1000" fill="var(--background)" mask="url(#wdg-knockout)" />
           </svg>
-          <h1 className="sr-only">WDG Videography: cinematic video production in Cheltenham, Gloucestershire</h1>
+          <h1 className="sr-only">WDG Videography: one Cheltenham studio for business systems, video, photography, social media and websites</h1>
         </div>
 
         <div ref={under} className="absolute left-0 right-0 bottom-[6vh] flex justify-between items-end gap-5 px-5 sm:px-8 lg:px-14">
           <p className="font-display text-[clamp(24px,2.4vw,36px)] leading-[1.1] max-w-[360px]">
-            Cinematic films, reels and websites for Gloucestershire businesses.
+            The system that runs your business, the films that sell it, the website that brings customers in.
           </p>
           <div className="hidden sm:flex items-center gap-3 text-[13px] text-muted-foreground">
             <i className="block w-px h-11 bg-foreground" style={{ animation: "cue 1.8s ease-in-out infinite" }} />
@@ -105,10 +105,10 @@ export default function Hero() {
         >
           <p className="eyebrow !text-white/70 mb-4">WDG Videography · Cheltenham</p>
           <h2 className="font-display text-[clamp(44px,7vw,120px)] leading-[.95] max-w-[12ch]">
-            Every business has a <i className="text-gold">story</i> worth filming.
+            One studio for <i className="text-gold">everything</i> your business needs.
           </h2>
           <div className="flex flex-wrap gap-3 mt-8">
-            <a href="/portfolio" className="pill !bg-white !text-foreground hover:!bg-gold">Watch the work</a>
+            <a href="#services" className="pill !bg-white !text-foreground hover:!bg-gold">See what we do</a>
             <a href="/contact" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Start a project</a>
           </div>
         </div>
