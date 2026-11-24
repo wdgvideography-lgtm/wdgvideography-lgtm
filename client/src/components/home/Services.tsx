@@ -6,7 +6,7 @@ const WAYS = [
   { file: "", img: "/app-screens/farmdash-dashboard.jpg", imgAlt: "WDG Farm Dash, a farm management system designed and built by WDG", n: "01", title: "Systems to run your business", text: "Bookings, staff, stock and records in one app built around how you work. From £1,500.", href: "/app-development" },
   { file: "butchery", n: "02", title: "Brand & promo films", text: "Your story, shot and graded properly, with reels included.", href: "/video-production" },
   { file: "salami", n: "03", title: "Photos & social media", text: "Product photos from £15 an image, plus reels and a posting plan that keeps you visible.", href: "/social-media-marketing" },
-  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "04", title: "Websites", text: "Fast, search-ready sites from £800, filled with our own photos and video. Five live client sites and counting.", href: "/website-design" },
+  { file: "", img: "/sites/longhorn-desktop.webp", imgAlt: "The Longhorn Bar & Grill website, designed and built by WDG Videography", n: "04", title: "Websites", text: "Fast, search-ready sites from £800, filled with our own photos and video. Live for The Longhorn, AMC Transport and VC Estate Planning.", href: "/website-design" },
 ];
 
 export const TIERS: PriceRow[] = [
