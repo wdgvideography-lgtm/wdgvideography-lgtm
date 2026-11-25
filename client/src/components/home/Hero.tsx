@@ -111,7 +111,7 @@ export default function Hero() {
             <a href="/get-a-quote" className="pill !bg-white !text-foreground hover:!bg-gold">Get my price</a>
             <a href="#services" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">See what we do</a>
           </div>
-          <p className="mt-3 text-[13px] text-white/70">Instant guide price · No obligation</p>
+          <p className="mt-3 text-[13px] text-white/85">Instant guide price · No obligation</p>
         </div>
       </div>
     </section>
