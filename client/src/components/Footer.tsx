@@ -77,7 +77,7 @@ export default function Footer() {
               <li><a href="tel:+447584065559" className="hover:text-gold transition-colors">+44 7584 065559</a></li>
               <li>Cheltenham, Gloucestershire</li>
             </ul>
-            <a href="/contact" className="pill gold mt-7">Start a project</a>
+            <a href="/get-a-quote" className="pill gold mt-7">Get my price</a>
           </div>
         </div>
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-wrap justify-between gap-3 mono-tag text-white/45">

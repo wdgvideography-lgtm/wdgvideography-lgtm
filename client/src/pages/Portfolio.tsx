@@ -123,7 +123,7 @@ export default function Portfolio() {
             title={<>The work, <i>unedited</i>.</>}
             lead="Real films for real businesses: farms, butchers, restaurants and bars across Gloucestershire. Hover to preview, click to watch."
             video="/media/club-one.mp4" poster="/media/club-one.jpg"
-            primary={{ label: "Start a project", href: "/contact" }}
+            primary={{ label: "Get my price", href: "/get-a-quote" }}
             secondary={{ label: "Films", href: "#films" }}
             compact
           />

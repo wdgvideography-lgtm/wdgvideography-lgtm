@@ -108,9 +108,10 @@ export default function Hero() {
             One studio for <i className="text-gold">everything</i> your business needs.
           </h2>
           <div className="flex flex-wrap gap-3 mt-8">
-            <a href="#services" className="pill !bg-white !text-foreground hover:!bg-gold">See what we do</a>
-            <a href="/contact" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">Start a project</a>
+            <a href="/get-a-quote" className="pill !bg-white !text-foreground hover:!bg-gold">Get my price</a>
+            <a href="#services" className="pill ghost !text-white hover:!bg-white hover:!text-foreground">See what we do</a>
           </div>
+          <p className="mt-3 text-[13px] text-white/70">Instant guide price · No obligation</p>
         </div>
       </div>
     </section>
