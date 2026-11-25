@@ -71,7 +71,7 @@ export default function CTA() {
 
       <div className="lg:col-span-4 flex flex-col gap-8 lg:pb-4">
         <div className="max-w-[460px]">
-          <p className="text-[18px] sm:text-[20px] leading-snug">Tell us about your business. We’ll come back with ideas and a fixed, no-obligation price, usually within a couple of days.</p>
+          <p className="text-[18px] sm:text-[20px] leading-snug">Tell us about your business. We’ll come back with ideas and an exact, no-obligation price, usually within a couple of days.</p>
           <div className="flex flex-wrap gap-x-8 gap-y-2 mt-6 text-white/70">
             <a href="mailto:will@wdgvideography.com" className="hover:text-gold transition-colors">will@wdgvideography.com</a>
             <a href="tel:+447584065559" className="hover:text-gold transition-colors">+44 7584 065559</a>
